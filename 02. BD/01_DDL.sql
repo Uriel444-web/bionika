@@ -3,3 +3,57 @@
 -- Date: 2025-04-28
 -- Author: Uriel Hernandez & Jonathan Gomez
 -- Emails: 84321@alumnos.utleon.edu.mx
+
+-- TABLA DE ROLES ------------------------------------------------
+-- CONTENDRA EL ID Y EL NOMBRE DEL ROL SERA DE TIPO USUARIO, ADMINISTRADOR Y EMPLEADO.
+DROP DATABASE IF EXISTS bionika;
+CREATE DATABASE bionika;
+USE bionika;
+
+
+CREATE TABLE IF NOT EXISTS rol 
+(
+	idRol 	INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    rol 	VARCHAR(50) NOT NULL
+);
+
+-- TABLA DE CATEGORIA -----------------------------------------------
+-- ESTA SON LAS CATEGORIAS A LAS QUE PODRA PERTENECER UN PRODUCTO
+
+CREATE TABLE IF NOT EXISTS categoria
+(
+	idCategoria 	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nombre			VARCHAR(60) NOT NULL
+);
+
+-- TABLA DE USUARIOS -------------------------------------------------
+-- CADA USUARIO TENDRA UN ROL ASIGNADO. DE CADA USUARIO SE REGISTRARA SUS NOMBRES, APELLIDO P, APELLIDO M, CORREO, TELEFONO PERSONAL,
+-- NOMBRE DE USUARIO Y PASSWORD Y A SU VEZ TENDRA UN ROL ASIGNADO QUE POR DEFECTO SERA TIPO USUARIO
+
+CREATE TABLE IF NOT EXISTS usuario
+(
+	nombres		VARCHAR(100) NOT NULL,
+    apellidoP	VARCHAR(100) NOT NULL,
+    apellidoM	VARCHAR(100) NOT NULL,
+    correo		VARCHAR(250) NOT NULL,
+    telefono	VARCHAR(20) NOT NULL,
+    usuario		VARCHAR(250) NOT NULL,
+    contrasena	VARCHAR(20) NOT NULL,
+    rol			INT NOT NULL DEFAULT 3,
+    CONSTRAINT fk_usuario_rol FOREIGN KEY(rol) REFERENCES rol(idRol)
+);
+
+-- TABLA DE PRODUCTO --------------------------------------------------
+-- DE CADA PRODUCTO SE GUARDARA EL NOMBRE, DESCRIPCION, PRECIO, STOCK, CODIGO INTERNO Y A SU VEZ 
+-- EL PRODUCTO PERTENECE A UNA CATEGORIA
+
+CREATE TABLE IF NOT EXISTS producto
+(
+	nombre	VARCHAR(100) NOT NULL,
+    descripcion	VARCHAR(250) NOT NULL,
+    precio DOUBLE NOT NULL,
+    stock	INT NOT NULL,
+    codigoInterno VARCHAR(100),
+    categoria INT NOT NULL,
+    CONSTRAINT fk_producto_categoria FOREIGN KEY(categoria) REFERENCES categoria(idCategoria)
+);
