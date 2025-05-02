@@ -7,3 +7,4 @@
 USE bionika;
 INSERT INTO categoria (nombre) VALUES ('BLANDOS'),('FIERROS'),('IMPORTADOS'),('MATERIA PRIMA');
 SELECT * FROM categoria;
+SELECT * FROM producto;

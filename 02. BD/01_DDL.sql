@@ -49,11 +49,12 @@ CREATE TABLE IF NOT EXISTS usuario
 
 CREATE TABLE IF NOT EXISTS producto
 (
-	nombre	VARCHAR(100) NOT NULL,
-    descripcion	VARCHAR(250) NOT NULL,
-    precio DOUBLE NOT NULL,
-    stock	INT NOT NULL,
-    codigoInterno VARCHAR(100),
-    categoria INT NOT NULL,
+	idProducto 		INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre			VARCHAR(100) NOT NULL,
+    descripcion		VARCHAR(250) NOT NULL,
+    precio 			DOUBLE NOT NULL,
+    stock			INT NOT NULL,
+    codigoInterno 	VARCHAR(100),
+    categoria 		INT NOT NULL,
     CONSTRAINT fk_producto_categoria FOREIGN KEY(categoria) REFERENCES categoria(idCategoria)
 );
