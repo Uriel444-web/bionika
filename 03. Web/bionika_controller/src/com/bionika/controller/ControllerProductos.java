@@ -5,9 +5,15 @@
 package com.bionika.controller;
 
 import com.bionika.db.ConexionMySQL;
+import com.bionika.model.Categoria;
 import com.bionika.model.Producto;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ControllerProductos {
 
@@ -67,5 +73,45 @@ public class ControllerProductos {
         cstmt.close();
         connMySQL.close();
     }
-
+    
+    public List<Producto> getAll() throws Exception{
+        List<Producto> productos = new ArrayList<>();
+        String sql = "SELECT * FROM v_productos";
+        
+        // Abrimos la conexion con la BD:
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery();
+        
+        Producto prod = null;
+        
+        while(rs.next()){
+            prod = fill(rs);
+            productos.add(prod);
+        }
+        rs.close();
+        pstmt.close();
+        connMySQL.close();
+        
+        return productos;
+    }
+    
+    private Producto fill (ResultSet rs) throws SQLException{
+        Producto p = new Producto();
+        Categoria c = new Categoria();
+        
+        p.setCategoria(c);
+        
+        p.setIdProducto(rs.getInt("idProducto"));
+        p.setNombre(rs.getString("nombre"));
+        p.setDescripcion(rs.getString("descripcion"));
+        p.setPrecio(rs.getDouble("precio"));
+        p.setStock(rs.getInt("stock"));
+        p.setCodigoInterno(rs.getString("codigoInterno"));
+        c.setIdCategoria(rs.getInt("idCategoria"));
+        c.setNombre(rs.getString("nombreCategoria"));
+        
+        return p;
+    }
 }

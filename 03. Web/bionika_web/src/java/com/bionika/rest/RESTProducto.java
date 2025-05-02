@@ -10,11 +10,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.List;
 
 /**
  *
@@ -52,7 +54,27 @@ public class RESTProducto {
         {
             e.printStackTrace();
             out = """
-                  {"error":"Error interno del servidor, comunícate al area de sistemas de El Zarape."}
+                  {"error":"Error interno del servidor."}
+                  """;
+        }
+        return Response.ok(out).build();
+    }
+    
+    @GET
+    @Path("getAll")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAll(){
+        String out = "";
+        ControllerProductos cp = new ControllerProductos();
+        List<Producto> productos = null;
+        try {
+            productos = cp.getAll();
+            out = new Gson().toJson(productos);
+            
+        } catch (Exception e) {
+             e.printStackTrace();
+            out = """
+                  {"error" : "Error interno del Servidor, comunicate al area de Sistemas"}
                   """;
         }
         return Response.ok(out).build();
