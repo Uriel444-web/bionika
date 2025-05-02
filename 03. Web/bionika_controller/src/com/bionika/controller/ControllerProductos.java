@@ -114,4 +114,35 @@ public class ControllerProductos {
         
         return p;
     }
+    
+    public List<Categoria> getAllCategorias() throws Exception{
+        List<Categoria> categorias = new ArrayList<>();
+        String sql = "SELECT * FROM categoria";
+        
+        // Abrimos la conexion con la BD:
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery();
+        
+        Categoria cat = null;
+        
+        while(rs.next()){
+            cat = fillCat(rs);
+            categorias.add(cat);
+        }
+        rs.close();
+        pstmt.close();
+        connMySQL.close();
+        
+        return categorias;
+    }
+    
+    private Categoria fillCat(ResultSet rs) throws SQLException{
+        Categoria c = new Categoria();
+        c.setIdCategoria(rs.getInt("idCategoria"));
+        c.setNombre(rs.getString("nombre"));
+        
+        return c;
+    }
 }

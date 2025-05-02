@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS usuario
 CREATE TABLE IF NOT EXISTS producto
 (
 	idProducto 		INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    foto			LONGTEXT,
 	nombre			VARCHAR(100) NOT NULL,
     descripcion		VARCHAR(250) NOT NULL,
     precio 			DOUBLE NOT NULL,

@@ -24,6 +24,10 @@ document.getElementById("btnHome").addEventListener('click', (event) => {
     event.preventDefault();
     inicio();
 });
+document.getElementById("btnProductos").addEventListener('click', (event) => {
+    event.preventDefault();
+    productos();
+});
 
 async function inicio(){
     console.log("cargando inicio");
@@ -50,4 +54,16 @@ async function login(){
     }
     console.log("se hizo la validacion");
 }
+
+async function productos(){
+    console.log("cargando productos...");
+   //let url="http://localhost:8080/bionika_web/modules/usuario/productos/inicio.html";
+   let url="http://localhost:8080/bionika_web/modules/administrador/productos/inicio.html";
+   let resp = await fetch(url);
+   let contenido = await resp.text();
+   document.getElementById('content').innerHTML = contenido;
+   cm = await import("http://localhost:8080/bionika_web/modules/administrador/productos/js/inicio.js");
+   cm.inicializar();
+}
+
 
