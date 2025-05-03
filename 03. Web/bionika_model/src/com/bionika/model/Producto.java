@@ -10,6 +10,7 @@ package com.bionika.model;
  */
 public class Producto {
     private int idProducto;
+    private String foto;
     private String nombre;
     private String descripcion;
     private Double precio;
@@ -20,8 +21,9 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(int idProducto, String nombre, String descripcion, Double precio, int stock, String codigoInterno, Categoria categoria) {
+    public Producto(int idProducto, String foto, String nombre, String descripcion, Double precio, int stock, String codigoInterno, Categoria categoria) {
         this.idProducto = idProducto;
+        this.foto = foto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -36,6 +38,14 @@ public class Producto {
 
     public void setIdProducto(int idProducto) {
         this.idProducto = idProducto;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     public String getNombre() {
@@ -88,8 +98,8 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" + "idProducto=" + idProducto + ", nombre=" + nombre + ", descripcion=" + descripcion + ", precio=" + precio + ", stock=" + stock + ", codigoInterno=" + codigoInterno + ", categoria=" + categoria.toString() + '}';
+        return "Producto{" + "idProducto=" + idProducto + ", foto=" + foto + ", nombre=" + nombre + ", descripcion=" + descripcion + ", precio=" + precio + ", stock=" + stock + ", codigoInterno=" + codigoInterno + ", categoria=" + categoria.toString() + '}';
     }
-    
+
     
 }

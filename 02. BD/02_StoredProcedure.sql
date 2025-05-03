@@ -11,6 +11,7 @@ USE bionika;
 DROP PROCEDURE IF EXISTS insertarProducto;
 DELIMITER $$
 CREATE PROCEDURE insertarProducto (
+	IN p_foto LONGTEXT,
     IN p_nombre VARCHAR(100),
     IN p_descripcion VARCHAR(250),
     IN p_precio DOUBLE,
@@ -20,8 +21,8 @@ CREATE PROCEDURE insertarProducto (
     OUT p_idProducto INT
 )
 BEGIN
-    INSERT INTO producto (nombre, descripcion, precio, stock, codigoInterno, categoria)
-    VALUES (p_nombre, p_descripcion, p_precio, p_stock, p_codigoInterno, p_categoria);
+    INSERT INTO producto (foto,nombre, descripcion, precio, stock, codigoInterno, categoria)
+    VALUES (p_foto,p_nombre, p_descripcion, p_precio, p_stock, p_codigoInterno, p_categoria);
     SET p_idProducto = LAST_INSERT_ID();
 END $$
 DELIMITER ;
@@ -34,6 +35,7 @@ DROP PROCEDURE IF EXISTS actualizarProducto;
 DELIMITER $$
 CREATE PROCEDURE actualizarProducto (
     IN p_idProducto INT,
+    IN p_foto LONGTEXT,
     IN p_nombre VARCHAR(100),
     IN p_descripcion VARCHAR(250),
     IN p_precio DOUBLE,
@@ -44,6 +46,7 @@ CREATE PROCEDURE actualizarProducto (
 BEGIN
     UPDATE producto
     SET 
+		foto = p_foto,
         nombre = p_nombre,
         descripcion = p_descripcion,
         precio = p_precio,

@@ -18,25 +18,25 @@ import java.util.List;
 public class ControllerProductos {
 
     public int insert(Producto p) throws Exception {
-        String sql = "{CALL insertarProducto(?, ?, ?, ?, ?, ?, ?)}";
+        String sql = "{CALL insertarProducto(?, ?, ?, ?, ?, ?, ?, ?)}";
         ConexionMySQL connMySQL = new ConexionMySQL();
         Connection conn = connMySQL.open();
 
         CallableStatement cstmt = conn.prepareCall(sql);
 
         // Parámetros de entrada
-        cstmt.setString(1, p.getNombre());
-        cstmt.setString(2, p.getDescripcion());
-        cstmt.setDouble(3, p.getPrecio());
-        cstmt.setInt(4, p.getStock());
-        cstmt.setString(5, p.getCodigoInterno());
-        cstmt.setInt(6, p.getCategoria().getIdCategoria());
-
+        cstmt.setString(1, p.getFoto());
+        cstmt.setString(2, p.getNombre());
+        cstmt.setString(3, p.getDescripcion());
+        cstmt.setDouble(4, p.getPrecio());
+        cstmt.setInt(5, p.getStock());
+        cstmt.setString(6, p.getCodigoInterno());
+        cstmt.setInt(7, p.getCategoria().getIdCategoria());
         // Ejecutamos
         cstmt.executeUpdate();
 
         // Obtenemos el ID generado
-        p.setIdProducto(cstmt.getInt(7));
+        p.setIdProducto(cstmt.getInt(8));
 
         // Cerramos conexiones
         cstmt.close();
@@ -47,7 +47,7 @@ public class ControllerProductos {
 
     public void update(Producto p) throws Exception {
         // Se define la consulta SQL:
-        String sql = "{CALL actualizarProducto(?, ?, ?, ?, ?, ?, ?)}";
+        String sql = "{CALL actualizarProducto(?, ?, ?, ?, ?, ?, ?, ?)}";
 
         // Abrimos la conexion con la BD:
         ConexionMySQL connMySQL = new ConexionMySQL();
@@ -59,12 +59,13 @@ public class ControllerProductos {
         // Colocamos los valores de los parametros de entrada que requiere
         // el Stored Procedure:
         cstmt.setInt(1, p.getIdProducto());
-        cstmt.setString(2, p.getNombre());
-        cstmt.setString(3, p.getDescripcion());
-        cstmt.setDouble(4, p.getPrecio());
-        cstmt.setInt(5, p.getStock());
-        cstmt.setString(6, p.getCodigoInterno());
-        cstmt.setInt(7, p.getCategoria().getIdCategoria());
+        cstmt.setString(2, p.getFoto());
+        cstmt.setString(3, p.getNombre());
+        cstmt.setString(4, p.getDescripcion());
+        cstmt.setDouble(5, p.getPrecio());
+        cstmt.setInt(6, p.getStock());
+        cstmt.setString(7, p.getCodigoInterno());
+        cstmt.setInt(8, p.getCategoria().getIdCategoria());
 
         // Ejecutamos el Stored Procedure:
         cstmt.executeUpdate();
@@ -104,6 +105,7 @@ public class ControllerProductos {
         p.setCategoria(c);
         
         p.setIdProducto(rs.getInt("idProducto"));
+        p.setFoto(rs.getString("foto"));
         p.setNombre(rs.getString("nombre"));
         p.setDescripcion(rs.getString("descripcion"));
         p.setPrecio(rs.getDouble("precio"));
