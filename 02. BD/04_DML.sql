@@ -4,7 +4,30 @@
 -- Author: Uriel Hernandez & Jonathan Gomez
 -- Emails: 84321@alumnos.utleon.edu.mx
 
+
 USE bionika;
+
+-- Inserciones de prueba para rol
+
+insert into rol (tipoRol) values ("Administrador");
+select * from rol;
+
+-- Inserciones de prueba para usuario
+INSERT INTO usuario (nombres, apellidoP, apellidoM, correo, telefono, usuario, contrasena, rol)
+VALUES (
+    'carolina', 
+    'González', 
+    'López', 
+    'carolina.gonzalez@email.com', 
+    '479-123-4567', 
+    'cgonzalez', 
+    '12345',
+    1
+);
+
+select * from usuario;
+
+-- Inserciones de prueba para categoria
 INSERT INTO categoria (nombre) VALUES ('BLANDOS'),('FIERROS'),('IMPORTADOS'),('MATERIA PRIMA');
 SELECT * FROM categoria;
 SELECT * FROM producto;

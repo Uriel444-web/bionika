@@ -15,6 +15,10 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(String usuario) {
+        this.usuario = usuario;
+    }
+
     public Usuario(int id, String usuario, String contrasenia, String token, int activo) {
         this.id = id;
         this.usuario = usuario;
@@ -49,10 +53,6 @@ public class Usuario {
 
     public String getToken() {
         return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public int getActivo() {

@@ -1,10 +1,10 @@
 package com.bionika.controller;
 
-
 import com.bionika.db.ConexionMySQL;
 import com.bionika.model.Usuario;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Connection;
 
@@ -13,25 +13,34 @@ public class CtrlLogin {
     public void validarAcceso(Usuario u) throws SQLException, Exception {
 
         String query = """
-                            SELECT idUsuario FROM usuario WHERE nombre='%s' AND contrasenia='%s';
+                            SELECT idUsuario FROM usuario WHERE usuario= ? and contrasena= ?
                        """;
-
-                query = String.format(query, u.getUsuario(), u.getContrasenia());
-        
+           
+                try {
                 ConexionMySQL objConMySQL = new ConexionMySQL();
                 Connection objConn = objConMySQL.open();
-                Statement stmt = objConn.createStatement();
-        
-                ResultSet rs = stmt.executeQuery(query);
                 
-                if (rs.next()) {
-                    u.setId(rs.getInt("idUsuario"));
-                }
+                PreparedStatement stmt = objConn.prepareStatement(query);
+               
+                    stmt.setString(1, u.getUsuario());       // Primer parámetro (usuario)
+                    stmt.setString(2, u.getContrasenia());
+                    
+                ResultSet rs = stmt.executeQuery();
+                                
+                while (rs.next()) {
+
+                u.setId(rs.getInt("idUsuario"));
+                
                 rs.close();
-                stmt.close();
                 objConn.close();
-                objConMySQL.close();
             }
+                
+        } catch (SQLException e) {
+
+            e.getStackTrace();
+        }
+    }
+                
 
     public void almacenarToken(Usuario u) throws SQLException, Exception {
         

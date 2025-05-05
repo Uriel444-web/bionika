@@ -10,7 +10,7 @@ public class ConexionMySQL {
      private Connection conn;
     
     public Connection open() throws Exception {
-        String ruta = "jdbc:mysql://127.0.0.1:3306/bionika";
+        String ruta = "jdbc:mysql://127.0.0.1:3307/bionika";
         String usuario = "root";
         String password = "root";
         
