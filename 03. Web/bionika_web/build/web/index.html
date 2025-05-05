@@ -2,84 +2,102 @@
 <html lang="es">
     <head>
         <title>Home - Bionika</title>
+        <link rel="icon" href="resources/bionika-logo.png"/>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="CSS/inicio.css" rel="stylesheet" type="text/css"/>
     </head>
+
     <body class="bg-gray-100 min-h-screen flex flex-col" onload="inicio();">
 
         <!-- Pantalla de carga -->
         <div id="splash" class="fixed inset-0 flex items-center justify-center bg-white z-50">
             <img src="resources/bionika-logo.png" alt="Logo Bionika" class="w-40 h-40 animate-pulse">
         </div>
+            
+            <div class="login-hover-trigger hidden fixed top-0 left-0 w-full h-10 z-20 "></div>
 
-        <!-- Navbar -->
-        <nav class="bg-white shadow-md fixed w-full z-20 top-0 left-0">
-            <div class="max-w-6xl mx-auto px-4">
-                <div class="flex justify-between items-center h-16">
+            <!-- Navbar -->
+            <nav id="navbar" class="bg-white shadow-md fixed w-full h-20 z-30 top-0 left-0 transition-opacity duration-300">
+                <div class="max-w-6xl mx-auto pr-4 h-full">
+                    <div class="flex justify-between items-center h-20">
 
-                    <!-- Logo -->
-                    <div class="flex-shrink-0 flex items-center">
-                        <img class="h-10 w-auto" src="resources/bionika-logo.png" alt="Logo Bionika">
-                        <span class="ml-2 font-bold text-purple-700 text-lg">Bionika</span>
-                    </div>
+                        <!-- Logo -->
+                        <div class="h-2/3 flex-shrink-0 flex items-center">
+                            <img class="h-full w-full" src="resources/logotipo_Bionika_Texto.png" alt="Logo Bionika">
+                        </div>
 
-                    <!-- Search bar (siempre visible) -->
-                    <div class="flex-1 mx-4 max-w-xs">
-                        <input type="text" placeholder="Buscar productos..."
-                               class="w-full px-4 py-2 border-2 border-purple-400 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm transition" />
-                    </div>
+                        <!-- Search bar (siempre visible) -->
+                        <div class="flex-1 ml-4 max-w-xs">
+                            <input type="text" placeholder="Buscar productos..."
+                                   class="w-full px-4 py-2 border-2 border-purple-400 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm transition" />
+                        </div>
 
-                    <!-- Menú desktop -->
-                    <div class="hidden md:flex items-center space-x-4">
-                        <a id="btnHome" href="#" class="text-gray-700 hover:text-purple-700 font-semibold transition">Home</a>
-                        <a id="btnSucursales" href="#" class="text-gray-700 hover:text-purple-700 font-semibold transition">Productos</a>
-                        <a id="btnSucursales" href="#" class="text-gray-700 hover:text-purple-700 font-semibold transition">Sucursales</a>
-                        <a id="btnLogin" href="#" class="text-gray-700 hover:text-purple-700 font-semibold transition">Iniciar Sesión</a>
-                        
-                    </div>
+                        <!-- Menú desktop -->
+                        <div class="hidden md:flex items-center space-x-6">
+                            <a id="btnHome" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-indigo-600 font-semibold transition ">Home</a>
+                            <a id="btnSucursales" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-indigo-600 font-semibold transition">Productos</a>
+                            <a id="btnSucursales" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-indigo-600 font-semibold transition">Sucursales</a>
 
-                    <!-- Botón hamburguesa (sólo en móvil) -->
-                    <div class="md:hidden flex items-center">
-                        <button id="menu-btn" class="text-purple-700 focus:outline-none">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
+                            <div class="pl-2 border-l-2 border-gray-80">
+                                <a id="btnLogin" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-indigo-600 font-semibold transition">Iniciar Sesión</a>
+                            </div>
+                        </div>
+
+                        <!-- Botón hamburguesa (sólo en móvil) -->
+                        <div class="md:hidden flex items-center">
+                            <button id="menu-btn" class="text-purple-700 focus:outline-none">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Menú desplegable (móvil) -->
-            <div id="menu" class="hidden md:hidden flex flex-col bg-white shadow-md">
-                <a href="#productos" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Productos</a>
-                <a id="btnLoginMovil" href="#" class="block px-4 py-2 text-purple-700 font-bold hover:bg-gray-100">Iniciar Sesión</a>
-            </div>
-        </nav>
-        
+
+                <!-- Menú desplegable (móvil) -->
+                <div id="menu" class="hidden md:hidden flex flex-col bg-white shadow-md">
+                    <a href="#productos" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Productos</a>
+                    <a id="btnLoginMovil" href="#" class="block px-4 py-2 text-purple-700 font-bold hover:bg-gray-100">Iniciar Sesión</a>
+                </div>
+            </nav>
+
         <!-- Espacio para el navbar -->
-        <div class="h-16"></div>
+        <div class="h-20"></div>
 
         <!-- AQUI SE IRA CARGANDO EL CONTENIDO SELECCIONADO -->
         <div id="content"></div>
         <!-- Footer -->
-        <footer class="bg-black text-white py-6 mt-auto">
+        <footer class="bg-stone-900 text-white py-3 mt-auto">
             <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
                 <!-- Logo -->
                 <div class="flex items-center space-x-2">
-                    <img src="resources/bionika-logo.png" alt="Logo Bionika" class="w-10 h-10">
                     <span class="text-lg font-semibold">Bionika</span>
                 </div>
 
                 <!-- Texto -->
                 <p class="text-sm text-center md:text-left">© 2025 Bionika. Todos los derechos reservados.</p>
 
-                <!-- WhatsApp -->
-                <a href="https://wa.me/524776971513" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition">
-                    <img src="resources/whatsapp.svg" alt="WhatsApp" class="w-8 h-8">
-                </a>
+                <div class="flex items-center space-x-2">
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/Ortobionika/" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition">
+                        <img src="resources/facebookIcon.png" alt="Facebook" class="w-8 h-8">
+                    </a>
+
+                    <!-- twitter -->
+                    <a href="https://wa.me/524776971513" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition">
+                        <img src="resources/twitterIcon.png" alt="Twitter" class="w-8 h-8">
+                    </a>
+
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/524776971513" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition">
+                        <img src="resources/whatsAppIcon.png" alt="WhatsApp" class="w-8 h-8">
+                    </a>
+
+                </div>
             </div>
         </footer>
         <script src="JS/index.js" type="text/javascript"></script>

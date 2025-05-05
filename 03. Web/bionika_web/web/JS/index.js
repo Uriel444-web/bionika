@@ -27,12 +27,24 @@ document.getElementById("btnHome").addEventListener('click', (event) => {
 
 async function inicio(){
     console.log("cargando inicio");
+    
+    const hoverTrigger = document.querySelector('.login-hover-trigger');
+    const navbar = document.getElementById('navbar');
+     if (hoverTrigger && navbar) {
+        hoverTrigger.onmouseenter = null; // Eliminar listener
+        navbar.onmouseleave = null;
+    }
+    
    let url="http://localhost:8080/bionika_web/modules/inicio/inicio.html";
    let resp = await fetch(url);
    let contenido = await resp.text();
    document.getElementById('content').innerHTML = contenido;
    cm = await import("http://localhost:8080/bionika_web/modules/inicio/js/inicio.js");
    cm.inicializar();
+   
+   navbar.classList.remove('navbar-hidden');
+    navbar.classList.add('navbar-visible');
+    hoverTrigger?.classList.add('hidden');
 }
 
 async function login(){
@@ -45,9 +57,25 @@ async function login(){
    
    // ✅ Mostrar el contenedor oculto
     const loginContainer = document.getElementById('loginContainer');
-    if (loginContainer) {
-        loginContainer.classList.remove('hidden');
-    }
+    if (loginContainer) loginContainer.classList.remove('hidden');
+        
+        const navbar = document.getElementById('navbar');
+        const hoverTrigger = document.querySelector('.login-hover-trigger');
+    
+         if(navbar && hoverTrigger) {
+        navbar.classList.add('navbar-hidden');
+        hoverTrigger.classList.remove('hidden');
+        
+        // Control de hover
+        hoverTrigger.addEventListener('mouseenter', () => {
+            navbar.classList.remove('navbar-hidden');
+        });
+        
+        navbar.addEventListener('mouseleave', () => {
+                navbar.classList.add('navbar-hidden');
+                });       
+        
+    }    
     console.log("se hizo la validacion");
 }
 
