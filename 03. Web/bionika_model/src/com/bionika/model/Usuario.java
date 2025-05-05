@@ -1,5 +1,5 @@
 
-package bionika_model;
+package com.bionika.model;
 
 import java.util.Date;
 import org.apache.commons.codec.digest.DigestUtils;

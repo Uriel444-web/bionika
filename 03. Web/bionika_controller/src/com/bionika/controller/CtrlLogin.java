@@ -1,7 +1,8 @@
-package bionika_controller;
+package com.bionika.controller;
 
-import bd.ConexionMySQL;
-import bionika_model.Usuario;
+
+import com.bionika.db.ConexionMySQL;
+import com.bionika.model.Usuario;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;

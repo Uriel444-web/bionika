@@ -5,13 +5,13 @@
 	 xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
 	 version="6.0">
 
-    <servlet>
+        <servlet>
         <servlet-name>RESTBionika</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>        
         
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>com.lux.zarape.REST</param-value>
+            <param-value>com.bionika.rest</param-value>
         </init-param>
     </servlet>
 
