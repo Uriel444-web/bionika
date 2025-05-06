@@ -9,6 +9,7 @@ DROP VIEW IF EXISTS v_productos;
 CREATE VIEW v_productos AS
 SELECT
 p.idProducto,
+p.foto,
 p.nombre,
 p.descripcion,
 p.precio,

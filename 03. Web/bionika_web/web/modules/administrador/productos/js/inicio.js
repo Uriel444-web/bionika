@@ -6,7 +6,8 @@ export async function inicializar(){
     cargarProductos();
     setDetalleVisible(false);
     document.getElementById("btnRegresar").addEventListener('click', regresar);
-    
+    // boton para guardar
+    document.getElementById("btnSave").addEventListener('click', save);
     // Se obtiene el <input> de tipo file asociado con la foto del producto:
     inputFileFotoProducto = document.getElementById("inputFoto");
     
@@ -66,10 +67,18 @@ export async function save(){
     {
         console.log(data.error);
     }else{
-        document.getElementById("txtIdProducto").value = data.id;
+        document.getElementById("txtIdProducto").value = data.idProducto;
         cargarProductos();
+        // muestra alerta de que se realizo correctamente la operacion
+        Swal.fire({
+                        icon: "success",
+                        title: "Realizado",
+                        text: "Datos insertados correctamente."
+                    });
     }
 }
+
+// CARGAR LOS PRODUCTOS GETALL
 export async function cargarProductos() {
   let url = "http://localhost:8080/bionika_web/api/producto/getAll";
   let resp = await fetch(url);
@@ -93,7 +102,7 @@ export async function cargarProductos() {
             <p class="text-sm text-gray-500">Stock: ${productos[i].stock}</p>
             <p class="text-sm text-gray-500">Categoría: ${productos[i].categoria.nombre}</p>
             <div class="flex gap-2 mt-4">
-              <button onclick="verDetalle(${i})"
+              <button onclick="verDetalle(${productos[i].idProducto})"
                       class="flex-1 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">
                 Ver Detalles
               </button>
@@ -108,9 +117,10 @@ export async function cargarProductos() {
   cargarCategorias();
 }
 
-export function verDetalle(pos) {
-  let p = productos[pos];
-  console.log("datos recibidos...");
+// funcion para ver el detalle del producto
+export function verDetalle(idProducto) {
+  let p = productos.find(p => p.idProducto === idProducto);
+  console.log("Producto encontrado:");
   console.log(p);
 
   if (!p) {
@@ -128,13 +138,16 @@ export function verDetalle(pos) {
   document.getElementById("txtCodigoInterno").value = p.codigoInterno;
   // Cargar categorías con la seleccionada por defecto
   cargarCategorias(p.categoria.idCategoria);
-  if (p.foto != null)
-            document.getElementById("txtaFoto").value = p.foto;
-        else
-            document.getElementById("txtaFoto").value = '';
+  
+  if (p.foto != null) {
+    document.getElementById("txtaFoto").value = p.foto;
+    document.getElementById("imgFoto").src = `data:image/jpeg;base64,${p.foto}`;
+} else {
+    document.getElementById("txtaFoto").value = '';
+    document.getElementById("imgFoto").src = ''; // Limpia la imagen
 }
-// boton para guardar
-document.getElementById("btnSave").addEventListener('click', save);
+document.getElementById("inputFoto").value = ''; // Limpiar input file
+}
 
 async function cargarCategorias(idCategoriaSeleccionada = null) {
   let url = "http://localhost:8080/bionika_web/api/producto/getAllCategorias";

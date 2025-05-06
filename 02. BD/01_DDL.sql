@@ -1,11 +1,21 @@
--- CREACION DE EL DDL PARA EL DESARROLLO WEB DE BIONIKA
+-- CREACION DE EL DDL PARA EL DESARROLLO WEB DE BIONIKA 1.0
 
 -- Date: 2025-04-28
 -- Author: Uriel Hernandez & Jonathan Gomez
--- Emails: 84321@alumnos.utleon.edu.mx
+-- Emails: 84321@alumnos.utleon.edu.mx, 82949@utleon.edu.mx
 
 -- TABLA DE ROLES ------------------------------------------------
 -- CONTENDRA EL ID Y EL NOMBRE DEL ROL SERA DE TIPO USUARIO, ADMINISTRADOR Y EMPLEADO.
+-- ---------------------------------------------------------------------------------------
+
+-- Actualizacion DE EL DDL PARA EL DESARROLLO WEB DE BIONIKA 1.1
+
+-- Date: 2025-10-05
+-- Author: Uriel Hernandez & Jonathan Gomez
+-- Emails: 84321@alumnos.utleon.edu.mx, 82949@utleon.edu.mx
+
+-- actualizacion a la tabla usuario, cambios: A-T-Empleado, T-usuario: A-idUsuario, A-Token, A-Activo
+
 DROP DATABASE IF EXISTS bionika;
 CREATE DATABASE bionika;
 USE bionika;
@@ -14,16 +24,31 @@ USE bionika;
 CREATE TABLE IF NOT EXISTS rol 
 (
 	idRol 	INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    rol 	VARCHAR(50) NOT NULL
+    tipoRol VARCHAR(50) NOT NULL
 );
 
 -- TABLA DE CATEGORIA -----------------------------------------------
 -- ESTA SON LAS CATEGORIAS A LAS QUE PODRA PERTENECER UN PRODUCTO
-
 CREATE TABLE IF NOT EXISTS categoria
 (
 	idCategoria 	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nombre			VARCHAR(60) NOT NULL
+);
+
+-- TABLA DE EMPLEADO -------------------------------------------------
+-- CADA EMPLEADO TENDRA UN ROL ASIGNADO. DE CADA EMPLEADO SE REGISTRARA SUS NOMBRES, APELLIDO P, APELLIDO M, CORREO, TELEFONO PERSONAL
+
+CREATE TABLE IF NOT EXISTS empleado
+(
+	idEmpleado INT NOT NULL AUTO_INCREMENT,
+	nombres		VARCHAR(100) NOT NULL,
+    apellidoP	VARCHAR(100) NOT NULL,
+    apellidoM	VARCHAR(100) NOT NULL,
+    correo		VARCHAR(250) NOT NULL,
+    telefono	VARCHAR(20) NOT NULL,
+	rol         INT NOT NULL DEFAULT 3,
+    CONSTRAINT pk_empleado PRIMARY KEY (idEmpleado),
+    CONSTRAINT fk_empleado_rol FOREIGN KEY (rol) REFERENCES rol(idRol)
 );
 
 -- TABLA DE USUARIOS -------------------------------------------------
@@ -32,15 +57,12 @@ CREATE TABLE IF NOT EXISTS categoria
 
 CREATE TABLE IF NOT EXISTS usuario
 (
-	nombres		VARCHAR(100) NOT NULL,
-    apellidoP	VARCHAR(100) NOT NULL,
-    apellidoM	VARCHAR(100) NOT NULL,
-    correo		VARCHAR(250) NOT NULL,
-    telefono	VARCHAR(20) NOT NULL,
+	idUsuario   INT NOT NULL AUTO_INCREMENT,
     usuario		VARCHAR(250) NOT NULL,
     contrasena	VARCHAR(20) NOT NULL,
-    rol			INT NOT NULL DEFAULT 3,
-    CONSTRAINT fk_usuario_rol FOREIGN KEY(rol) REFERENCES rol(idRol)
+    token       lONGTEXT,
+    activo      INT NOT NULL DEFAULT 1,
+    CONSTRAINT pk_usuario PRIMARY KEY (idUsuario)
 );
 
 -- TABLA DE PRODUCTO --------------------------------------------------

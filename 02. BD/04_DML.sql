@@ -4,7 +4,30 @@
 -- Author: Uriel Hernandez & Jonathan Gomez
 -- Emails: 84321@alumnos.utleon.edu.mx
 
+
 USE bionika;
+
+-- Inserciones de prueba para rol
+
+insert into rol (tipoRol) values ("Administrador");
+select * from rol;
+
+-- Inserciones de prueba para usuario
+INSERT INTO usuario (nombres, apellidoP, apellidoM, correo, telefono, usuario, contrasena, rol)
+VALUES (
+    'carolina', 
+    'González', 
+    'López', 
+    'carolina.gonzalez@email.com', 
+    '479-123-4567', 
+    'cgonzalez', 
+    '12345',
+    1
+);
+
+select * from usuario;
+
+-- Inserciones de prueba para categoria
 INSERT INTO categoria (nombre) VALUES ('BLANDOS'),('FIERROS'),('IMPORTADOS'),('MATERIA PRIMA');
 SELECT * FROM categoria;
 SELECT * FROM producto;
@@ -13,7 +36,7 @@ SELECT * FROM v_productos;
 INSERT INTO producto (foto, nombre, descripcion, precio, stock, codigoInterno, categoria)
 VALUES 
 (
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA...', 
+    'no hay', 
     'Almohada Ortopédica', 
     'Almohada ergonómica para soporte cervical.', 
     249.99, 
@@ -22,7 +45,7 @@ VALUES
     1 -- BLANDOS
 ),
 (
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUB...', 
+    'no hay', 
     'Muleta de Aluminio', 
     'Muleta ligera y resistente para adultos.', 
     399.50, 
@@ -31,7 +54,7 @@ VALUES
     2 -- FIERROS
 ),
 (
-    'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD...', 
+    'no hay', 
     'Rodillera Neopreno', 
     'Rodillera importada con ajuste doble.', 
     325.00, 
@@ -40,7 +63,7 @@ VALUES
     3 -- IMPORTADOS
 ),
 (
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgA...', 
+    'no hay', 
     'Resina Ortopédica', 
     'Resina para moldeado de férulas ortopédicas.', 
     899.99, 
@@ -49,7 +72,7 @@ VALUES
     4 -- MATERIA PRIMA
 ),
 (
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABY...', 
+    'no hay', 
     'Collarín Cervical', 
     'Collarín ajustable para inmovilización del cuello.', 
     189.75, 

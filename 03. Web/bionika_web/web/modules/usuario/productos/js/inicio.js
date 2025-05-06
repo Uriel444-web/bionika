@@ -21,20 +21,23 @@ export async function cargarProductos() {
       productos = datos;
         for (var i = 0; i < productos.length; i++) {
             contenido += `
-      <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
-        <div class="p-4">
-          <h2 class="text-xl font-semibold text-purple-700">${productos[i].nombre}</h2>
-          <p class="text-gray-600 mt-2">${productos[i].descripcion}</p>
-          <p class="text-purple-800 font-bold mt-2">$${productos[i].precio}</p>
-          <p class="text-sm text-gray-500">Stock: ${productos[i].stock}</p>
-          <p class="text-sm text-gray-500">Categoría: ${productos[i].categoria.nombre}</p>
-          <button onclick="verDetalle(${i})"
-                  class="mt-3 w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">
-            Ver Detalles
-          </button>
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+          <img src="data:image/jpeg;base64,${productos[i].foto}" alt="Producto" class="w-full h-48 object-cover">
+          <div class="p-4">
+            <h2 class="text-xl font-semibold text-purple-700">${productos[i].nombre}</h2>
+            <p class="text-gray-600 mt-2">${productos[i].descripcion}</p>
+            <p class="text-purple-800 font-bold mt-2">$${productos[i].precio}</p>
+            <p class="text-sm text-gray-500">Stock: ${productos[i].stock}</p>
+            <p class="text-sm text-gray-500">Categoría: ${productos[i].categoria.nombre}</p>
+            <div class="flex gap-2 mt-4">
+              <button onclick="verDetalle(${productos[i].idProducto})"
+                      class="flex-1 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">
+                Ver Detalles
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    `;
+      `;
             
         }
   }
@@ -43,25 +46,33 @@ export async function cargarProductos() {
   cargarCategorias();
 }
 
-export function verDetalle(pos) {
-  //const p = productos.find(prod => prod.idProducto === idProducto);
-  let p = productos[pos];
-  console.log("datos recibidos...");
+export function verDetalle(idProducto) {
+  let p = productos.find(p => p.idProducto === idProducto);
+  console.log("Producto encontrado:");
   console.log(p);
-    if (p==null) {
-        console.log("no se encontraron los datos");
-    }
-    else{
+
+  if (!p) {
+    console.log("no se encontraron los datos");
+    return;
+  }
+  //cargarFotografia();
+  setDetalleVisible(true);
+  
         setDetalleVisible(true);
         // Usamos innerText en vez de .value porque son etiquetas de texto, no inputs
         document.getElementById("txtNombreProducto").innerText = p.nombre;
-        document.getElementById("txtCategoria").innerText = "Categoría: " + p.categoria.nombre;
         document.getElementById("txtDescripcion").innerText = p.descripcion;
         document.getElementById("txtPrecio").innerText = "Precio: $" + p.precio;
         document.getElementById("txtStock").innerText = "Stock disponible: " + p.stock;
         
+        // Mostrar imagen si existe
+    const imagen = document.getElementById("imagen-producto");
+    if (p.foto) {
+        imagen.src = `data:image/jpeg;base64,${p.foto}`;
+    } else {
+        imagen.src = ''; // Limpia la imagen si no hay
     }
-}
+    }
 
 async function cargarCategorias() {
   let url = "http://localhost:8080/bionika_web/api/producto/getAllCategorias";
@@ -93,6 +104,9 @@ export function mostrarProductos(lista) {
     contenido += `
       <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
         <div class="p-4">
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+          <img src="data:image/jpeg;base64,${lista[i].foto}" alt="Producto" class="w-full h-48 object-cover">
+          <div class="p-4">
           <h2 class="text-xl font-semibold text-purple-700">${lista[i].nombre}</h2>
           <p class="text-gray-600 mt-2">${lista[i].descripcion}</p>
           <p class="text-purple-800 font-bold mt-2">$${lista[i].precio}</p>

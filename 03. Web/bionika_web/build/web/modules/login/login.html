@@ -29,25 +29,25 @@
     </head>
     <body class="min-h-screen flex flex-col">
         <!-- Contenido principal -->
-        <main class="flex-grow flex items-center justify-center px-4 py-8">
+        <main class="flex-grow flex items-center justify-center px-4 pt-16 ">
             <!-- Contenedor principal -->
-            <div id="loginContainer" class="hidden fade-in bg-opacity-90 shadow-2xl rounded-2xl overflow-hidden w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-0">
+            <div id="loginContainer" class="hidden fade-in bg-opacity-90 shadow-2xl rounded-2xl overflow-hidden w-3/5 max-w-5xl grid grid-cols-1 lg:grid-cols-9 gap-0">
 
                 <!-- Columna izquierda -->
-                <div class="hidden lg:flex flex-col items-center justify-center p-8 bg-white/10 backdrop-blur-2xl border border-white/20 text-white lg:col-span-5">
-                    <img src="resources/bionika-logo.png" alt="Logo Bionika" class="w-24 mb-6">
-                    <h2 class="text-4xl font-bold text-white" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.6);">¡Bienvenido!</h2>
-                    <p class="mt-4 text-lg text-center">A la plataforma de Bionika</p>
+                <div class="hidden lg:flex flex-col items-center justify-center p-4 bg-white/10 backdrop-blur-2xl border border-white/20 text-white lg:col-span-4">
+                    <img src="resources/bionika-logo.png" alt="Logo Bionika" class="w-32 mb-6">
+                    <h2 class="text-3xl font-bold text-white">¡Bienvenido!</h2>
+                    <p class="mt-4 text-base text-center">A la plataforma de Bionika</p>
                 </div>
 
                 <!-- Columna derecha -->
-                <div class="p-8 bg-white shadow-lg rounded-2xl lg:col-span-7">
-                    <h2 class="text-3xl font-bold text-purple-700 mb-6 text-center" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.5);">
+                <div class="p-4 bg-white shadow-lg rounded-r-lg lg:col-span-5">
+                    <h2 class="text-3xl font-semibold text-black-700 text-shadow-md mb-6 text-center">
                         Iniciar Sesión
                     </h2>
                     <form>
                         <div class="mb-4">
-                            <label class="block text-purple-700 font-semibold mb-2" for="usuario">Usuario</label>
+                            <label class="block text-black-600 font-semibold mb-2" for="usuario">Usuario</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <!-- Icono de usuario -->
@@ -57,13 +57,13 @@
                                           d="M5.121 17.804A8.966 8.966 0 0112 15c2.347 0 4.478.904 6.121 2.381M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
                                 </span>
-                                <input id="usuario" type="text" placeholder="Ingresa tu usuario"
+                                <input id="txtUsuario" type="text" placeholder="Ingresa tu usuario"
                                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
                             </div>
                         </div>
 
                         <div class="mb-6">
-                            <label class="block text-purple-700 font-semibold mb-2" for="password">Contraseña</label>
+                            <label class="block text-black-600 font-semibold mb-2" for="password">Contraseña</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <!-- Icono de candado -->
@@ -73,13 +73,13 @@
                                           d="M12 11c1.656 0 3 1.344 3 3v1a3 3 0 01-6 0v-1c0-1.656 1.344-3 3-3zM17 11V9a5 5 0 00-10 0v2m10 0H7" />
                                     </svg>
                                 </span>
-                                <input id="password" type="password" placeholder="Ingresa tu contraseña"
+                                <input id="txtPassword" type="password" placeholder="Ingresa tu contraseña"
                                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
                             </div>
                         </div>
                         <div class="flex justify-center">
-                            <button type="submit"
-                                    class="bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white font-bold py-3 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-200 ease-in-out">
+                            <button id="btn-log" type="submit"
+                                    class="bg-gradient-to-r w-40 from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white font-bold py-3 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-200 ease-in-out">
                                 Ingresar
                             </button>
                         </div>
