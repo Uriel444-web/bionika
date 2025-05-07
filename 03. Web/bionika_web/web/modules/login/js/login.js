@@ -29,8 +29,8 @@
                         title: "Bienvenido "+localStorage.getItem("usuario"),
                         text: "Datos de acceso correctos"
                     });
-                    
                     cargarNombre();
+                    inicio();
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -75,4 +75,21 @@ export function logOut()
     document.getElementById("btnLogin").innerHTML = 
             localStorage.getItem("usuario");
 
+}
+
+async function inicio() {
+       console.log("cargando inicio");
+
+    let url = "http://localhost:8080/bionika_web/modules/inicio/inicio.html";
+    let resp = await fetch(url);
+    let contenido = await resp.text();
+    
+    document.getElementById('content').innerHTML = contenido;
+    
+    cm = await import("http://localhost:8080/bionika_web/modules/inicio/js/inicio.js");
+    cm.inicializar();
+    
+    //hace visible el footer
+    const footer = document.getElementById('foter');
+    if (footer) footer.style.display = 'block'; 
 }

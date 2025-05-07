@@ -46,9 +46,7 @@ CREATE TABLE IF NOT EXISTS empleado
     apellidoM	VARCHAR(100) NOT NULL,
     correo		VARCHAR(250) NOT NULL,
     telefono	VARCHAR(20) NOT NULL,
-	rol         INT NOT NULL DEFAULT 3,
-    CONSTRAINT pk_empleado PRIMARY KEY (idEmpleado),
-    CONSTRAINT fk_empleado_rol FOREIGN KEY (rol) REFERENCES rol(idRol)
+    CONSTRAINT pk_empleado PRIMARY KEY (idEmpleado)
 );
 
 -- TABLA DE USUARIOS -------------------------------------------------
@@ -62,6 +60,7 @@ CREATE TABLE IF NOT EXISTS usuario
     contrasena	VARCHAR(20) NOT NULL,
     token       lONGTEXT,
     activo      INT NOT NULL DEFAULT 1,
+    rol         INT NOT NULL DEFAULT 3,
     CONSTRAINT pk_usuario PRIMARY KEY (idUsuario)
 );
 
