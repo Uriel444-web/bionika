@@ -5,8 +5,8 @@
 package com.bionika.controller;
 
 import com.bionika.db.ConexionMySQL;
-import com.bionika.model.Categoria;
 import com.bionika.model.Producto;
+import com.bionika.model.Categoria;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -104,14 +104,17 @@ let cm = null;
 
     async function productos() {
        console.log("cargando productos...");
-    //let url="http://localhost:8080/bionika_web/modules/usuario/productos/inicio.html";
-    let url = "http://localhost:8080/bionika_web/modules/administrador/productos/inicio.html";
+
+    let url="http://localhost:8080/bionika_web/modules/usuario/productos/inicio.html";
+   // let url = "http://localhost:8080/bionika_web/modules/administrador/productos/inicio.html";
     let resp = await fetch(url);
     let contenido = await resp.text();
     
     document.getElementById('content').innerHTML = contenido;
     
-    cm = await import("http://localhost:8080/bionika_web/modules/administrador/productos/js/inicio.js");
+
+    //cm = await import("http://localhost:8080/bionika_web/modules/administrador/productos/js/inicio.js");
+    cm = await import("http://localhost:8080/bionika_web/modules/usuario/productos/js/inicio.js");
     cm.inicializar();
     
     //hace visible el footer

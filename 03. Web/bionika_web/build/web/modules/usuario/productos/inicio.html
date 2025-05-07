@@ -31,31 +31,27 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         </div>
-        <div id="divDetalle">
-            <!-- Contenedor general -->
-            <div class="max-w-4xl mx-auto my-10 p-6 bg-white rounded-2xl shadow-lg">
-                <div class="flex flex-col md:flex-row gap-6">
+        <div id="divDetalle" class="flex justify-center items-center py-10 px-4">
+            <div class="w-full max-w-xl bg-white rounded-2xl shadow-xl overflow-hidden p-6">
 
-                    <!-- Imagen del producto -->
-                    <div class="flex-shrink-0 w-full md:w-1/2">
-                        <img id="imagen-producto" src="" alt="Imagen del producto" class="w-full h-auto rounded-xl shadow-md object-contain">
-                    </div>
-
-                    <!-- Información del producto -->
-                    <div class="flex flex-col justify-between w-full md:w-1/2">
-                        <div>
-                            <h2 id="txtNombreProducto" class="text-2xl font-bold text-purple-700 mb-2">Nombre del producto</h2>
-                            <p id="txtCategoria" class="text-sm text-gray-500 mb-4">Categoría: Nombre de categoría</p>
-                            <p id="txtDescripcion" class="text-gray-700 mb-6">Descripción del producto...</p>
-                        </div>
-
-                        <div class="mt-auto">
-                            <p id="txtPrecio" class="text-xl font-semibold text-purple-600">Precio: $0.00</p>
-                            <p id="txtStock" class="text-sm text-green-600 mt-2">Stock disponible: 0</p>
-                        </div>
-                    </div>
+                <!-- Imagen del producto -->
+                <div class="mb-6">
+                    <img id="imagen-producto" src="" alt="Imagen del producto" class="w-full h-64 object-contain rounded-xl border border-gray-200 shadow-md">
                 </div>
-                <button id="btnRegresar">Regresar</button>
+
+                <!-- Información del producto -->
+                <div class="text-center space-y-4">
+                    <h2 id="txtNombreProducto" class="text-3xl font-extrabold text-purple-700">Nombre del producto</h2>
+                    <p id="txtPrecio" class="text-2xl font-semibold text-purple-600">Precio: $0.00</p>
+                    <p id="txtDescripcion" class="text-gray-700">Descripción del producto...</p>
+                    <p id="txtStock" class="text-sm text-green-600 font-medium">Stock disponible: 0</p>
+                </div>
+
+                <!-- Botón regresar -->
+                <div class="mt-8 text-center">
+                    <button id="btnRegresar" class="px-6 py-2 bg-purple-600 text-white rounded-lg shadow hover:bg-purple-700 transition-all">Regresar</button>
+                </div>
+
             </div>
         </div>
         <script src="js/inicio.js" type="text/javascript"></script>

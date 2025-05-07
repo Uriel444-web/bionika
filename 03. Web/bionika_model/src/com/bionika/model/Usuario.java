@@ -10,7 +10,6 @@ public class Usuario {
     private String usuario;
     private String contrasenia;
     private String token;
-    
     private int activo;
 
     public Usuario() {

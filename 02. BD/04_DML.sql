@@ -36,7 +36,7 @@ SELECT * FROM v_productos;
 INSERT INTO producto (foto, nombre, descripcion, precio, stock, codigoInterno, categoria)
 VALUES 
 (
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA...', 
+    'no hay', 
     'Almohada Ortopédica', 
     'Almohada ergonómica para soporte cervical.', 
     249.99, 
@@ -45,7 +45,7 @@ VALUES
     1 -- BLANDOS
 ),
 (
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUB...', 
+    'no hay', 
     'Muleta de Aluminio', 
     'Muleta ligera y resistente para adultos.', 
     399.50, 
@@ -54,7 +54,7 @@ VALUES
     2 -- FIERROS
 ),
 (
-    'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD...', 
+    'no hay', 
     'Rodillera Neopreno', 
     'Rodillera importada con ajuste doble.', 
     325.00, 
@@ -63,7 +63,7 @@ VALUES
     3 -- IMPORTADOS
 ),
 (
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgA...', 
+    'no hay', 
     'Resina Ortopédica', 
     'Resina para moldeado de férulas ortopédicas.', 
     899.99, 
@@ -72,7 +72,7 @@ VALUES
     4 -- MATERIA PRIMA
 ),
 (
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABY...', 
+    'no hay', 
     'Collarín Cervical', 
     'Collarín ajustable para inmovilización del cuello.', 
     189.75, 

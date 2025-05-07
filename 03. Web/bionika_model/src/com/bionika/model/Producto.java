@@ -4,10 +4,8 @@
  */
 package com.bionika.model;
 
-/**
- *
- * @author casa
- */
+import com.bionika.model.Categoria;
+
 public class Producto {
     private int idProducto;
     private String foto;
