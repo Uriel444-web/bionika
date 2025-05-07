@@ -7,10 +7,32 @@ let cm = null;
             // llama la animación una vez se carga
         }, 2000);
     });
+      
+    tailwind.config = {
+      darkMode: 'class'
+    }
+    
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    }
+
+    // BOTÓN DE CAMBIO DE TEMA
+    const toggleBtn = document.getElementById('toggleDark');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    }
     
     const menuBtn = document.getElementById('menu-btn');
     const menu = document.getElementById('menu');
-
+    
+    
     menuBtn.addEventListener('click', () => {
         menu.classList.toggle('hidden');
     });
