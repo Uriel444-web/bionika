@@ -12,7 +12,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </head>
     <body>
         <!-- Contenedor principal -->
-        <div id="divCatalogo">
+        <div id="divCatalogo" class="bg-gradient-to-br from-gray-200 via-white to-purple-400 backdrop-blur-sm">
             <div class="container mx-auto p-4">
                 <h1 class="text-3xl font-bold text-black-700 mb-4 underline underline-offset-8 decoration-purple-600">Productos disponibles</h1>
 
@@ -41,8 +41,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         </div>
-        <div id="divDetalle" class="min-h-screen py-10 px-4 bg-gradient-to-br from-gray-100 via-white to-purple-200 backdrop-blur-sm">
-            <div class="max-w-4xl mx-auto bg-white/70 rounded-2xl shadow-2xl p-6 bg-gradient-to-br from-white via-gray-100 to-white backdrop-blur-md">
+        <div id="divDetalle" class="min-h-screen py-10 px-4 bg-gradient-to-br from-gray-200 via-white to-purple-400 backdrop-blur-sm">
+            <div class="max-w-4xl mx-auto bg-white/70 rounded-2xl shadow-2xl p-6 backdrop-blur-md">
                 <div class="flex flex-col md:flex-row gap-8">
 
                     <!-- Imagen del producto -->
@@ -67,35 +67,35 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <div>
                             <label class="block text-sm font-medium text-gray-700">ID:</label>
                             <input id="txtIdProducto" type="text" readonly
-                                   class="w-full mt-1 px-3 py-2 border rounded-lg bg-gray-100 text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-300" />
+                                   class="w-full mt-1 px-3 py-2 border rounded-lg bg-gray-100 text-gray-800 shadow-sm ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300" />
 
                             <label class="block mt-4 text-sm font-medium text-gray-700">Nombre:</label>
                             <input id="txtNombreProducto" type="text"
-                                   class="w-full mt-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
+                                   class="w-full mt-1 px-3 py-2 border rounded-lg ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
 
                             <label class="block mt-4 text-sm font-medium text-gray-700">Categoría:</label>
                             <select id="categoriaDetalle"
-                                    class="w-full mt-1 px-3 py-2 border rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm">
+                                    class="w-full mt-1 px-3 py-2 border rounded-lg bg-white text-gray-700 ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm">
                                 <!-- JS Opciones -->
                             </select>
 
                             <label class="block mt-4 text-sm font-medium text-gray-700">Descripción:</label>
                             <textarea id="txtDescripcion" rows="3"
-                                      class="w-full mt-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm resize-none"></textarea>
+                                      class="w-full mt-1 px-3 py-2 border rounded-lg ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm resize-none"></textarea>
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Precio:</label>
                             <input id="txtPrecio" type="number" step="0.01"
-                                   class="w-full mt-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
+                                   class="w-full mt-1 px-3 py-2 border rounded-lg ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
 
                             <label class="block mt-4 text-sm font-medium text-gray-700">Stock:</label>
                             <input id="txtStock" type="number"
-                                   class="w-full mt-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
+                                   class="w-full mt-1 px-3 py-2 border rounded-lg ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
 
                             <label class="block mt-4 text-sm font-medium text-gray-700">Código Interno:</label>
                             <input id="txtCodigoInterno" type="text"
-                                   class="w-full mt-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
+                                   class="w-full mt-1 px-3 py-2 border rounded-lg ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
                         </div>
                     </div>
                 </div>

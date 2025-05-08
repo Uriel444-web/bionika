@@ -21,7 +21,7 @@ export async function cargarProductos() {
       productos = datos;
         for (var i = 0; i < productos.length; i++) {
             contenido += `
-        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+        <div class="bg-gray-100 rounded-l-xl shadow-md overflow-hidden border border-gray-200 ring-1 ring-offset-2 ring-gray-400">
           <img src="data:image/jpeg;base64,${productos[i].foto}" alt="Producto" class="w-full h-48 object-cover">
           <div class="p-4">
             <h2 class="text-xl font-semibold text-purple-700">${productos[i].nombre}</h2>
@@ -102,7 +102,7 @@ export function mostrarProductos(lista) {
   let contenido = '';
   for (let i = 0; i < lista.length; i++) {
     contenido += `
-      <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+      <div class="bg-gray-100 rounded-l-xl shadow-md overflow-hidden border border-gray-200 ring-1 ring-offset-2 ring-gray-400">
         <div class="p-4">
         <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
           <img src="data:image/jpeg;base64,${lista[i].foto}" alt="Producto" class="w-full h-48 object-cover">
