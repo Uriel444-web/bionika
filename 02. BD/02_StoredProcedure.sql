@@ -60,7 +60,16 @@ DELIMITER ;
 -- ----------------------------------------------------------------------
 -- SP PARA ELIMINAR UN PRODUCTO
 -- ----------------------------------------------------------------------
+DROP PROCEDURE IF EXISTS eliminarProducto;
 
+DELIMITER $$
+CREATE PROCEDURE eliminarProducto (
+    IN p_idProducto INT
+)
+BEGIN
+   DELETE FROM producto WHERE idProducto = p_idProducto;
+END $$
+DELIMITER ;
 
 -- ----------------------------------------------------------------------
 -- SP PARA INSERTAR UN USUARIO
@@ -96,3 +105,5 @@ BEGIN
     
 END$$
 DELIMITER ;
+
+

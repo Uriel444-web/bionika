@@ -89,4 +89,27 @@ public class RESTAcceso {
         
         return Response.status(Response.Status.OK).entity(out).build();
     }
+    
+    @Path("validarRol")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+        public Response validarRol(@FormParam("idUsuario") int idUsuario) {
+        String out;
+        CtrlLogin objCL = new CtrlLogin();
+    
+            try {
+                int idRol = objCL.obtenerIdRol(idUsuario); // Nuevo método que devuelve el ID del rol
+                out = """
+                    {"idRol": %d}
+                    """.formatted(idRol);
+            } catch (Exception ex) {
+                out = """
+                    {"error": "Error al validar el rol, contacta al administrador"}
+                    """;
+             ex.printStackTrace();
+            }
+
+        return Response.status(Response.Status.OK).entity(out).build();
+    }
+
 }

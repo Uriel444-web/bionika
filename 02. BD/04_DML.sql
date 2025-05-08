@@ -11,21 +11,7 @@ USE bionika;
 
 insert into rol (tipoRol) values ("Administrador");
 select * from rol;
-
--- Inserciones de prueba para usuario
-INSERT INTO usuario (nombres, apellidoP, apellidoM, correo, telefono, usuario, contrasena, rol)
-VALUES (
-    'carolina', 
-    'González', 
-    'López', 
-    'carolina.gonzalez@email.com', 
-    '479-123-4567', 
-    'cgonzalez', 
-    '12345',
-    1
-);
-
-select * from usuario;
+insert into rol (tipoRol) values ("Empleado"),("Usuario");
 
 -- Inserciones de prueba para categoria
 INSERT INTO categoria (nombre) VALUES ('BLANDOS'),('FIERROS'),('IMPORTADOS'),('MATERIA PRIMA');
@@ -80,3 +66,7 @@ VALUES
     'P005', 
     1 -- BLANDOS
 );
+
+-- Inserciones de prueba para usuario
+INSERT INTO usuario (usuario, contrasena, rol) VALUES ("carolina", "1234",1),("Uriel", "1234", 3);
+SELECT * FROM usuario;

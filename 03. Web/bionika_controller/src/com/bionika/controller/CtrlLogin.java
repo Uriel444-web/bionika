@@ -101,5 +101,23 @@ public class CtrlLogin {
 
       return respuesta;
     }
- 
+    
+    public int obtenerIdRol(int idUsuario) throws Exception {
+    String query = "SELECT rol FROM usuario WHERE idUsuario = ?";
+    ConexionMySQL connMySQL = new ConexionMySQL();
+    Connection conn = connMySQL.open();
+    PreparedStatement stmt = conn.prepareStatement(query);
+    stmt.setInt(1, idUsuario);
+    ResultSet rs = stmt.executeQuery();
+        System.out.println(idUsuario);
+    if (rs.next()) {
+        int idRol = rs.getInt("rol");
+        conn.close();
+        return idRol;
+    } else {
+        conn.close();
+        throw new SQLException("Usuario no encontrado.");
+    }
+}
+
 }

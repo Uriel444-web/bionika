@@ -98,6 +98,30 @@ public class ControllerProductos {
         return productos;
     }
     
+    public boolean eliminar(int idProducto)throws Exception {
+    // Se define la consulta SQL:
+    String sql = "{CALL eliminarProducto(?)}";
+
+    // Abrimos la conexión con la BD:
+    ConexionMySQL connMySQL = new ConexionMySQL();
+    Connection conn = connMySQL.open();
+
+    // Generamos un CallableStatement para invocar al Stored Procedure:
+    CallableStatement cstmt = conn.prepareCall(sql);
+
+    // Colocamos el valor del parámetro de entrada que requiere el Stored Procedure:
+    cstmt.setInt(1, idProducto);
+
+    // Ejecutamos el Stored Procedure:
+    cstmt.executeUpdate();
+
+    // Cerramos los objetos de conexión:
+    cstmt.close();
+    connMySQL.close();
+    
+    return true;
+}
+    
     private Producto fill (ResultSet rs) throws SQLException{
         Producto p = new Producto();
         Categoria c = new Categoria();
