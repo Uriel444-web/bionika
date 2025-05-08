@@ -41,15 +41,15 @@ CREATE TABLE IF NOT EXISTS categoria
 CREATE TABLE IF NOT EXISTS empleado
 (
 	idEmpleado INT NOT NULL AUTO_INCREMENT,
-	nombres		VARCHAR(100) NOT NULL,
+	nombre		VARCHAR(100) NOT NULL,
     apellidoP	VARCHAR(100) NOT NULL,
     apellidoM	VARCHAR(100) NOT NULL,
     correo		VARCHAR(250) NOT NULL,
     telefono	VARCHAR(20) NOT NULL,
-	rol         INT NOT NULL DEFAULT 3,
-    CONSTRAINT pk_empleado PRIMARY KEY (idEmpleado),
-    CONSTRAINT fk_empleado_rol FOREIGN KEY (rol) REFERENCES rol(idRol)
+    CONSTRAINT pk_empleado PRIMARY KEY (idEmpleado)
 );
+
+select * from empleado;
 
 -- TABLA DE USUARIOS -------------------------------------------------
 -- CADA USUARIO TENDRA UN ROL ASIGNADO. DE CADA USUARIO SE REGISTRARA SUS NOMBRES, APELLIDO P, APELLIDO M, CORREO, TELEFONO PERSONAL,
@@ -58,11 +58,15 @@ CREATE TABLE IF NOT EXISTS empleado
 CREATE TABLE IF NOT EXISTS usuario
 (
 	idUsuario   INT NOT NULL AUTO_INCREMENT,
-    usuario		VARCHAR(250) NOT NULL,
+    usuario		VARCHAR(100) NOT NULL,
     contrasena	VARCHAR(20) NOT NULL,
     token       lONGTEXT,
     activo      INT NOT NULL DEFAULT 1,
-    CONSTRAINT pk_usuario PRIMARY KEY (idUsuario)
+    idEmpleado INT NOT NULL UNIQUE,
+    rol         INT NOT NULL DEFAULT 2,
+    CONSTRAINT pk_usuario PRIMARY KEY (idUsuario),
+	CONSTRAINT fk_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado),
+	CONSTRAINT fk_empleado_rol FOREIGN KEY (rol) REFERENCES rol(idRol)
 );
 
 -- TABLA DE PRODUCTO --------------------------------------------------

@@ -56,6 +56,11 @@ let cm = null;
         event.preventDefault();
         productos();
     });
+    
+      document.getElementById("btnUsuario").addEventListener('click', (event) => {
+        event.preventDefault();
+        usuarios();
+    });
 
     async function inicio() {
        console.log("cargando inicio");
@@ -122,4 +127,48 @@ let cm = null;
     if (footer) footer.style.display = 'block'; 
 }
 
+async function usuarios() {
+       console.log("cargando usuarios...");
+
+    let url="http://localhost:8080/bionika_web/modules/usuario/crud/registro.html";
+   // let url = "http://localhost:8080/bionika_web/modules/administrador/productos/inicio.html";
+    let resp = await fetch(url);
+    let contenido = await resp.text();
+    
+    document.getElementById('content').innerHTML = contenido;
+    
+
+    //cm = await import("http://localhost:8080/bionika_web/modules/administrador/productos/js/inicio.js");
+    cm = await import("http://localhost:8080/bionika_web/modules/usuario/crud/js.js");
+    cm.recargarComboBoxCategorias();
+    
+    document.getElementById("registrarU").addEventListener("click", (event) => {
+       console.log(cm);
+       cm.saveUsuario();
+    });
+    
+     document.getElementById("mostrarU").addEventListener("click", (event) => {
+      event.preventDefault();   
+      mostrarU();
+    });
+    
+    //hace visible el footer
+    const footer = document.getElementById('foter');
+    if (footer) footer.style.display = 'block'; 
+}
+
+    async function mostrarU(){
+        
+    let url="http://localhost:8080/bionika_web/modules/usuario/crud/getAll.html";
+    let resp = await fetch(url);
+    let contenido = await resp.text();
+    
+    document.getElementById('content').innerHTML = contenido;
+    
+    cm = await import("http://localhost:8080/bionika_web/modules/usuario/crud/js.js");
+    cm.recargarTablaUsuario();
+    
+    const footer = document.getElementById('foter');
+    if (footer) footer.style.display = 'block'; 
+    }
 

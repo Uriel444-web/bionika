@@ -60,3 +60,39 @@ DELIMITER ;
 -- ----------------------------------------------------------------------
 -- SP PARA ELIMINAR UN PRODUCTO
 -- ----------------------------------------------------------------------
+
+
+-- ----------------------------------------------------------------------
+-- SP PARA INSERTAR UN USUARIO
+-- ----------------------------------------------------------------------
+
+select * from usuario;
+select * from empleado;
+
+DELIMITER $$
+CREATE PROCEDURE insertarUsuario (
+    IN e_nombre VARCHAR(100),
+    IN e_apellidoP VARCHAR(100), 
+    IN e_apellidoM VARCHAR(100), 
+    IN e_correo VARCHAR(100), 
+    IN e_telefono VARCHAR(20),
+    IN u_nombre VARCHAR(100),
+    IN u_contrasena VARCHAR(20),
+    IN u_idRol INT,
+    OUT v_id_empleado INT,
+    OUT v_id_usuario INT
+)
+BEGIN	
+    
+    -- Insertar al empleado con el rol
+    INSERT INTO empleado (nombre, apellidoP, apellidoM, correo, telefono)
+    VALUES (e_nombre, e_apellidoP, e_apellidoM, e_correo, e_telefono);
+	SET v_id_empleado = LAST_INSERT_ID();
+    
+    -- Insertar al usuario vinculado al empleado
+    INSERT INTO usuario (usuario, contrasena, idEmpleado, rol)
+    VALUES (u_nombre, u_contrasena, v_id_empleado, u_idRol);
+    SET v_id_usuario = LAST_INSERT_ID();
+    
+END$$
+DELIMITER ;

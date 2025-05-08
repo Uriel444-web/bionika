@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body>
+
+        <div class=" pb-8 pt-6 px-8 rounded-lg bg-white shadow-md shadow-violet-500/50 h-auto mx-56 mt-6 dark:bg-zinc-900">
+
+
+            <h2 class="text-4xl mt-8 font-semibold text-center text-gray-900 mb-8 dark:text-white">Registro de nuevo usuario </h2>
+
+            <form>   
+
+                <h2 class="text-gray-700 text-xl text-center leading-relaxed dark:text-gray-400">Datos personales</h2>
+
+                <div class="grid grid-cols-2 border-t-2 border-violet-300 py-4">
+
+                    <div class="px-4 ">
+                        <label class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Nombre: </label> 
+                        <input id="txtNombre" type="text" placeholder="Ejem: Karla Lizbeth"
+                               class="  mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+                    </div>
+
+                    <div class="px-4">
+                        <label class="text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Apellido paterno: </label> 
+                        <input id="txtApellidoP" type="text" placeholder="Ejem: Martinez"
+                               class="mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+                    </div>
+
+                    <div class="px-4">
+                        <label class="text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Apellido Materno: </label>     
+                        <input id="txtApellidoM" type="text" placeholder="Ejem: Lopez"
+                               class="mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+
+                    </div>
+                    <div class="px-4">
+                        <label class="text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Correo: </label> 
+                        <input id="txtCorreo" type="text" placeholder="Ejem: ejemplo123@gmail.com"
+                               class="mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+                    </div>
+                    <div class="px-4">
+                        <label class="text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Telefono: </label> 
+                        <input id="txtTelefono" type="text" placeholder="Ejem: 000-000-0000"
+                               class="mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <div class="pb-8 pt-6 px-8 rounded-lg bg-white shadow-md shadow-violet-500/50 h-auto mx-56 mt-2 mb-6 dark:bg-zinc-900">
+
+            <h2 class="text-gray-700 text-xl text-center leading-relaxed dark:text-gray-400">Datos de Usuario</h2>
+
+            <div class="grid grid-cols-2 border-t-2 border-violet-300 py-4">
+
+                <div class="px-4">
+                    <label class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Nombre de Usuario: </label> 
+                    <input id="txtUsuario" type="text" placeholder="Ejem: Empleado_1"
+                           class=" mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+                </div>
+
+                <div class="pt-4">
+                    <a class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Categoria:</a>
+                    <form class="px-8 ">
+
+                        <select id="cmbCategoria" class="bg-white w-full my-auto h-8 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 pl-8">
+
+                        </select>
+                    </form>
+                </div>
+
+                <div class="px-4">
+                    <label class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Contraseña: </label> 
+                    <input id="txtContrasena" type="password"
+                           class=" mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+                </div>
+
+                <div>
+                    <label class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Repetir contraseña: </label> 
+                    <input id="txtRola" type="text"
+                           class=" mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+
+                </div>
+
+                <button id="registrarU" class="mx-auto bg-gradient-to-r w-1/2 from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white font-bold py-3 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-200 ease-in-out mt-6">Registrar</button>
+                <button id="mostrarU" class="mx-auto bg-gradient-to-r w-1/2 from-yellow-600 via-yellow-700 to-yellow-800 hover:from-yellow-700 hover:via-yellow-800 hover:to-yellow-900 text-white font-bold py-3 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-200 ease-in-out mt-6">Mostrar Usuarios</button>
+            </div> 
+        </div>
+    </body>
+</html>

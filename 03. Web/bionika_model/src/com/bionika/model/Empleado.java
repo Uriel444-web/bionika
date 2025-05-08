@@ -9,20 +9,18 @@ public class Empleado {
     private String apellidoM;
     private String correo;
     private String telefono;
-    private Rol rol;
-    private Usuario usuario;
     
     public Empleado() {
     }
 
-    public Empleado(int idEmpleado, String nombre, String apellidoP, String apellidoM, String correo, String telefono, Usuario usuario) {
+    public Empleado(int idEmpleado, String nombre, String apellidoP, String apellidoM, String correo, String telefono) {
         this.idEmpleado = idEmpleado;
         this.nombre = nombre;
         this.apellidoP = apellidoP;
         this.apellidoM = apellidoM;
         this.correo = correo;
         this.telefono = telefono;
-        this.usuario = usuario;
+        
     }
 
     public String getTelefono() {
@@ -72,23 +70,6 @@ public class Empleado {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Rol getRol() {
-        return rol;
-    }
-
-    public void setRol(Rol rol) {
-        this.rol = rol;
-    }
-
     
     @Override
     public String toString() {
