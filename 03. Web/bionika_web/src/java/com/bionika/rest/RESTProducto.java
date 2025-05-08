@@ -100,4 +100,28 @@
             }
             return Response.ok(out).build();
         }
+        
+    @Path("delete")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+        public Response validarRol(@FormParam("idProducto") int idProducto) {
+        String out = "";
+        ControllerProductos cp = new ControllerProductos();
+    
+            try {
+                boolean eliminar = cp.eliminar(idProducto); // Nuevo método que devuelve el ID del rol
+                if (eliminar) {
+                    out = """
+                          {"eliminado" : "ok"}
+                          """;
+                }
+            } catch (Exception ex) {
+                out = """
+                    {"error": "Error al validar el rol, contacta al administrador"}
+                    """;
+             ex.printStackTrace();
+            }
+
+        return Response.status(Response.Status.OK).entity(out).build();
+    }
     }

@@ -24,6 +24,7 @@
                 {
                     localStorage.setItem("token", response.token);
                     localStorage.setItem("usuario", response.usuario);
+                    localStorage.setItem("id", response.id);
                     Swal.fire({
                         icon: "success",
                         title: "Bienvenido "+localStorage.getItem("usuario"),

@@ -8,19 +8,18 @@ export async function inicializar(){
     document.getElementById("btnRegresar").addEventListener('click', regresar);
     // boton para guardar
     document.getElementById("btnSave").addEventListener('click', save);
+    // boton para limpiar campos
+    document.getElementById("btnLimpiar").addEventListener('click', limpiar);
     // Se obtiene el <input> de tipo file asociado con la foto del producto:
     inputFileFotoProducto = document.getElementById("inputFoto");
-    
     // Se agrega un oyente para cuando el usuario seleccione un archivo,
     // se invoque a la funcion "cargarFotografia()":
     inputFileFotoProducto.onchange = function(evt){cargarFotografia();};
-    
     // Agregamos un oyente al boton que permite al usuario cargar una imagen
     // para que cuando lo presione, se active el <input> de tipo file:
     document.getElementById("btnCargarFoto").onclick = function(evt) { inputFileFotoProducto.click(); };
-    
 }
-
+document.getElementById("btnNew").addEventListener('click', nuevoProducto);
 export async function save(){
     let url = "http://localhost:8080/bionika_web/api/producto/save";
     let producto = {
@@ -37,21 +36,15 @@ export async function save(){
     };
     
     let datos = null;
-    
     let params = null;
-    
     let opciones = null;
-    
     let resp = null;
-    
     let data = null;
-    
     // vemos si el valor del id es 0 para saber si es  crear o actualizar
      if (document.getElementById("txtIdProducto").value.trim() != '')
     {
         producto.idProducto = parseInt(document.getElementById("txtIdProducto").value.trim());
     }
-    
     datos = {datosProducto : JSON.stringify(producto)};
     params = new URLSearchParams(datos);
     opciones =  {
@@ -96,7 +89,7 @@ export async function cargarProductos() {
         <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
           <img src="data:image/jpeg;base64,${productos[i].foto}" alt="Producto" class="w-full h-48 object-cover">
           <div class="p-4">
-            <h2 class="text-xl font-semibold text-purple-700">${productos[i].nombre}</h2>
+            <h2 class="text-xl font-semibold text-black-700">${productos[i].nombre}</h2>
             <p class="text-gray-600 mt-2">${productos[i].descripcion}</p>
             <p class="text-purple-800 font-bold mt-2">$${productos[i].precio}</p>
             <p class="text-sm text-gray-500">Stock: ${productos[i].stock}</p>
@@ -112,7 +105,6 @@ export async function cargarProductos() {
       `;
     }
   }
-
   document.getElementById('productosContainer').innerHTML = contenido;
   cargarCategorias();
 }
@@ -121,7 +113,6 @@ export async function cargarProductos() {
 export function verDetalle(idProducto) {
   let p = productos.find(p => p.idProducto === idProducto);
   console.log("Producto encontrado:");
-  console.log(p);
 
   if (!p) {
     console.log("no se encontraron los datos");
@@ -130,6 +121,7 @@ export function verDetalle(idProducto) {
   cargarFotografia();
   setDetalleVisible(true);
   
+  document.getElementById("btnEliminar").style.display = "inline-block";
   document.getElementById("txtIdProducto").value = p.idProducto;
   document.getElementById("txtNombreProducto").value = p.nombre;
   document.getElementById("txtDescripcion").value = p.descripcion;
@@ -193,7 +185,7 @@ export function mostrarProductos(lista) {
       <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
         <img src="data:image/jpeg;base64,${lista[i].foto}" alt="Producto" class="w-full h-48 object-cover">
         <div class="p-4">
-          <h2 class="text-xl font-semibold text-purple-700">${lista[i].nombre}</h2>
+          <h2 class="text-xl font-semibold text-black-700">${lista[i].nombre}</h2>
           <p class="text-gray-600 mt-2">${lista[i].descripcion}</p>
           <p class="text-purple-800 font-bold mt-2">$${lista[i].precio}</p>
           <p class="text-sm text-gray-500">Stock: ${lista[i].stock}</p>
@@ -245,27 +237,74 @@ function cargarFotografia()
     }
 }
 
-// Funciones futuras para editar y eliminar (por implementar)
+// funcion para limpiar los campos
+function limpiar(){
+    document.getElementById("txtIdProducto").value = "";
+    document.getElementById("txtNombreProducto").value = "";
+    document.getElementById("txtDescripcion").value = "";
+    document.getElementById("txtPrecio").value = "";
+    document.getElementById("txtStock").value = "";
+    document.getElementById("txtCodigoInterno").value = "";
+    document.getElementById("categoriaDetalle").selectedIndex = 0;
+    document.getElementById("imgFoto").src = "";
+    document.getElementById("txtaFoto").value = "";
+    document.getElementById("inputFoto").value = "";
+}
 
+// Funcion para crear nuevo producto
+function nuevoProducto() {
+    setDetalleVisible(true);   // Mostrar la vista de detalle
+    limpiar();           // Limpiar todos los campos
+    document.getElementById("btnSave").style.display = "inline-block";
+    document.getElementById("btnRegresar").style.display = "inline-block";
+    document.getElementById("btnLimpiar").style.display = "inline-block";
+    document.getElementById("btnEliminar").style.display = "none"; // Ocultar botón Eliminar
+}
+
+// Funciones para eliminar producto
 
 window.eliminarProducto = async function (pos) {
-  let producto = productos[pos];
-  const confirm = await Swal.fire({
-    title: "¿Eliminar producto?",
-    text: `¿Deseas eliminar "${producto.nombre}"?`,
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Sí, eliminar",
-    cancelButtonText: "Cancelar"
-  });
+    let idProducto = parseInt(document.getElementById("txtIdProducto").value);
+    let filtrado = productos.find(p => p.idProducto === idProducto);
 
-  if (confirm.isConfirmed) {
-    // Aquí iría el DELETE al backend
-    Swal.fire("Eliminado", `"${producto.nombre}" ha sido eliminado.`, "success");
-    // Recargar lista
-    cargarProductos();
-  }
+    const confirm = await Swal.fire({
+        title: "¿Eliminar producto?",
+        text: `¿Deseas eliminar "${filtrado.nombre}"?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (confirm.isConfirmed) {
+        let url = 'http://localhost:8080/bionika_web/api/producto/delete';
+        let datos = new URLSearchParams({ idProducto });
+
+        try {
+            let resp = await fetch(url, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+                body: datos
+            });
+
+            if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
+
+            let data = await resp.json();
+            if (data.eliminado === "ok") {
+                Swal.fire("Eliminado", `"${filtrado.nombre}" ha sido eliminado.`, "success");
+                cargarProductos();
+                setDetalleVisible(false);
+            } else {
+                Swal.fire("Error", "No se pudo eliminar el producto.", "error");
+            }
+
+        } catch (error) {
+            console.error(error.message);
+            Swal.fire("Error", "Ocurrió un error al eliminar.", "error");
+        }
+    }
 };
+
 window.verDetalle = verDetalle;
 window.filtrarPorCategoria = filtrarPorCategoria;
 window.regresar = regresar;

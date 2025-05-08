@@ -68,4 +68,5 @@ VALUES
 );
 
 -- Inserciones de prueba para usuario
-INSERT INTO usuario (usuario, contrasena, rol) VALUES ("carolina", "1234",1),("Uriel", "1234");
+INSERT INTO usuario (usuario, contrasena, rol) VALUES ("carolina", "1234",1),("Uriel", "1234", 3);
+SELECT * FROM usuario;

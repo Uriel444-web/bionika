@@ -4,10 +4,6 @@
  */
 package com.bionika.model;
 
-/**
- *
- * @author casa
- */
 public class Categoria {
     private int idCategoria;
     private String nombre;

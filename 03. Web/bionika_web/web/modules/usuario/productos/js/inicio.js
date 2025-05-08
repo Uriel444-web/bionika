@@ -112,12 +112,14 @@ export function mostrarProductos(lista) {
           <p class="text-purple-800 font-bold mt-2">$${lista[i].precio}</p>
           <p class="text-sm text-gray-500">Stock: ${lista[i].stock}</p>
           <p class="text-sm text-gray-500">Categoría: ${lista[i].categoria.nombre}</p>
-          <button onclick="verDetalle(${i})"
+          <button onclick="verDetalle(${lista[i].idProducto})"
                   class="mt-3 w-full bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">
             Ver Detalles
           </button>
         </div>
       </div>
+     </div>
+    </div>
     `;
   }
   document.getElementById('productosContainer').innerHTML = contenido;
