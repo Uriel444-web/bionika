@@ -16,63 +16,79 @@
         <div id="splash" class="fixed inset-0 flex items-center justify-center bg-white z-50">
             <img src="resources/bionika-logo.png" alt="Logo Bionika" class="w-40 h-40 animate-pulse">
         </div>
-            
-            <div class="login-hover-trigger hidden fixed top-0 left-0 w-full h-10 z-20 "></div>
 
-            <!-- Navbar -->
-            <nav id="navbar" class="bg-white shadow-md fixed w-full h-20 z-30 top-0 left-0 transition-opacity duration-300 dark:bg-zinc-900">
-                <div class="max-w-6xl mx-auto pr-4 h-full">
-                    <div class="flex justify-between items-center h-20">
+        <div class="login-hover-trigger hidden fixed top-0 left-0 w-full h-10 z-20 "></div>
 
-                        <!-- Logo -->
-                        <div class="h-2/3 flex-shrink-0 flex items-center">
-                            <img class="h-full w-full" src="resources/logotipo_Bionika_Texto.png" alt="Logo Bionika">
+        <!-- Navbar -->
+        <nav id="navbar" class="bg-white shadow-md fixed w-full h-20 z-30 top-0 left-0 transition-opacity duration-300 dark:bg-zinc-900">
+            <div class="max-w-6xl mx-auto pr-4 h-full">
+                <div class="flex justify-between items-center h-20">
+
+                    <!-- Logo -->
+                    <div class="h-2/3 flex-shrink-0 flex items-center block dark:hidden">
+                        <img class="h-full w-full" src="resources/logotipo_Bionika_Texto.png" alt="Logo Bionika">
+
+                    </div>
+
+                    <div class="h-full flex-shrink-0 flex items-center hidden dark:block px-2 py-2">
+                        <img class="h-full w-full hidden dark:block" src="resources/logo_blanco.png" alt="Logo Bionika">
+
+                    </div>
+
+                    <!-- Search bar (siempre visible) -->
+                    <div class="flex-1 ml-4 max-w-xs dark:bg-white-900">
+                        <input type="text" placeholder="Buscar productos..."
+                               class="w-full px-4 py-2 border-2 border-purple-400 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm transition dark:text-white dark:bg-zinc-800" />
+                    </div>
+
+                    <!-- Menú desktop -->
+                    <div class="hidden md:flex items-center space-x-6">
+                        <a id="btnHome" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-violet-600 font-semibold transition dark:text-white dark:hover:text-purple-900">Home</a>
+                        <a id="btnProductos" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-violet-600 font-semibold transition dark:text-white dark:hover:text-purple-900">Productos</a>
+                        <a id="btnUsuario" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-violet-600 font-semibold transition dark:text-white dark:hover:text-purple-900">Sucursales</a>
+
+                        <div class="px-2 border-x-2 border-gray-80 ">
+                            <a id="btnLogin" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-violet-600 font-semibold transition dark:text-white dark:hover:text-purple-900">Iniciar Sesión</a>
                         </div>
+                      
+                        <button id="toggleDark" class="p-2 rounded-lg focus:outline-none">
+                            
+                            <svg class="w-6 h-6 text-yellow-500 hover:text-yellow-700 hover:bg-yellow-100 rounded-full transition-colors dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
 
-                        <!-- Search bar (siempre visible) -->
-                        <div class="flex-1 ml-4 max-w-xs dark:bg-white-900">
-                            <input type="text" placeholder="Buscar productos..."
-                                   class="w-full px-4 py-2 border-2 border-purple-400 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm transition dark:text-white dark:bg-zinc-800" />
-                        </div>
+                            <svg class="w-6 h-6 text-blue-400 hover:text-blue-700 hover:bg-blue-200 rounded-full transition-colors hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                            </svg>
+                        </button>
+                    </div>
 
-                        <!-- Menú desktop -->
-                        <div class="hidden md:flex items-center space-x-6">
-                            <a id="btnHome" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-violet-600 font-semibold transition dark:text-white dark:hover:text-purple-900">Home</a>
-                            <a id="btnProductos" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-violet-600 font-semibold transition dark:text-white dark:hover:text-purple-900">Productos</a>
-                            <a id="btnUsuario" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-violet-600 font-semibold transition dark:text-white dark:hover:text-purple-900">Sucursales</a>
-
-                            <div class="px-2 border-x-2 border-gray-80 ">
-                                <a id="btnLogin" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-violet-600 font-semibold transition dark:text-white dark:hover:text-purple-900">Iniciar Sesión</a>
-                            </div>
-                             <a id="toggleDark" href="#" class="text-gray-900 hover:text-purple-900 hover:border-b-2 hover:border-violet-600 font-semibold transition dark:text-white dark:hover:text-purple-900">tema</a>          
-                        </div>
-
-                        <!-- Botón hamburguesa (sólo en móvil) -->
-                        <div class="md:hidden flex items-center">
-                            <button id="menu-btn" class="text-purple-700 focus:outline-none">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
-                            </button>
-                        </div>
+                    <!-- Botón hamburguesa (sólo en móvil) -->
+                    <div class="md:hidden flex items-center">
+                        <button id="menu-btn" class="text-purple-700 focus:outline-none">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
+            </div>
 
 
-                <!-- Menú desplegable (móvil) -->
-                <div id="menu" class="hidden md:hidden flex flex-col bg-white shadow-md dark:bg-zinc-900">
-                    <a href="#productos" class="block px-4 py-2 text-gray-700 hover:font-bold hover:bg-gray-200 dark:text-white dark:hover:text-purple-900">Productos</a>
-                    <a id="btnLoginMovil" href="#" class="block px-4 py-2 text-purple-700 hover:font-bold hover:bg-gray-200 dark:text-white dark:hover:text-purple-900">Iniciar Sesión</a>
-                </div>
-            </nav>
+            <!-- Menú desplegable (móvil) -->
+            <div id="menu" class="hidden md:hidden flex flex-col bg-white shadow-md dark:bg-zinc-900">
+                <a href="#productos" class="block px-4 py-2 text-gray-700 hover:font-bold hover:bg-gray-200 dark:text-white dark:hover:text-purple-900">Productos</a>
+                <a id="btnLoginMovil" href="#" class="block px-4 py-2 text-purple-700 hover:font-bold hover:bg-gray-200 dark:text-white dark:hover:text-purple-900">Iniciar Sesión</a>
+            </div>
+        </nav>
 
         <!-- Espacio para el navbar -->
         <div class="h-20"></div>
 
         <!-- AQUI SE IRA CARGANDO EL CONTENIDO SELECCIONADO -->
         <div id="content"></div>
-        
+
         <!-- Footer -->
         <footer id="foter" class="bg-zinc-800 text-white py-3 mt-auto">
             <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">

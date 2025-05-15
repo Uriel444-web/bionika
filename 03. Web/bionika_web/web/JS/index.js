@@ -8,32 +8,6 @@
             }, 2000);
         });
 
-<<<<<<< HEAD
-    document.getElementById("btnLogin").addEventListener('click', (event) => {
-        event.preventDefault();
-        login();
-    });
-    
-    document.getElementById("btnLoginMovil").addEventListener('click', (event) => {
-        event.preventDefault();
-        login();
-    });
-    
-    document.getElementById("btnHome").addEventListener('click', (event) => {
-        event.preventDefault();
-        inicio();
-    });
-    
-    document.getElementById("btnProductos").addEventListener('click', (event) => {
-        event.preventDefault();
-        productos();
-    });
-    
-      document.getElementById("btnUsuario").addEventListener('click', (event) => {
-        event.preventDefault();
-        usuarios();
-    });
-=======
         tailwind.config = {
           darkMode: 'class'
         }
@@ -82,7 +56,11 @@
             event.preventDefault();
             productos();
         });
->>>>>>> origin/Uriel
+        
+        document.getElementById("btnUsuario").addEventListener('click', (event) => {
+            event.preventDefault();
+            usuarios();
+        });
 
     async function inicio() {
         console.log("cargando inicio");
@@ -136,8 +114,7 @@
         if (footer) footer.style.display = 'block'; 
     }
     
-    // ESTA ES LA FUNCION QUE SE EJECUTARA ANTES DE CARGAR LOS PRODUCTOS PARA 
-    // MOSTRAR SU RESPECTIVA VISTA A CADA TIPO DE ROL
+    
     async function validarRol(idUsuario) {
         let url = 'http://localhost:8080/bionika_web/api/acceso/validarRol';
         let datos = new URLSearchParams({ idUsuario });
@@ -183,9 +160,7 @@
         document.getElementById('content').innerHTML = contenidoDef;
         cm = await import(`http://localhost:8080/bionika_web/modules/usuario/productos/js/inicio.js?update=${Date.now()}`);
         cm.inicializar();
-    }
     
-<<<<<<< HEAD
     //hace visible el footer
     const footer = document.getElementById('foter');
     if (footer) footer.style.display = 'block'; 
@@ -236,7 +211,7 @@ async function usuarios() {
     if (footer) footer.style.display = 'block'; 
     }
 
-=======
+
     async function administrador(){
         cm = null;
         console.log("usuario Administrador");
@@ -247,4 +222,4 @@ async function usuarios() {
         cm = await import(`http://localhost:8080/bionika_web/modules/administrador/productos/js/inicio.js?update=${Date.now()}`);
         cm.inicializar();
     }
->>>>>>> origin/Uriel
+
