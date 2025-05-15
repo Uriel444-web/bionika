@@ -1,6 +1,8 @@
 
 package com.bionika.model;
 
+import com.bionika.model.Empleado;
+import com.bionika.model.Rol;
 import java.util.Date;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -10,23 +12,41 @@ public class Usuario {
     private String usuario;
     private String contrasenia;
     private String token;
+    private Rol rol;
+    private Empleado empleado;
     private int activo;
 
     public Usuario() {
     }
 
-    public Usuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public Usuario(int id, String usuario, String contrasenia, String token, int activo) {
+    public Usuario(int id, String usuario, String contrasenia, String token, Rol rol, Empleado empleado, int activo) {
         this.id = id;
         this.usuario = usuario;
         this.contrasenia = contrasenia;
         this.token = token;
+        this.rol = rol;
+        this.empleado = empleado;
         this.activo = activo;
     }
 
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
+
+    
     public int getId() {
         return id;
     }
