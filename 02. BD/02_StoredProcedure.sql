@@ -8,53 +8,94 @@ USE bionika;
 -- ----------------------------------------------------------------
 -- SP PARA GUARDRAR UN PRODUCTO CON SU ID DE CATEGORIA
 -- ----------------------------------------------------------------
-DROP PROCEDURE IF EXISTS insertarProducto;
+DROP PROCEDURE IF EXISTS insertar_producto_con_detalles;
 DELIMITER $$
-CREATE PROCEDURE insertarProducto (
-	IN p_foto LONGTEXT,
+
+CREATE PROCEDURE insertar_producto_con_detalles(
+    IN p_foto LONGTEXT,
     IN p_nombre VARCHAR(100),
-    IN p_descripcion VARCHAR(250),
+    IN p_descripcion TEXT,
     IN p_precio DOUBLE,
-    IN p_stock INT,
-    IN p_codigoInterno VARCHAR(100),
-    IN p_categoria INT,
+    IN p_codigoInterno VARCHAR(50),
+    IN p_idCategoria INT,
+    IN p_detalles JSON,
     OUT p_idProducto INT
 )
 BEGIN
-    INSERT INTO producto (foto,nombre, descripcion, precio, stock, codigoInterno, categoria)
-    VALUES (p_foto,p_nombre, p_descripcion, p_precio, p_stock, p_codigoInterno, p_categoria);
-    SET p_idProducto = LAST_INSERT_ID();
+    -- Primero todas las variables
+    DECLARE last_id_producto INT;
+    DECLARE i INT DEFAULT 0;
+    DECLARE total INT;
+
+    -- Ahora sí puedes hacer inserts y sets
+    INSERT INTO producto(foto, nombre, descripcion, precio, codigoInterno, categoria)
+    VALUES(p_foto, p_nombre, p_descripcion, p_precio, p_codigoInterno, p_idCategoria);
+	SET p_idProducto = LAST_INSERT_ID();
+    SET last_id_producto = LAST_INSERT_ID();
+
+    SET total = JSON_LENGTH(p_detalles);
+
+    WHILE i < total DO
+        INSERT INTO detalle_producto(producto, talla, color, stock)
+        VALUES (
+            last_id_producto,
+            JSON_UNQUOTE(JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].idTalla'))),
+            JSON_UNQUOTE(JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].idColor'))),
+            JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].stock'))
+        );
+        SET i = i + 1;
+    END WHILE;
 END $$
+
 DELIMITER ;
-
 -- -----------------------------------------------------------------------------------
--- SP PARA ACTUALIZAR UN PRODUCTO
+-- NUEVO SP PARA ACTUALIZAR UN PRODUCTO (19/05/2025)
 -- -----------------------------------------------------------------------------------
-DROP PROCEDURE IF EXISTS actualizarProducto;
-
+DROP PROCEDURE IF EXISTS actualizar_producto_con_detalles;
 DELIMITER $$
-CREATE PROCEDURE actualizarProducto (
+
+CREATE PROCEDURE actualizar_producto_con_detalles(
     IN p_idProducto INT,
     IN p_foto LONGTEXT,
     IN p_nombre VARCHAR(100),
-    IN p_descripcion VARCHAR(250),
+    IN p_descripcion TEXT,
     IN p_precio DOUBLE,
-    IN p_stock INT,
-    IN p_codigoInterno VARCHAR(100),
-    IN p_categoria INT
+    IN p_codigoInterno VARCHAR(50),
+    IN p_idCategoria INT,
+    IN p_detalles JSON
 )
 BEGIN
+    DECLARE i INT DEFAULT 0;
+    DECLARE total INT;
+
+    -- Actualizar el producto principal
     UPDATE producto
-    SET 
-		foto = p_foto,
+    SET foto = p_foto,
         nombre = p_nombre,
         descripcion = p_descripcion,
         precio = p_precio,
-        stock = p_stock,
         codigoInterno = p_codigoInterno,
-        categoria = p_categoria
+        categoria = p_idCategoria
     WHERE idProducto = p_idProducto;
+
+    -- Eliminar detalles anteriores
+    DELETE FROM detalle_producto WHERE producto = p_idProducto;
+
+    -- Insertar nuevos detalles
+    SET total = JSON_LENGTH(p_detalles);
+
+    WHILE i < total DO
+        INSERT INTO detalle_producto(producto, talla, color, stock)
+        VALUES (
+            p_idProducto,
+            JSON_UNQUOTE(JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].idTalla'))),
+            JSON_UNQUOTE(JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].idColor'))),
+            JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].stock'))
+        );
+        SET i = i + 1;
+    END WHILE;
 END $$
+
 DELIMITER ;
 
 -- ----------------------------------------------------------------------
@@ -105,5 +146,3 @@ BEGIN
     
 END$$
 DELIMITER ;
-
-

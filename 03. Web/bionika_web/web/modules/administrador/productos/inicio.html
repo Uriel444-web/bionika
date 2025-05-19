@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
 <html>
     <head>
         <title>Admin - Inicio</title>
@@ -89,13 +85,53 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <input id="txtPrecio" type="number" step="0.01"
                                    class="w-full mt-1 px-3 py-2 border rounded-lg ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
 
-                            <label class="block mt-4 text-sm font-medium text-gray-700">Stock:</label>
-                            <input id="txtStock" type="number"
-                                   class="w-full mt-1 px-3 py-2 border rounded-lg ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
-
                             <label class="block mt-4 text-sm font-medium text-gray-700">Código Interno:</label>
                             <input id="txtCodigoInterno" type="text"
                                    class="w-full mt-1 px-3 py-2 border rounded-lg ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
+                            <hr class="my-6 border-t-2 border-purple-400">
+
+                            <h2 class="text-xl font-bold text-gray-800 mb-4">Detalles por talla y color</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Talla:</label>
+                                    <select id="selectTalla" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300">
+                                        <!-- Opciones se llenan dinámicamente -->
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Color:</label>
+                                    <select id="selectColor" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300">
+                                        <!-- Opciones se llenan dinámicamente -->
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Stock:</label>
+                                    <input id="inputStockDetalle" type="number" min="0" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300" />
+                                </div>
+
+                                <div>
+                                    <button id="btnAgregarDetalle" type="button" class="bg-purple-700 hover:bg-purple-800 text-white w-full py-2 rounded-lg shadow transition">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Tabla para mostrar los detalles -->
+                            <div class="mt-6">
+                                <table class="w-full table-auto bg-white border border-gray-300 rounded-lg shadow-sm text-sm text-left">
+                                    <thead class="bg-purple-100 text-purple-900">
+                                        <tr>
+                                            <th class="px-4 py-2 border">Talla</th>
+                                            <th class="px-4 py-2 border">Color</th>
+                                            <th class="px-4 py-2 border">Stock</th>
+                                            <th class="px-4 py-2 border">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaDetalles">
+                                        <!-- Aquí se mostrarán dinámicamente los registros del array -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

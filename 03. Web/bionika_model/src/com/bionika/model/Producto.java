@@ -1,33 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.bionika.model;
 
-import com.bionika.model.Categoria;
+import java.util.ArrayList;
 
 public class Producto {
+
     private int idProducto;
     private String foto;
     private String nombre;
     private String descripcion;
     private Double precio;
-    private int stock;
     private String codigoInterno;
     private Categoria categoria;
+    private ArrayList<DetalleProducto> detalles;
 
     public Producto() {
     }
 
-    public Producto(int idProducto, String foto, String nombre, String descripcion, Double precio, int stock, String codigoInterno, Categoria categoria) {
+    public Producto(int idProducto, String foto, String nombre, String descripcion, Double precio, String codigoInterno, Categoria categoria, ArrayList<DetalleProducto> detalles) {
         this.idProducto = idProducto;
         this.foto = foto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.stock = stock;
         this.codigoInterno = codigoInterno;
         this.categoria = categoria;
+        this.detalles = detalles;
     }
 
     public int getIdProducto() {
@@ -70,14 +68,6 @@ public class Producto {
         this.precio = precio;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
     public String getCodigoInterno() {
         return codigoInterno;
     }
@@ -94,10 +84,31 @@ public class Producto {
         this.categoria = categoria;
     }
 
-    @Override
-    public String toString() {
-        return "Producto{" + "idProducto=" + idProducto + ", foto=" + foto + ", nombre=" + nombre + ", descripcion=" + descripcion + ", precio=" + precio + ", stock=" + stock + ", codigoInterno=" + codigoInterno + ", categoria=" + categoria.toString() + '}';
+    public ArrayList<DetalleProducto> getDetalles() {
+        return detalles;
     }
 
-    
+    public void setDetalles(ArrayList<DetalleProducto> detalles) {
+        this.detalles = detalles;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Producto{");
+        sb.append("idProducto=").append(idProducto);
+        sb.append(", foto=").append(foto);
+        sb.append(", nombre=").append(nombre);
+        sb.append(", descripcion=").append(descripcion);
+        sb.append(", precio=").append(precio);
+        sb.append(", codigoInterno=").append(codigoInterno);
+        sb.append(", categoria=").append(categoria.toString());
+        String datosLista = "";
+        for (int i = 0; i < detalles.size(); i++) {
+            datosLista += detalles.get(i).toString();
+        }
+        sb.append(", detalles=").append(datosLista);
+        sb.append('}');
+        return sb.toString();
+    }
 }

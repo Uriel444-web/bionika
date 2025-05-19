@@ -6,21 +6,6 @@
 
 USE bionika;
 
-DROP VIEW IF EXISTS v_productos;
-CREATE VIEW v_productos AS
-SELECT
-p.idProducto,
-p.foto,
-p.nombre,
-p.descripcion,
-p.precio,
-p.stock,
-p.codigoInterno,
-c.idCategoria,
-c.nombre AS nombreCategoria
-FROM
-producto p
-INNER JOIN categoria c WHERE p.categoria = c.idCategoria;
 
 DROP VIEW IF EXISTS v_usuario;
 CREATE VIEW v_usuario AS
@@ -41,5 +26,35 @@ FROM
 usuario u
 INNER JOIN empleado e ON u.idEmpleado = e.idEmpleado
 INNER JOIN rol r ON u.rol = r.idRol;
+DROP VIEW vista_producto_con_detalles;
+CREATE VIEW vista_producto_con_detalles AS
+SELECT
+    p.idProducto,
+    p.foto,
+    p.nombre AS nombreProducto,
+    p.descripcion,
+    p.precio,
+    p.codigoInterno,
+    c.idCategoria,
+    c.nombre,
 
-select * from v_usuario;
+    -- Subconsulta para obtener los detalles en formato JSON
+    (
+        SELECT JSON_ARRAYAGG(
+            JSON_OBJECT(
+                'idDetalle', d.idDetalle,
+                'idTalla', t.idTalla,
+                'nombreTalla', t.nombre,
+                'idColor', c.idColor,
+                'nombreColor', c.nombre,
+                'stock', d.stock
+            )
+        )
+        FROM detalle_producto d
+        JOIN talla t ON d.talla = t.idTalla
+        JOIN color c ON d.color = c.idColor
+        WHERE d.producto = p.idProducto
+    ) AS detalles
+
+FROM producto p
+INNER JOIN categoria c ON p.categoria = c.idCategoria;
