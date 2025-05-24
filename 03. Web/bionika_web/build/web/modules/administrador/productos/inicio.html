@@ -5,6 +5,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     </head>
     <body>
         <!-- Contenedor principal -->
@@ -26,7 +28,7 @@
                     </button>
 
                     <!-- este boton es para generar reportes -->
-                    <button onclick="generarReportePDF()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow transition">
+                    <button id="btnReporte" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow transition">
                         📄
                     </button>
                 </div>

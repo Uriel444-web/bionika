@@ -16,6 +16,12 @@ insert into rol (tipoRol) values ("Empleado"),("Usuario");
 -- Inserciones de prueba para categoria
 INSERT INTO categoria (nombre) VALUES ('BLANDOS'),('FIERROS'),('IMPORTADOS'),('MATERIA PRIMA');
 
+-- Inserciones de prueba para usuario
+-- INSERT INTO usuario (usuario, contrasena, rol) VALUES ("carolina", "1234",1),("Uriel", "1234", 3);
+-- SELECT * FROM usuario;
+
+INSERT INTO talla (nombre) VALUES("XP"),("S"),("M"),("G"),("XL"),("2XL"),("3XL");
+INSERT INTO color (nombre) VALUES("AZUL"),("BEIGE"),("NEGRO"),("PIEL");
 select * from usuario;
 select * from empleado;
 select * from categoria;
@@ -23,10 +29,3 @@ SELECT * FROM producto;
 SELECT * FROM vista_producto_con_detalles;
 SELECT * FROM detalle_producto;
 SELECT * FROM talla WHERE idTalla IN (2, 4);
-
--- Inserciones de prueba para usuario
--- INSERT INTO usuario (usuario, contrasena, rol) VALUES ("carolina", "1234",1),("Uriel", "1234", 3);
--- SELECT * FROM usuario;
-
-INSERT INTO talla (nombre) VALUES("XP"),("S"),("M"),("G"),("XL"),("2XL"),("3XL");
-INSERT INTO color (nombre) VALUES("AZUL"),("BEIGE"),("NEGRO"),("PIEL");

@@ -2,6 +2,7 @@ let productos = [];
 let categorias = [];
 let tallas = [];
 let colores = [];
+let productosFiltrados = productos; // el valor inicial va a ser todos los productos para que no cause conflictos
 let inputFileFotoProducto = null;
 
 export async function inicializar(){
@@ -27,6 +28,8 @@ export async function inicializar(){
 document.getElementById("btnNew").addEventListener('click', nuevoProducto);
 //boton para hacer que cada que se de click se va a guardar en un arreglo local la talla, color y stock
 document.getElementById("btnAgregarDetalle").addEventListener('click', agregarDetalleStock);
+//boton para generar el reporte pdf con su codigo interno del producto y sus detalles
+document.getElementById("btnReporte").addEventListener('click', enviar);
 
 // funcion para guardar y a la vez actualizar.
 export async function save() {
@@ -322,13 +325,17 @@ async function cargarCategorias(idCategoriaSeleccionada = null) {
 export function filtrarPorCategoria() {
   let idCat = parseInt(document.getElementById("categoriaFiltro").value);
   if (idCat === 0) {
+    productosFiltrados = productos;
     mostrarProductos(productos);
   } else {
-    let filtrados = productos.filter(p => p.categoria.idCategoria === idCat);
-    mostrarProductos(filtrados);
+    productosFiltrados = productos.filter(p => p.categoria.idCategoria === idCat);
+    mostrarProductos(productosFiltrados); 
   }
 }
 
+export function enviar(){
+    generarReportePDF(productosFiltrados);
+}
 
 //export function mostrarProductos(lista) {
  // let contenido = '';
@@ -355,6 +362,53 @@ export function filtrarPorCategoria() {
   //document.getElementById('productosContainer').innerHTML = contenido;
 //}
 
+// NUEVO MOSTRARPRODUCTO
+export function mostrarProductos(lista) {
+    let contenido = '';
+
+    lista.forEach(p => {
+        let detallesHTML = '';
+        if (p.detalles && p.detalles.length > 0) {
+            detallesHTML += `
+                <div class="mt-2">
+                    <h3 class="font-semibold text-gray-700">Detalles:</h3>
+                    <ul class="text-sm text-gray-600 list-disc list-inside">`;
+
+            p.detalles.forEach(d => {
+                detallesHTML += `
+                    <li>
+                        Talla: ${d.nombreTalla}, Color: ${d.nombreColor}, Stock: ${d.stock}
+                    </li>`;
+            });
+
+            detallesHTML += `
+                    </ul>
+                </div>`;
+        }
+
+        contenido += `
+            <div class="bg-gray-100 rounded-xl shadow-md overflow-hidden border border-gray-200 ring-1 ring-offset-2 ring-gray-400">
+                <img src="data:image/jpeg;base64,${p.foto}" alt="Producto" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-xl font-semibold text-black-700">${p.nombre}</h2>
+                    <p class="text-gray-600 mt-2">${p.descripcion}</p>
+                    <p class="text-purple-800 font-bold mt-2">$${p.precio}</p>
+                    <p class="text-sm text-gray-500">Código: ${p.codigoInterno}</p>
+                    <p class="text-sm text-gray-500">Categoría: ${p.categoria.nombre}</p>
+                    ${detallesHTML}
+                    <div class="flex gap-2 mt-4">
+                        <button onclick="verDetalle(${p.idProducto})"
+                                class="flex-1 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">
+                            Ver Detalles
+                        </button>
+                    </div>
+                </div>
+            </div>`;
+    });
+
+    document.getElementById('productosContainer').innerHTML = contenido;
+}
+
 export function setDetalleVisible(value) {
   document.getElementById("divDetalle").style.display = value ? '' : 'none';
   document.getElementById("divCatalogo").style.display = value ? 'none' : '';
@@ -362,6 +416,7 @@ export function setDetalleVisible(value) {
 
 export function regresar() {
   setDetalleVisible(false);
+  limpiar();
 }
 
 function cargarFotografia()
@@ -575,6 +630,50 @@ function actualizarDetalleStock(index) {
     // Quitamos el detalle anterior para que luego se agregue como nuevo si se modifica
     window.detallesStock.splice(index, 1);
     renderizarTablaDetalles();
+}
+
+// FUNCION PARA GENERAR REPORTE PDF
+function generarReportePDF(lista) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Reporte de Productos", 14, 15);
+    doc.setFontSize(12);
+    doc.text(`Fecha: ${new Date().toLocaleString()}`, 14, 25);
+
+    let data = [];
+
+    lista.forEach(p => {
+        if (p.detalles && p.detalles.length > 0) {
+            p.detalles.forEach(d => {
+                data.push([
+                    p.codigoInterno,
+                    p.nombre,
+                    d.nombreTalla,
+                    d.nombreColor,
+                    d.stock
+                ]);
+            });
+        } else {
+            data.push([
+                p.codigoInterno,
+                p.nombre,
+                "Sin talla",
+                "Sin color",
+                "Sin stock"
+            ]);
+        }
+    });
+
+    doc.autoTable({
+        startY: 30,
+        head: [['Clave','Nombre', 'Talla', 'Color', 'Stock']],
+        body: data,
+        styles: { fontSize: 10 }
+    });
+
+    doc.save("reporte_productos.pdf");
 }
 
 window.verDetalle = verDetalle;
