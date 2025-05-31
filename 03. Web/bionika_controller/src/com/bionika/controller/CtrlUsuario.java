@@ -54,11 +54,63 @@ public class CtrlUsuario {
          return 0;
     }
       
+       public void update(Usuario us) throws Exception
+    {
+        // Se define la consulta SQL:
+        String sql = "{CALL actualizarUsuario(?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+        
+        // Abrimos la conexion con la BD:
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+        
+        // Generamos un CallableStatement para invocar al Stored Procedure:
+        java.sql.CallableStatement cstmt = conn.prepareCall(sql);
+        
+        // Colocamos los valores de los parametros de entrada que requiere
+        // el Stored Procedure:
+        cstmt.setString(1, us.getEmpleado().getNombre());
+        cstmt.setString(2, us.getEmpleado().getApellidoP());
+        cstmt.setString(3, us.getEmpleado().getApellidoM());
+        cstmt.setString(4, us.getEmpleado().getCorreo());
+        cstmt.setString(5, us.getEmpleado().getTelefono());
+        cstmt.setString(6, us.getUsuario());
+        cstmt.setString(7, us.getContrasenia());
+        cstmt.setInt(8, us.getRol().getIdRol());
+        cstmt.setInt(9, us.getId());
+        // Ejecutamos el Stored Procedure:
+        cstmt.executeUpdate();
+                
+        //Cerramos los objetos de conexion:
+        cstmt.close();
+        connMySQL.close();
+    }
+       
+        public void delete(int id) throws Exception
+    {
+        // Se define la consulta SQL:
+        String sql = "UPDATE usuario SET activo=0 WHERE idUsuario=?";
+        
+        // Abrimos la conexion con la BD:
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        
+        // Llenamos los datos del PreparedStatement:
+        pstmt.setInt(1, id);
+        
+        // Ejecutamos la consulta:
+        pstmt.executeUpdate();
+        
+        // Cerramos los objetos de conexion:
+        pstmt.close();
+        connMySQL.close();
+    }
+
       public List<Usuario> getAll(String filtro) throws Exception
     {
         List<Usuario> us = new ArrayList<>();
         // Se define la consulta SQL:
-        String sql = "SELECT * FROM v_usuario";
+        String sql = "SELECT * FROM v_usuario WHERE activo=1";
         
         // Abrimos la conexion con la BD:
         ConexionMySQL connMySQL = new ConexionMySQL();

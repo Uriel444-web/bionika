@@ -5,6 +5,7 @@ import com.bionika.controller.CtrlUsuario;
 import com.bionika.model.Rol;
 import com.bionika.model.Usuario;
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
@@ -30,19 +31,49 @@ public class RESTUsuario {
         Gson gson = new Gson();
         
             try{
-           
-              
+        
             a = gson.fromJson(datosUsuario, Usuario.class);
             
-                System.out.println(a);
                 
             if (a.getId()< 1)
                 ca.insert(a);
             else
-               // ca.update(a);
+                ca.update(a);
             
             out = gson.toJson(a);
             }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            out = """
+                  {"error":"Error interno del servidor, comunícate al area de sistemas de El Zarape."}
+                  """;
+        }
+        return Response.ok(out).build();
+    }
+  
+    
+    @POST
+    @Path("delete")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(@FormParam("idProducto") @DefaultValue("0") int idProducto)
+    {
+        String out = null;
+        CtrlUsuario ca = new CtrlUsuario();        
+        try
+        {
+            ca.delete(idProducto);
+            out = """
+                  {"result":"Registro eliminado de forma correcta."}
+                  """;
+        }
+        catch(JsonParseException jpe)
+        {
+            jpe.printStackTrace();
+            out = """
+                  {"error":"El JSON recibido no es correcto."}
+                  """;
+        }
         catch (Exception e)
         {
             e.printStackTrace();
