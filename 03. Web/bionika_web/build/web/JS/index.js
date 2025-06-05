@@ -62,6 +62,11 @@ document.getElementById("btnUsuario").addEventListener('click', (event) => {
     usuarios();
 });
 
+document.getElementById("btnSucursal").addEventListener('click', (event) => {
+    event.preventDefault();
+    sucursales();
+});
+
 async function inicio() {
     console.log("cargando inicio");
     let url = "http://localhost:8080/bionika_web/modules/inicio/inicio.html";
@@ -257,3 +262,42 @@ async function administrador() {
     cm.inicializar();
 }
 
+async function sucursales() {
+    
+    cm = null;
+    console.log("cargando sucursales...");
+    
+    let url = "http://localhost:8080/bionika_web/modules/sucursales/sucursales.html";
+    let resp = await fetch(url);
+    let contenido = await resp.text();
+
+    document.getElementById('content').innerHTML = contenido;
+
+    cm = await import("http://localhost:8080/bionika_web/modules/sucursales/js/js.js");
+    cm.cargarMapa();
+    cm.getAllSucursales();
+    
+    document.getElementById("registrarS").addEventListener("click", (event) => {
+    sucursalesRegistro();
+    });
+}
+
+async function sucursalesRegistro() {
+    
+    cm = null;
+    console.log("cargando Registro de sucursales...");
+    
+    let url = "http://localhost:8080/bionika_web/modules/sucursales/registro.html";
+    let resp = await fetch(url);
+    let contenido = await resp.text();
+
+    document.getElementById('content').innerHTML = contenido;
+
+    cm = await import("http://localhost:8080/bionika_web/modules/sucursales/js/js.js");
+    cm.recargarComboBoxUsuarios();
+    
+    document.getElementById("registrarSucursal").addEventListener("click", (event) => {
+    cm.saveSucursal();
+    });
+    
+}

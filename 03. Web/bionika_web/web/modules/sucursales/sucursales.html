@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Sucursales - Ubicaciones</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    </head>
+
+    <body>
+
+        <div class="grid grid-cols-7 grid-rows-5 gap-4">
+            <div class="col-span-4 row-span-5 col-start-4 bg-white my-6 rounded-lg shadow-md overflow-y-scroll h-auto ">
+
+                <div id="mapaSucursales" class="rounded-lg h-full w-full">
+
+                </div>
+
+            </div>
+            <div class="col-span-3 row-span-5 col-start-1 row-start-1 bg-white my-6 rounded-lg shadow-md ml-4 overflow-y-scroll h-[450px]">
+
+                <h2 class="text-4xl pb-4 mt-8 font-semibold text-center text-gray-900 mb-8 mx-8 dark:text-white border-b-2 border-gray-200">Sucursales </h2>
+                
+                
+                <div id="sucursales" class="h-full w-full">
+
+                </div>
+                  <button id="registrarS" class="ml-20 mb-4 bg-gradient-to-r w-2/3 from-green-600 via-green-700 to-green-800 hover:from-green-700 hover:via-green-800 hover:to-green-900 text-white font-bold py-3 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-200 ease-in-out mt-6">Agregar sucursal</button>
+       
+               </div>
+        </div>
+
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    </body>
+</html>

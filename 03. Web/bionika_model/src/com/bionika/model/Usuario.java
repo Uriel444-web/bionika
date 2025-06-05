@@ -1,8 +1,6 @@
 
 package com.bionika.model;
 
-import com.bionika.model.Empleado;
-import com.bionika.model.Rol;
 import java.util.Date;
 import org.apache.commons.codec.digest.DigestUtils;
 

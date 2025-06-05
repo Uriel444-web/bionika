@@ -220,10 +220,10 @@ export async function cargarProductos() {
             <div class="bg-gray-100 rounded-xl shadow-md overflow-hidden border border-gray-200 ring-1 ring-offset-2 ring-gray-400">
                 <img src="data:image/jpeg;base64,${p.foto}" alt="Producto" class="w-full h-48 object-cover">
                 <div class="p-4">
-                    <h2 class="text-xl font-semibold text-black-700">${p.nombre}</h2>
+                    <h2 class="text-xl font-semibold text-black-700">Codigo Interno: ${p.codigoInterno}</h2>
+        
                     <p class="text-gray-600 mt-2">${p.descripcion}</p>
                     <p class="text-purple-800 font-bold mt-2">$${p.precio}</p>
-                    <p class="text-sm text-gray-500">Código: ${p.codigoInterno}</p>
                     <p class="text-sm text-gray-500">Categoría: ${p.categoria.nombre}</p>
                     ${detallesHTML}
                     <div class="flex gap-2 mt-4">

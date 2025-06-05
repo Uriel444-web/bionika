@@ -232,6 +232,7 @@ export async function llenarFormulario(usuario) {
 
 export async function inhabilitarTextos() {
 
+    
     const formDP = document.getElementById('FDatosEmpleado');
     const formDU = document.getElementById('FDatosUsuario');
 
@@ -258,6 +259,12 @@ export async function inhabilitarTextos() {
 
 export async function habilitarDatos() {
 
+ if (document.getElementById("txtId").value.trim() == '')
+    {
+         Swal.fire('Seleccione un producto para editarlo.', '', 'warning');
+        return;
+    }
+    
     const formDP = document.getElementById('FDatosEmpleado');
     const formDU = document.getElementById('FDatosUsuario');
 

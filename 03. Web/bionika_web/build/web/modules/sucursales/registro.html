@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class=" pb-8 pt-6 px-8 rounded-lg bg-white shadow-md shadow-violet-500/50 h-auto mx-56 mt-6 dark:bg-zinc-900">
+
+            <div class=" mx-auto mb-3 shadow-md border-2 border-violet-300 rounded-full w-2/3">
+                <h2 class="text-4xl mt-3 font-semibold text-center text-gray-900 mb-3 dark:text-white">Registro de Nueva Sucursal </h2>
+            </div>
+            <form>   
+
+                <h2 class="text-gray-700 text-xl text-center leading-relaxed dark:text-gray-400">Datos de la Sucursal</h2>
+
+                <div class="px-4 mt-4 flex">
+                    <label class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">ID: </label>
+                    <input id="txtIdSucursal" type="text" placeholder="0000"
+                           class=" bg-gray-100 cursor-not-allowed mb-4 w-1/5 pl-4 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required readonly="true">
+
+                    <label class="my-4 text-gray-700 text-lg leading-relaxed ml-6 mr-2 dark:text-gray-400">Nombre de sucursal: </label>
+                    <input id="txtNombreSuc" type="text" placeholder="Ej. Suc - Central"
+                           class="mb-4 w-1/3 pl-4 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+
+                </div>
+
+                <div class="px-4 mt-4 flex">
+                    <label class="mt-4 text-gray-700 text-lg leading-relaxed ml-5 mr-2 dark:text-gray-400">NumExt: </label>
+                    <input id="txtNumExt" type="text" placeholder="#000"
+                           class=" mb-4 w-32 pl-4 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+
+                    <label class="my-4 text-gray-700 text-lg leading-relaxed ml-6 mr-2 dark:text-gray-400">Telefono: </label>
+                    <input id="txtTelefono" type="text" placeholder="Ej. Obregon"
+                           class="mb-4 w-1/3 pl-4 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+
+                </div>
+
+                <div class="px-4 mt-4 flex">
+                    <label class="my-4 text-gray-700 text-lg leading-relaxed ml-6 mr-2 dark:text-gray-400">Latitud: </label>
+                    <input id="txtLatitud" type="text" placeholder="Ej. 100.0000"
+                           class="mb-4 w-32 pl-4 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+
+
+                    <label class="my-4 text-gray-700 text-lg leading-relaxed ml-6 mr-2 dark:text-gray-400">Longitud: </label>
+                    <input id="txtLongitud" type="text" placeholder="Ej. -100.0000"
+                           class="mb-4 w-32 pl-4 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+
+                    <label class="my-4 text-gray-700 text-lg leading-relaxed ml-6 mr-2 dark:text-gray-400">Encargado: </label>
+                    <select id="cmbUsuario" class="bg-white w-1/4 mx-auto h-8 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 pl-8">
+
+                    </select>
+
+                </div>
+
+                <div class="px-4 mt-4 flex">
+                    <label class="mt-4 text-gray-700 text-lg leading-relaxed ml-5 mr-2 dark:text-gray-400">CP: </label>
+                    <input id="txtCodPos" type="text" placeholder="Ej. 37299"
+                           class=" mb-4 w-1/5 pl-4 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+
+                    <label class="my-4 text-gray-700 text-lg leading-relaxed ml-6 mr-2 dark:text-gray-400">Colonia: </label>
+                    <input id="txtColonia" type="text" placeholder="Ej. Obregon"
+                           class="mb-4 w-1/3 pl-4 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+
+                    <label class="my-4 text-gray-700 text-lg leading-relaxed ml-6 mr-2 dark:text-gray-400">Calle: </label>
+                    <input id="txtCalle" type="text" placeholder="Ej. Gaviotas"
+                           class="mb-4 w-1/3 pl-4 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+                </div>
+                
+                <button id="registrarSucursal" type="button" class="ml-20 mb-4 bg-gradient-to-r w-2/3 from-green-600 via-green-700 to-green-800 hover:from-green-700 hover:via-green-800 hover:to-green-900 text-white font-bold py-3 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-200 ease-in-out mt-6">Guardar sucursal</button>
+        </div>
+  </form>
+</div>
+</body>
+</html>

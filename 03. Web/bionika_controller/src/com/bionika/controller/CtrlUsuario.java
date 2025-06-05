@@ -143,10 +143,6 @@ public class CtrlUsuario {
         u.setEmpleado(e);
         u.setRol(r);
         
-        // Establecemos los valores de cada atributo de
-        // los objetos relacionados, extraidos de cada
-        // campo del ResultSet:
-        
         u.setId(rs.getInt("idUsuario"));
         u.setUsuario(rs.getString("usuario"));
         u.setContrasenia(rs.getString("contrasena"));
