@@ -6,7 +6,6 @@
 
 USE bionika;
 
-
 DROP VIEW IF EXISTS v_usuario;
 CREATE VIEW v_usuario AS
 SELECT
@@ -26,7 +25,8 @@ FROM
 usuario u
 INNER JOIN empleado e ON u.idEmpleado = e.idEmpleado
 INNER JOIN rol r ON u.rol = r.idRol;
-DROP VIEW vista_producto_con_detalles;
+
+DROP VIEW IF EXISTS vista_producto_con_detalles;
 CREATE VIEW vista_producto_con_detalles AS
 SELECT
     p.idProducto,
@@ -58,3 +58,22 @@ SELECT
 
 FROM producto p
 INNER JOIN categoria c ON p.categoria = c.idCategoria;
+
+DROP VIEW IF EXISTS v_sucursal;
+CREATE VIEW v_sucursal AS
+    SELECT 
+        s.idSucursal,
+        s.nombreSuc,
+        s.colonia,
+        s.calle,
+        s.codPos,
+        s.latitud,
+        s.longitud,
+        s.numExt,
+        s.telefono,
+        s.activo,
+        u.idUsuario,
+        u.usuario
+    FROM
+        sucursal s
+	INNER JOIN usuario u ON s.idUsuario = u.idUsuario;

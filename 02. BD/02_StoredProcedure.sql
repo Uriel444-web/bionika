@@ -144,5 +144,27 @@ BEGIN
     VALUES (u_nombre, u_contrasena, v_id_empleado, u_idRol);
     SET v_id_usuario = LAST_INSERT_ID();
     
-END$$
-DELIMITER ;
+END
+$$ DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE insertarSucursal (
+									IN s_nombreSuc VARCHAR(100),
+									IN s_colonia VARCHAR(100), 
+									IN s_calle VARCHAR(100), 
+									IN s_codPos VARCHAR(100), 
+									IN s_latitud VARCHAR(20),
+									IN s_longitud VARCHAR(100),
+									IN s_numExt VARCHAR(20),
+                                    IN s_telefono VARCHAR(20),
+                                    IN s_idUsuario INT,
+                                    OUT v_id_sucursal INT)
+BEGIN  
+    
+	INSERT INTO sucursal (nombreSuc, colonia, calle, codPos, latitud, longitud, numExt, telefono, idUsuario)
+    VALUES (s_nombreSuc, s_colonia, s_calle, s_codPos, s_latitud, s_longitud, s_numExt, s_telefono, s_idUsuario);
+	SET v_id_sucursal = LAST_INSERT_ID();
+                  
+    END
+    
+    $$ DELIMITER ;

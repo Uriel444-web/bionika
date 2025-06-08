@@ -91,7 +91,7 @@ export async function _delete()
         idProducto = parseInt(document.getElementById("txtId").value.trim());
     } else
     {
-        Swal.fire('Seleccione un producto para eliminarlo.', '', 'warning');
+        Swal.fire('Seleccione un usuario para eliminarlo.', '', 'warning');
         return;
     }
 
@@ -261,7 +261,7 @@ export async function habilitarDatos() {
 
  if (document.getElementById("txtId").value.trim() == '')
     {
-         Swal.fire('Seleccione un producto para editarlo.', '', 'warning');
+         Swal.fire('Seleccione un usuario para editarlo.', '', 'warning');
         return;
     }
     
