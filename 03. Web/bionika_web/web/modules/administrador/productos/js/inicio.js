@@ -2,6 +2,7 @@ let productos = [];
 let categorias = [];
 let tallas = [];
 let colores = [];
+let unidades = [];
 let productosFiltrados = productos; // el valor inicial va a ser todos los productos para que no cause conflictos
 let inputFileFotoProducto = null;
 
@@ -10,6 +11,7 @@ export async function inicializar(){
     cargarColores();
     cargarTallas();
     cargarCategorias();
+    cargarUnidades();
     setDetalleVisible(false);
     document.getElementById("btnRegresar").addEventListener('click', regresar);
     // boton para guardar
@@ -47,7 +49,8 @@ export async function save() {
 
     // la variable detalles se va a llenar con la función agregarDetalleStock()
     const detalles = window.detallesStock || [];
-
+    console.log('detalles recuperados de detallesStock');
+    console.log(detalles);
     // Validaciones de los datos ingresados
     if (!nombre || !codigoInterno || idCategoria === 0 || detalles.length === 0) {
         alert("Completa todos los campos obligatorios y agrega al menos un detalle de stock.");
@@ -56,11 +59,13 @@ export async function save() {
 
    // Transformamos la variable detalles a JSON antes de enviarlos a la api, ya que eso es lo que espera.
     const detallesTransformados = detalles.map(d => ({
-    idTalla :   d.idTalla,
-    idColor :   d.idColor,
-    stock   :   d.stock
+    idTalla : d.idTalla,
+    idColor : d.idColor,
+    idUnidad  : d.idUnidad,
+    stock   : d.stock
     }));
-    
+    console.log('detalles transformados');
+    console.log(detallesTransformados);
     // Aqui construimos el objeto de producto que es el que se enviara a la API.
     const producto = {
     idProducto,
@@ -95,6 +100,16 @@ export async function save() {
     resp = await fetch(url, opciones);
     data = await resp.json();
     
+    // VALIDACIÓN DEL CÓDIGO INTERNO REPETIDO
+    if (data.idProducto === -1) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "El código interno ya está registrado. Intenta con otro."
+        });
+        return;
+    }
+    
     if (data.error != null)
     {
         console.log(data.error);
@@ -108,81 +123,11 @@ export async function save() {
                         text: "Datos insertados correctamente."
                     });
         cargarProductos();
+        console.log(detallesTransformados);
     }
 }
 
-
-// CARGAR LOS PRODUCTOS GETALL
-//export async function cargarProductos() {
-  //let url = "http://localhost:8080/bionika_web/api/producto/getAll";
-  //let resp = await fetch(url);
-  //let datos = await resp.json();
-
-  //let contenido = '';
-
-  //if (datos.error) {
-    //Swal.fire('Error', datos.error, 'error');
-    //return;
-  //} else {
-    //productos = datos;
-    //for (let i = 0; i < productos.length; i++) {
-      //contenido += `
-        //<div class="bg-gray-100 rounded-l-xl shadow-md overflow-hidden border border-gray-200 ring-1 ring-offset-2 ring-gray-400">
-          //<img src="data:image/jpeg;base64,${productos[i].foto}" alt="Producto" class="w-full h-48 object-cover">
-         // <div class="p-4">
-           // <h2 class="text-xl font-semibold text-black-700">${productos[i].nombre}</h2>
-           // <p class="text-gray-600 mt-2">${productos[i].descripcion}</p>
-            //<p class="text-purple-800 font-bold mt-2">$${productos[i].precio}</p>
-            //<p class="text-sm text-gray-500">Stock: ${productos[i].stock}</p>
-            //<p class="text-sm text-gray-500">Categoría: ${productos[i].categoria.nombre}</p>
-            //<div class="flex gap-2 mt-4">
-              //<button onclick="verDetalle(${productos[i].idProducto})"
-                //      class="flex-1 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">
-               // Ver Detalles
-              //</button>
-            //</div>
-          //</div>
-        //</div>
-     // `;
-   // }
- // }
-  //document.getElementById('productosContainer').innerHTML = contenido;
- // cargarCategorias();
-//}
-
-// funcion para ver el detalle del producto
-//export function verDetalle(idProducto) {
-  //let p = productos.find(p => p.idProducto === idProducto);
-  //console.log("Producto encontrado:");
-
-  //if (!p) {
-    //console.log("no se encontraron los datos");
-   // return;
-  //}
-  //cargarFotografia();
-  //setDetalleVisible(true);
-  
-//  document.getElementById("btnEliminar").style.display = "inline-block";
-  //document.getElementById("txtIdProducto").value = p.idProducto;
-  //document.getElementById("txtNombreProducto").value = p.nombre;
-  //document.getElementById("txtDescripcion").value = p.descripcion;
-  //document.getElementById("txtPrecio").value = p.precio;
-  //document.getElementById("txtStock").value = p.stock;
-  //document.getElementById("txtCodigoInterno").value = p.codigoInterno;
-  // Cargar categorías con la seleccionada por defecto
- // cargarCategorias(p.categoria.idCategoria);
-  
-  //if (p.foto != null) {
-    //document.getElementById("txtaFoto").value = p.foto;
-    //document.getElementById("imgFoto").src = `data:image/jpeg;base64,${p.foto}`;
-//} else {
-  //  document.getElementById("txtaFoto").value = '';
-    //document.getElementById("imgFoto").src = ''; // Limpia la imagen
-//}
-//document.getElementById("inputFoto").value = ''; // Limpiar input file
-//}
-
-// NUEVA FUNCION PARA CARGAR PRODUCTOS
+// FUNCION PARA CARGAR LOS CARD DE PRODUCTO
 export async function cargarProductos() {
     let url = "http://localhost:8080/bionika_web/api/producto/getAll";
     let resp = await fetch(url);
@@ -197,39 +142,28 @@ export async function cargarProductos() {
     let contenido = '';
 
     productos.forEach(p => {
-        let detallesHTML = '';
-        if (p.detalles && p.detalles.length > 0) {
-            detallesHTML += `
-                <div class="mt-2">
-                    <h3 class="font-semibold text-gray-700">Detalles:</h3>
-                    <ul class="text-sm text-gray-600 list-disc list-inside">`;
-
-            p.detalles.forEach(d => {
-                detallesHTML += `
-                    <li>
-                        Talla: ${d.nombreTalla}, Color: ${d.nombreColor}, Stock: ${d.stock}
-                    </li>`;
-            });
-
-            detallesHTML += `
-                    </ul>
-                </div>`;
-        }
-
         contenido += `
-            <div class="bg-gray-100 rounded-xl shadow-md overflow-hidden border border-gray-200 ring-1 ring-offset-2 ring-gray-400">
+            <div class="bg-white hover:shadow-2xl transition-shadow duration-300 rounded-xl overflow-hidden border border-gray-200 ring-1 ring-offset-2 ring-purple-300">
                 <img src="data:image/jpeg;base64,${p.foto}" alt="Producto" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h2 class="text-xl font-semibold text-black-700">${p.nombre}</h2>
-                    <p class="text-gray-600 mt-2">${p.descripcion}</p>
-                    <p class="text-purple-800 font-bold mt-2">$${p.precio}</p>
-                    <p class="text-sm text-gray-500">Código: ${p.codigoInterno}</p>
-                    <p class="text-sm text-gray-500">Categoría: ${p.categoria.nombre}</p>
-                    ${detallesHTML}
-                    <div class="flex gap-2 mt-4">
+                <div class="p-4 text-center space-y-2">
+                    <h2 class="text-xl font-bold text-purple-800 underline decoration-wavy decoration-purple-400 underline-offset-4">
+                        ${p.codigoInterno}
+                    </h2>
+                    <h3 class="text-lg text-gray-700 font-semibold tracking-wide">${p.nombre}</h3>
+                    <p class="text-gray-700 bg-purple-50 border border-dashed border-purple-300 rounded-md px-3 py-2 text-sm">
+                        ${p.descripcion}
+                    </p>
+                    <p class="inline-block bg-gradient-to-r from-purple-200 to-purple-300 text-purple-900 font-bold px-4 py-1 rounded-full shadow-sm text-sm">
+                        $${p.precio}
+                    </p>
+                    <div class="flex justify-center mt-3">
                         <button onclick="verDetalle(${p.idProducto})"
-                                class="flex-1 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">
-                            Ver Detalles
+                                class="p-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full shadow-inner hover:shadow-lg transition-transform transform hover:scale-110">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -268,31 +202,31 @@ function verDetalle(producto) {
             break;
         }
     }
-    //p.detalles.forEach(det => {
-    // Agregamos los detalles como objetos coherentes con renderizarTablaDetalles
-    //detallesStock.push({
-    //talla: det.idTalla,
-    //color: det.idColor,
-    //stock: det.stock
-      //  });
-    //});
-    
     // NUEVA FORMA PARA SUUBIR LOS DATOS AL ARREGLO DETALLESTOCK PARA TENER MEJOR ESTRUCTURA DE LOS DATOS LOL
     p.detalles.forEach(det => {
+        // Solo agregar si tiene idUnidad válido
+        if (!det.idUnidad || det.idUnidad === 0) return;
+        
         let talla = tallas.find(t => t.idTalla === det.idTalla);
         let color = colores.find(c => c.idColor === det.idColor);
-
+        let unidad = unidades.find(u => u.IdUnidad === det.idUnidad);
+        console.log('variable det');
+        console.log(det);
+        
         detallesStock.push({
         idTalla: det.idTalla,
         nombreTalla: talla ? talla.nombre : "Desconocido",
         idColor: det.idColor,
         nombreColor: color ? color.nombre : "Desconocido",
+        idUnidad : det.idUnidad,
+        nombreUnidad : unidad ? unidad.unidad : "Desconocido",
         stock: det.stock
         });
     });
 
     renderizarTablaDetalles(); // llamamos la funcion para cargar la tabla con la informacion de los detalles
-    //console.log('detalle del stock: '+detallesStock);
+    console.log('detalles stock cargadas');
+    console.log(detallesStock);
 }
 
 // FUNCION PARA CARGAR CATEGORIAS EN EL COMBOBOX
@@ -365,41 +299,29 @@ export function enviar(){
 // NUEVO MOSTRARPRODUCTO
 export function mostrarProductos(lista) {
     let contenido = '';
-
     lista.forEach(p => {
-        let detallesHTML = '';
-        if (p.detalles && p.detalles.length > 0) {
-            detallesHTML += `
-                <div class="mt-2">
-                    <h3 class="font-semibold text-gray-700">Detalles:</h3>
-                    <ul class="text-sm text-gray-600 list-disc list-inside">`;
-
-            p.detalles.forEach(d => {
-                detallesHTML += `
-                    <li>
-                        Talla: ${d.nombreTalla}, Color: ${d.nombreColor}, Stock: ${d.stock}
-                    </li>`;
-            });
-
-            detallesHTML += `
-                    </ul>
-                </div>`;
-        }
-
-        contenido += `
-            <div class="bg-gray-100 rounded-xl shadow-md overflow-hidden border border-gray-200 ring-1 ring-offset-2 ring-gray-400">
+               contenido += `
+            <div class="bg-white hover:shadow-2xl transition-shadow duration-300 rounded-xl overflow-hidden border border-gray-200 ring-1 ring-offset-2 ring-purple-300">
                 <img src="data:image/jpeg;base64,${p.foto}" alt="Producto" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h2 class="text-xl font-semibold text-black-700">${p.nombre}</h2>
-                    <p class="text-gray-600 mt-2">${p.descripcion}</p>
-                    <p class="text-purple-800 font-bold mt-2">$${p.precio}</p>
-                    <p class="text-sm text-gray-500">Código: ${p.codigoInterno}</p>
-                    <p class="text-sm text-gray-500">Categoría: ${p.categoria.nombre}</p>
-                    ${detallesHTML}
-                    <div class="flex gap-2 mt-4">
+                <div class="p-4 text-center space-y-2">
+                    <h2 class="text-xl font-bold text-purple-800 underline decoration-wavy decoration-purple-400 underline-offset-4">
+                        ${p.codigoInterno}
+                    </h2>
+                    <h3 class="text-lg text-gray-700 font-semibold tracking-wide">${p.nombre}</h3>
+                    <p class="text-gray-700 bg-purple-50 border border-dashed border-purple-300 rounded-md px-3 py-2 text-sm">
+                        ${p.descripcion}
+                    </p>
+                    <p class="inline-block bg-gradient-to-r from-purple-200 to-purple-300 text-purple-900 font-bold px-4 py-1 rounded-full shadow-sm text-sm">
+                        $${p.precio}
+                    </p>
+                    <div class="flex justify-center mt-3">
                         <button onclick="verDetalle(${p.idProducto})"
-                                class="flex-1 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">
-                            Ver Detalles
+                                class="p-2 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full shadow-inner hover:shadow-lg transition-transform transform hover:scale-110">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -508,6 +430,23 @@ async function cargarColores() {
   });
 }
 
+// FUNCION PARA LLENAR EL COMBOBOX DE UNIDAD
+async function cargarUnidades() {
+  let url = "http://localhost:8080/bionika_web/api/producto/getAllUnidades";
+  let resp = await fetch(url);
+  let datos = await resp.json();
+
+  if (datos.error) return;
+
+  unidades = datos;
+
+  let selectUnidad = document.getElementById("selectUnidad");
+  selectUnidad.innerHTML = '<option value="">Seleccione</option>';
+  unidades.forEach(unidad => {
+    selectUnidad.innerHTML += `<option value="${unidad.IdUnidad}">${unidad.unidad}</option>`;
+  });
+}
+
 // Funciones para eliminar producto
 async function eliminarProducto(pos) {
     let idProducto = parseInt(document.getElementById("txtIdProducto").value);
@@ -558,11 +497,15 @@ function agregarDetalleStock() {
     const idColor = parseInt(document.getElementById("selectColor").value);
     const nombreColor = document.getElementById("selectColor").options[document.getElementById("selectColor").selectedIndex].text;
 
-    const stock = parseInt(document.getElementById("inputStockDetalle").value);
+    const idUnidad = parseInt(document.getElementById("selectUnidad").value) || null;
+    const nombreUnidad = document.getElementById("selectUnidad").options[document.getElementById("selectUnidad").selectedIndex].text;
 
-    if (!idTalla || !idColor || !stock) {
-        alert("Completa talla, color y stock.");
-        return;
+    const stock = parseInt(document.getElementById("inputStockDetalle").value);
+    console.log({ idTalla, idColor, idUnidad, stock });
+    console.log(unidades);
+    if (!idTalla || !idColor || idUnidad === null || !stock) {
+    alert("Completa talla, color, unidad y stock.");
+    return;
     }
 
     const detalle = {
@@ -570,18 +513,23 @@ function agregarDetalleStock() {
         nombreTalla,
         idColor,
         nombreColor,
+        idUnidad,        // este se envía al backend
+        nombreUnidad,            // este se muestra en la tabla
         stock
     };
 
-    // Asegura que existe el arreglo
     if (!window.detallesStock) {
         window.detallesStock = [];
     }
 
     window.detallesStock.push(detalle);
-
-    // (opcional) Actualiza tabla de vista
     renderizarTablaDetalles();
+    console.log('id seleccionado');
+    console.log(idUnidad);
+    console.log('detalle');
+    console.log(detalle);
+    console.log('detalle stock despues de agregar uno mas');
+    console.log(detallesStock);
 }
 // esta funcion se ejecutara cada que se agregue una talla, color y stock en el producto y se 
 // reflejaran en esta tabla.
@@ -595,13 +543,14 @@ function renderizarTablaDetalles() {
 
     let nombreTalla = talla ? talla.nombre : "Desconocido";
     let nombreColor = color ? color.nombre : "Desconocido";
-
+    let nombreUnidad = detalle.nombreUnidad || "Desconocido";
 
     tbody.innerHTML += `
       <tr>
         <td class="px-4 py-2 border">${nombreTalla}</td>
         <td class="px-4 py-2 border">${nombreColor}</td>
         <td class="px-4 py-2 border">${detalle.stock}</td>
+        <td class="px-4 py-2 border">${nombreUnidad}</td>
         <td class="px-4 py-2 border text-center space-x-1">
           <button onclick="actualizarDetalleStock(${index})" class="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded text-xs">Actualizar</button>
           <button onclick="eliminarDetalleStock(${index})" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs">Eliminar</button>
@@ -610,6 +559,7 @@ function renderizarTablaDetalles() {
     `;
   });
 }
+
 
 // al hacer click en el boton de eliminar, eliminara el detalle de la tabla
 function eliminarDetalleStock(index) {
@@ -621,10 +571,12 @@ function eliminarDetalleStock(index) {
 // funcion para actualizar el detalle de la tabla
 function actualizarDetalleStock(index) {
     const detalle = window.detallesStock[index];
-
+    console.log(window.detallesStock);
+    console.log(detalle);
     // Llenamos los campos con los valores actuales
     document.getElementById("selectTalla").value = detalle.idTalla;
     document.getElementById("selectColor").value = detalle.idColor;
+    document.getElementById("selectUnidad").value = detalle.unidad;
     document.getElementById("inputStockDetalle").value = detalle.stock;
 
     // Quitamos el detalle anterior para que luego se agregue como nuevo si se modifica
@@ -632,47 +584,55 @@ function actualizarDetalleStock(index) {
     renderizarTablaDetalles();
 }
 
-// FUNCION PARA GENERAR REPORTE PDF
+// funcion para generar el reporte pdf
 function generarReportePDF(lista) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
+    // Título y fecha
     doc.setFontSize(18);
     doc.text("Reporte de Productos", 14, 15);
     doc.setFontSize(12);
     doc.text(`Fecha: ${new Date().toLocaleString()}`, 14, 25);
 
+    // Construir el cuerpo de la tabla
     let data = [];
 
     lista.forEach(p => {
         if (p.detalles && p.detalles.length > 0) {
             p.detalles.forEach(d => {
                 data.push([
-                    p.codigoInterno,
-                    p.nombre,
-                    d.nombreTalla,
-                    d.nombreColor,
-                    d.stock
+                    p.codigoInterno || "Sin clave",
+                    p.nombre || "Sin nombre",
+                    d.nombreTalla || "Sin talla",
+                    d.nombreColor || "Sin color",
+                    d.stock || "Sin stock",
+                    d.nombreUnidad ?? "Sin unidad"
                 ]);
             });
         } else {
             data.push([
-                p.codigoInterno,
-                p.nombre,
+                p.codigoInterno || "Sin clave",
+                p.nombre || "Sin nombre",
                 "Sin talla",
                 "Sin color",
-                "Sin stock"
+                "Sin stock",
+                "Sin unidad"
             ]);
         }
     });
 
+    // Dibujar la tabla
     doc.autoTable({
         startY: 30,
-        head: [['Clave','Nombre', 'Talla', 'Color', 'Stock']],
+        head: [['Clave', 'Nombre', 'Talla', 'Color', 'Stock', 'Unidad']],
         body: data,
-        styles: { fontSize: 10 }
+        styles: { fontSize: 10 },
+        headStyles: { fillColor: [108, 52, 131] }, // Color morado (estilo Bionika)
+        alternateRowStyles: { fillColor: [245, 245, 245] }
     });
 
+    // Guardar PDF
     doc.save("reporte_productos.pdf");
 }
 

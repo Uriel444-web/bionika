@@ -100,7 +100,7 @@
                                         <!-- Opciones se llenan dinámicamente -->
                                     </select>
                                 </div>
-
+                                
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Color:</label>
                                     <select id="selectColor" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300">
@@ -112,7 +112,13 @@
                                     <label class="block text-sm font-medium text-gray-700">Stock:</label>
                                     <input id="inputStockDetalle" type="number" min="0" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300" />
                                 </div>
-
+                                <!-- DIV PARA UNIDAD DE MEDIDA -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Unidad:</label>
+                                    <select id="selectUnidad" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300">
+                                        <!-- Opciones se llenan dinámicamente -->
+                                    </select>
+                                </div>
                                 <div>
                                     <button id="btnAgregarDetalle" type="button" class="bg-purple-700 hover:bg-purple-800 text-white w-full py-2 rounded-lg shadow transition">+</button>
                                 </div>
@@ -126,6 +132,7 @@
                                             <th class="px-4 py-2 border">Talla</th>
                                             <th class="px-4 py-2 border">Color</th>
                                             <th class="px-4 py-2 border">Stock</th>
+                                            <th class="px-4 py-2 border">Unidad</th>
                                             <th class="px-4 py-2 border">Acciones</th>
                                         </tr>
                                     </thead>

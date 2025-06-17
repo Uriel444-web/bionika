@@ -11,6 +11,7 @@ import com.bionika.model.Categoria;
 import com.bionika.model.Color;
 import com.bionika.model.DetalleProducto;
 import com.bionika.model.Talla;
+import com.bionika.model.Unidad;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.Gson;
@@ -34,17 +35,21 @@ public class ControllerProductos {
             conn = connMySQL.open();
             String query = "{CALL insertar_producto_con_detalles(?, ?, ?, ?, ?, ?, ?, ?)}";
             cstmt = conn.prepareCall(query);
-            // Convertir detalles a JSON
+
+            // Convertir detalles a JSON (ahora incluyendo 'unidad')
             JsonArray jsonArray = new JsonArray();
             for (DetalleProducto detalle : producto.getDetalles()) {
                 JsonObject obj = new JsonObject();
                 obj.addProperty("idTalla", detalle.getIdTalla());
                 obj.addProperty("idColor", detalle.getIdColor());
+                obj.addProperty("idUnidad", detalle.getIdUnidad()); // NUEVO
                 obj.addProperty("stock", detalle.getStock());
                 jsonArray.add(obj);
             }
+
             Gson gson = new Gson();
             String jsonDetalles = gson.toJson(jsonArray);
+
             // Asignar parámetros
             cstmt.setString(1, producto.getFoto());
             cstmt.setString(2, producto.getNombre());
@@ -52,7 +57,7 @@ public class ControllerProductos {
             cstmt.setDouble(4, producto.getPrecio());
             cstmt.setString(5, producto.getCodigoInterno());
             cstmt.setInt(6, producto.getCategoria().getIdCategoria());
-            cstmt.setString(7, jsonDetalles);
+            cstmt.setString(7, jsonDetalles); // JSON con unidad incluida
             cstmt.executeUpdate();
             producto.setIdProducto(cstmt.getInt(8));
         } catch (Exception ex) {
@@ -69,48 +74,6 @@ public class ControllerProductos {
         return producto.getIdProducto();
     }
 
-    //public void update(Producto p) throws Exception {
-    // Se define la consulta SQL:
-    //  String sql = "{CALL actualizarProducto(?, ?, ?, ?, ?, ?, ?, ?)}";
-    // Abrimos la conexion con la BD:
-    // ConexionMySQL connMySQL = new ConexionMySQL();
-    // Connection conn = connMySQL.open();
-    // Generamos un CallableStatement para invocar al Stored Procedure:
-    // CallableStatement cstmt = conn.prepareCall(sql);
-    // Colocamos los valores de los parametros de entrada que requiere
-    // el Stored Procedure:
-    //cstmt.setInt(1, p.getIdProducto());
-    //cstmt.setString(2, p.getFoto());
-    //cstmt.setString(3, p.getNombre());
-    //cstmt.setString(4, p.getDescripcion());
-    //cstmt.setDouble(5, p.getPrecio());
-    //cstmt.setString(6, p.getCodigoInterno());
-    //cstmt.setInt(7, p.getCategoria().getIdCategoria());
-    // Ejecutamos el Stored Procedure:
-    //cstmt.executeUpdate();
-    //Cerramos los objetos de conexion:
-    //cstmt.close();
-    //connMySQL.close();
-    //}
-    // public List<Producto> getAll() throws Exception {
-    //   List<Producto> productos = new ArrayList<>();
-    // String sql = "SELECT * FROM v_productos";
-    // Abrimos la conexion con la BD:
-    //ConexionMySQL connMySQL = new ConexionMySQL();
-    //Connection conn = connMySQL.open();
-    //PreparedStatement pstmt = conn.prepareStatement(sql);
-    //ResultSet rs = pstmt.executeQuery();
-    // Producto prod = null;
-    //while (rs.next()) {
-    //  prod = fill(rs);
-    //productos.add(prod);
-    //}
-    //rs.close();
-    //pstmt.close();
-    //connMySQL.close();
-    //return productos;
-    //}
-    // NUEVO INSERT
     public ArrayList<Producto> getAll() throws Exception {
         ArrayList<Producto> lista = new ArrayList<>();
         String sql = "SELECT * FROM vista_producto_con_detalles";
@@ -167,6 +130,7 @@ public class ControllerProductos {
                 JsonObject obj = new JsonObject();
                 obj.addProperty("idTalla", detalle.getIdTalla());
                 obj.addProperty("idColor", detalle.getIdColor());
+                obj.addProperty("idUnidad", detalle.getIdUnidad());
                 obj.addProperty("stock", detalle.getStock());
                 jsonArray.add(obj);
             }
@@ -263,6 +227,28 @@ public class ControllerProductos {
         return categorias;
     }
 
+    public List<Unidad> getAllUnidades() throws Exception {
+        List<Unidad> unidades = new ArrayList<>();
+        String sql = "SELECT * FROM unidad";
+
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        ResultSet rs = pstmt.executeQuery();
+
+        Unidad un = null;
+
+        while (rs.next()) {
+            un = fillUn(rs);
+            unidades.add(un);
+        }
+        rs.close();
+        pstmt.close();
+        connMySQL.close();
+
+        return unidades;
+    }
+
     public List<Talla> getAllTallas() throws Exception {
         List<Talla> tallas = new ArrayList<>();
         String sql = "SELECT * FROM talla";
@@ -300,6 +286,15 @@ public class ControllerProductos {
         t.setNombre(rs.getString("nombre"));
 
         return t;
+    }
+
+    private Unidad fillUn(ResultSet rs) throws SQLException {
+        Unidad u = new Unidad();
+
+        u.setIdUnidad(rs.getInt("idUnidad"));
+        u.setUnidad(rs.getString("unidad"));
+
+        return u;
     }
 
     public List<Color> getAllColores() throws Exception {

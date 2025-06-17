@@ -55,32 +55,62 @@ function verDetalle(idProducto) {
     let detallesHTML = "";
     if (producto.detalles && producto.detalles.length > 0) {
         detallesHTML += `
-            <ul class="list-disc text-left ml-6 text-sm text-gray-700">`;
+            <ul class="mt-2 space-y-2 text-left text-sm text-gray-700">`;
         producto.detalles.forEach(d => {
-            detallesHTML += `<li><strong>Talla:</strong> ${d.nombreTalla}, <strong>Color:</strong> ${d.nombreColor}, <strong>Stock:</strong> ${d.stock}</li>`;
+            detallesHTML += `
+                <li class="flex items-start gap-2">
+                    <svg class="h-4 w-4 text-purple-500 mt-1" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>
+                        <strong>Talla:</strong> ${d.nombreTalla}, 
+                        <strong>Color:</strong> ${d.nombreColor}, 
+                        <strong>Disponibilidad:</strong> ${d.stock}
+                    </span>
+                </li>`;
         });
         detallesHTML += `</ul>`;
     } else {
-        detallesHTML = `<p class="text-sm text-gray-500">No hay detalles disponibles.</p>`;
+        detallesHTML = `<p class="text-sm text-gray-500 italic mt-2">No hay detalles disponibles.</p>`;
     }
 
     Swal.fire({
-        title: producto.nombre,
+        title: `<span class="text-purple-700 font-bold text-xl">${producto.nombre}</span>`,
         html: `
-            <img src="data:image/jpeg;base64,${producto.foto}" alt="Imagen" class="w-full h-48 object-cover rounded-md mb-3">
-            <p><strong>Precio:</strong> $${producto.precio}</p>
-            <p><strong>Descripción:</strong> ${producto.descripcion}</p>
-            <div class="mt-3">
-                <h3 class="font-semibold text-gray-800">Disponibilidad:</h3>
-                ${detallesHTML}
+            <div class="text-center">
+                <img src="data:image/jpeg;base64,${producto.foto}" 
+                     alt="Imagen" 
+                     class="mx-auto w-full h-52 object-cover rounded-lg shadow-lg transform hover:scale-105 transition duration-300 mb-4">
+                <p class="inline-block bg-gradient-to-r from-purple-200 to-purple-300 text-purple-900 font-semibold px-4 py-1 rounded-full shadow text-sm mb-2">
+                    $${producto.precio}
+                </p>
+                <div class="bg-purple-50 border border-purple-200 rounded-md p-3 text-sm text-gray-700 mb-4 flex items-start gap-2">
+                    <svg class="w-4 h-4 text-purple-500 mt-1" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 20h9M12 4h9M4 9h16M4 15h16"/>
+                    </svg>
+                    <span><strong>Descripción:</strong> ${producto.descripcion}</span>
+                </div>
+                <div class="text-left">
+                    <h3 class="text-md font-semibold text-purple-800">Disponibilidad por combinación:</h3>
+                    ${detallesHTML}
+                </div>
             </div>
         `,
-        width: 600,
+        width: 620,
         showCloseButton: true,
         showConfirmButton: false,
-        background: '#fefefe',
+        background: '#ffffff',
+        customClass: {
+            popup: 'rounded-xl shadow-lg',
+            title: 'mb-2'
+        }
     });
 }
+
 
 async function cargarCategorias() {
   let url = "http://localhost:8080/bionika_web/api/producto/getAllCategorias";

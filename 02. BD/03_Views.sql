@@ -26,7 +26,9 @@ FROM
 usuario u
 INNER JOIN empleado e ON u.idEmpleado = e.idEmpleado
 INNER JOIN rol r ON u.rol = r.idRol;
-DROP VIEW vista_producto_con_detalles;
+
+-- --------------------------------------------------------------------------------------------
+DROP VIEW IF EXISTS vista_producto_con_detalles;
 CREATE VIEW vista_producto_con_detalles AS
 SELECT
     p.idProducto,
@@ -47,12 +49,15 @@ SELECT
                 'nombreTalla', t.nombre,
                 'idColor', c.idColor,
                 'nombreColor', c.nombre,
+                'idUnidad', u.idUnidad,
+                'nombreUnidad', u.unidad,
                 'stock', d.stock
             )
         )
         FROM detalle_producto d
         JOIN talla t ON d.talla = t.idTalla
         JOIN color c ON d.color = c.idColor
+        JOIN unidad u ON d.unidad = u.idUnidad
         WHERE d.producto = p.idProducto
     ) AS detalles
 

@@ -22,31 +22,43 @@ CREATE PROCEDURE insertar_producto_con_detalles(
     OUT p_idProducto INT
 )
 BEGIN
-    -- Primero todas las variables
     DECLARE last_id_producto INT;
     DECLARE i INT DEFAULT 0;
     DECLARE total INT;
+    DECLARE existe INT DEFAULT 0;
 
-    -- Ahora sí puedes hacer inserts y sets
-    INSERT INTO producto(foto, nombre, descripcion, precio, codigoInterno, categoria)
-    VALUES(p_foto, p_nombre, p_descripcion, p_precio, p_codigoInterno, p_idCategoria);
-	SET p_idProducto = LAST_INSERT_ID();
-    SET last_id_producto = LAST_INSERT_ID();
+    bloque: BEGIN
+        -- Verificar si ya existe un producto con ese código interno
+        SELECT COUNT(*) INTO existe FROM producto WHERE codigoInterno = p_codigoInterno;
 
-    SET total = JSON_LENGTH(p_detalles);
+        IF existe > 0 THEN
+            -- Producto duplicado
+            SET p_idProducto = -1;
+            LEAVE bloque;
+        END IF;
 
-    WHILE i < total DO
-        INSERT INTO detalle_producto(producto, talla, color, stock)
-        VALUES (
-            last_id_producto,
-            JSON_UNQUOTE(JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].idTalla'))),
-            JSON_UNQUOTE(JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].idColor'))),
-            JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].stock'))
-        );
-        SET i = i + 1;
-    END WHILE;
+        -- Insertar producto
+        INSERT INTO producto(foto, nombre, descripcion, precio, codigoInterno, categoria)
+        VALUES(p_foto, p_nombre, p_descripcion, p_precio, p_codigoInterno, p_idCategoria);
+        SET p_idProducto = LAST_INSERT_ID();
+        SET last_id_producto = p_idProducto;
+
+        -- Insertar detalles
+        SET total = JSON_LENGTH(p_detalles);
+
+        WHILE i < total DO
+            INSERT INTO detalle_producto(producto, talla, color, unidad, stock)
+            VALUES (
+                last_id_producto,
+                JSON_UNQUOTE(JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].idTalla'))),
+                JSON_UNQUOTE(JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].idColor'))),
+                JSON_UNQUOTE(JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].idUnidad'))),
+                JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].stock'))
+            );
+            SET i = i + 1;
+        END WHILE;
+    END bloque;
 END $$
-
 DELIMITER ;
 -- -----------------------------------------------------------------------------------
 -- NUEVO SP PARA ACTUALIZAR UN PRODUCTO (19/05/2025)
@@ -85,11 +97,12 @@ BEGIN
     SET total = JSON_LENGTH(p_detalles);
 
     WHILE i < total DO
-        INSERT INTO detalle_producto(producto, talla, color, stock)
+        INSERT INTO detalle_producto(producto, talla, color, unidad, stock)
         VALUES (
             p_idProducto,
             JSON_UNQUOTE(JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].idTalla'))),
             JSON_UNQUOTE(JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].idColor'))),
+            JSON_UNQUOTE(JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].idUnidad'))),
             JSON_EXTRACT(p_detalles, CONCAT('$[', i, '].stock'))
         );
         SET i = i + 1;

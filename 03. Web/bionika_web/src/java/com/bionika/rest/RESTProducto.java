@@ -9,6 +9,7 @@ import com.bionika.model.Categoria;
 import com.bionika.model.Color;
 import com.bionika.model.Producto;
 import com.bionika.model.Talla;
+import com.bionika.model.Unidad;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import jakarta.ws.rs.DefaultValue;
@@ -157,6 +158,22 @@ public class RESTProducto {
                       {"error" : "Error interno del Servidor, comunicate al area de Sistemas"}
                       """;
         }
+        return Response.ok(out).build();
+    }
+    
+    @GET
+    @Path("getAllUnidades")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllUnidades(){
+        String out = "";
+        ControllerProductos cp = new ControllerProductos();
+        List<Unidad> unidades = null;
+        try {
+            unidades = cp.getAllUnidades();
+            out = new Gson().toJson(unidades);
+        } catch (Exception e) {
+        }
+        
         return Response.ok(out).build();
     }
 }
