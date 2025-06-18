@@ -79,7 +79,7 @@ export async function _delete()
 {
     let url = "http://localhost:8080/bionika_web/api/usuario/delete";
 
-    let idProducto = 0;
+    let idUsuario = 0;
     let datos = null;
     let params = null;
     let opciones = null;
@@ -88,14 +88,14 @@ export async function _delete()
 
     if (document.getElementById("txtId").value.trim() != '')
     {
-        idProducto = parseInt(document.getElementById("txtId").value.trim());
+        idUsuario = parseInt(document.getElementById("txtId").value.trim());
     } else
     {
         Swal.fire('Seleccione un usuario para eliminarlo.', '', 'warning');
         return;
     }
 
-    datos = {idProducto: idProducto};
+    datos = {idUsuario: idUsuario};
     params = new URLSearchParams(datos);
     opciones = {
         method: "POST",

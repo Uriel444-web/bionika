@@ -188,7 +188,7 @@ async function usuarios() {
 
 
     //cm = await import("http://localhost:8080/bionika_web/modules/administrador/productos/js/inicio.js");
-    cm = await import("http://localhost:8080/bionika_web/modules/usuario/crud/js.js");
+    cm = await import("http://localhost:8080/bionika_web/modules/usuario/crud/js/js.js");
     cm.recargarComboBoxCategorias();
 
     document.getElementById("registrarU").addEventListener("click", (event) => {
@@ -215,7 +215,7 @@ async function mostrarU() {
 
     document.getElementById('content').innerHTML = contenido;
 
-    cm = await import("http://localhost:8080/bionika_web/modules/usuario/crud/js.js");
+    cm = await import("http://localhost:8080/bionika_web/modules/usuario/crud/js/js.js");
     cm.recargarTablaUsuario();
     cm.recargarComboBoxCategorias();
     cm.inhabilitarTextos();

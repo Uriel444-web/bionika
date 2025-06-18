@@ -53,6 +53,37 @@ public class RESTSucursal {
         return Response.ok(out).build();
     }
     
+    @POST 
+    @Path("delete")
+     @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(@FormParam("idSucursal") @DefaultValue("0") int idSucursal)
+    {
+        String out = null;
+        CtrlSucursal ca = new CtrlSucursal();        
+        try
+        {
+            ca.delete(idSucursal);
+            out = """
+                  {"result":"Registro eliminado de forma correcta."}
+                  """;
+        }
+        catch(JsonParseException jpe)
+        {
+            jpe.printStackTrace();
+            out = """
+                  {"error":"El JSON recibido no es correcto."}
+                  """;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            out = """
+                  {"error":"Error interno del servidor, comunícate al area de sistemas de El Zarape."}
+                  """;
+        }
+        return Response.ok(out).build();
+    }
+    
     @GET
     @Path("getAll")
     @Produces(MediaType.APPLICATION_JSON)   

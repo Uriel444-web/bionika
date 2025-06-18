@@ -56,13 +56,13 @@ public class RESTUsuario {
     @POST
     @Path("delete")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(@FormParam("idProducto") @DefaultValue("0") int idProducto)
+    public Response delete(@FormParam("idUsuario") @DefaultValue("0") int idUsuario)
     {
         String out = null;
         CtrlUsuario ca = new CtrlUsuario();        
         try
         {
-            ca.delete(idProducto);
+            ca.delete(idUsuario);
             out = """
                   {"result":"Registro eliminado de forma correcta."}
                   """;

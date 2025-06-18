@@ -88,6 +88,48 @@ export async function saveSucursal() {
     }
 }
 
+export async function _delete()
+{
+    let url = "http://localhost:8080/bionika_web/api/sucursal/delete";
+
+    let idSucursal = 0;
+    let datos = null;
+    let params = null;
+    let opciones = null;
+    let resp = null;
+    let data = null;
+
+    if (document.getElementById("txtId").value.trim() != '')
+    {
+        idSucursal = parseInt(document.getElementById("txtId").value.trim());
+    } else
+    {
+        Swal.fire('Seleccione un usuario para eliminarlo.', '', 'warning');
+        return;
+    }
+
+    datos = {idSucursal: idSucursal};
+    params = new URLSearchParams(datos);
+    opciones = {
+        method: "POST",
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+        body: params
+    };
+
+    resp = await fetch(url, opciones);
+    data = await resp.json();
+
+    if (data.error != null)
+    {
+        Swal.fire('', data.error, 'error');
+    } else
+    {
+        recargarTablaUsuario();
+        Swal.fire('Registro de usuario eliminado con Exito.', '', 'success');
+        limpiarCampos();
+    }
+}
+
 export async function getAllSucursales()
 {
     let url = "http://localhost:8080/bionika_web/api/sucursal/getAll";

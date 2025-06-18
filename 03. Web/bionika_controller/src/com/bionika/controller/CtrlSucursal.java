@@ -13,27 +13,6 @@ import java.util.List;
 
 public class CtrlSucursal {
     
-    public void delete(int id) throws Exception
-    {
-        // Se define la consulta SQL:
-        String sql = "UPDATE sucursal SET activo=0 WHERE idSucursal=?";
-        
-        // Abrimos la conexion con la BD:
-        ConexionMySQL connMySQL = new ConexionMySQL();
-        Connection conn = connMySQL.open();
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        
-        // Llenamos los datos del PreparedStatement:
-        pstmt.setInt(1, id);
-        
-        // Ejecutamos la consulta:
-        pstmt.executeUpdate();
-        
-        // Cerramos los objetos de conexion:
-        pstmt.close();
-        connMySQL.close();
-    }
-    
     public int insert(Sucursal su) throws Exception
     { 
         String sql = "{CALL insertarSucursal( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
@@ -72,6 +51,27 @@ public class CtrlSucursal {
             
         e.printStackTrace(); }    
          return 0;
+    }
+    
+      public void delete(int id) throws Exception
+    {
+        // Se define la consulta SQL:
+        String sql = "UPDATE sucursal SET activo=0 WHERE idSucursal=?";
+        
+        // Abrimos la conexion con la BD:
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        
+        // Llenamos los datos del PreparedStatement:
+        pstmt.setInt(1, id);
+        
+        // Ejecutamos la consulta:
+        pstmt.executeUpdate();
+        
+        // Cerramos los objetos de conexion:
+        pstmt.close();
+        connMySQL.close();
     }
     
      public List<Sucursal> getAll(String filtro) throws Exception
