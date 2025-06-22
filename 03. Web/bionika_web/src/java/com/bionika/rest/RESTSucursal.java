@@ -1,8 +1,10 @@
 
 package com.bionika.rest;
 
+import com.bionika.controller.CtrlSucursal;
 import com.bionika.controller.CtrlUsuario;
 import com.bionika.model.Rol;
+import com.bionika.model.Sucursal;
 import com.bionika.model.Usuario;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
@@ -16,31 +18,30 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 
-@Path("usuario")
-public class RESTUsuario {
+@Path("sucursal")
+public class RESTSucursal {
     
     @POST
     @Path("save")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response save(@FormParam("datosUsuario") @DefaultValue("") String datosUsuario) throws Exception
+    public Response save(@FormParam("datosSucursal") @DefaultValue("") String datosSucursal) throws Exception
     {
         
         String out = null;
-        CtrlUsuario ca = new CtrlUsuario();
-        Usuario a = null;
+        CtrlSucursal su = new CtrlSucursal();
+        Sucursal s = null;
         Gson gson = new Gson();
         
             try{
         
-            a = gson.fromJson(datosUsuario, Usuario.class);
-            
-                
-            if (a.getId()< 1)
-                ca.insert(a);
+            s = gson.fromJson(datosSucursal, Sucursal.class);
+                    
+            if (s.getIdSucursal()< 1)
+                su.insert(s);
             else
-                ca.update(a);
+                //ca.update(a);
             
-            out = gson.toJson(a);
+            out = gson.toJson(s);
             }
         catch (Exception e)
         {
@@ -51,18 +52,17 @@ public class RESTUsuario {
         }
         return Response.ok(out).build();
     }
-  
     
-    @POST
+    @POST 
     @Path("delete")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(@FormParam("idUsuario") @DefaultValue("0") int idUsuario)
+     @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(@FormParam("idSucursal") @DefaultValue("0") int idSucursal)
     {
         String out = null;
-        CtrlUsuario ca = new CtrlUsuario();        
+        CtrlSucursal ca = new CtrlSucursal();        
         try
         {
-            ca.delete(idUsuario);
+            ca.delete(idSucursal);
             out = """
                   {"result":"Registro eliminado de forma correcta."}
                   """;
@@ -91,14 +91,14 @@ public class RESTUsuario {
     {
         String out = null;
        
-        CtrlUsuario ca = new CtrlUsuario();
+        CtrlSucursal su = new CtrlSucursal();
       
-        List<Usuario> usuario = null;
+        List<Sucursal> sucursal = null;
         
              try
         {
-            usuario = ca.getAll(null);
-            out = new Gson().toJson(usuario);
+            sucursal = su.getAll(null);
+            out = new Gson().toJson(sucursal);
         } 
         catch (Exception e)
         {
@@ -112,20 +112,20 @@ public class RESTUsuario {
     }
     
     @GET
-    @Path("getAllRol")
+    @Path("getAllUsuario")
     @Produces(MediaType.APPLICATION_JSON)   
     public Response getAllCategoria()
     {
         String out = null;
        
-        CtrlUsuario ca = new CtrlUsuario();
+        CtrlSucursal su = new CtrlSucursal();
       
-        List<Rol> rol = null;
+        List<Usuario> usuario = null;
         
              try
         {
-            rol = ca.getAllRol(null);
-            out = new Gson().toJson(rol);
+            usuario = su.getAllUsuario(null);
+            out = new Gson().toJson(usuario);
         } 
         catch (Exception e)
         {
@@ -137,5 +137,4 @@ public class RESTUsuario {
         return Response.ok(out).build();
                       
     }
-    
 }
