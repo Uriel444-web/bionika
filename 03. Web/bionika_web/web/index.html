@@ -124,4 +124,22 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="JS/index.js" type="text/javascript"></script>
     </body>
+    <script>
+  const items = ["prod-1", "prod-2", "prod-3"];
+  let index = 0;
+
+  setInterval(() => {
+    items.forEach((id, i) => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.classList.remove("scale-110");
+      }
+    });
+
+    const current = document.getElementById(items[index]);
+    current?.classList.add("scale-110");
+
+    index = (index + 1) % items.length;
+  }, 2000);
+</script>
 </html>
