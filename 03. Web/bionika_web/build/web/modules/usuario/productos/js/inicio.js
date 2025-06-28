@@ -262,7 +262,7 @@ export async function buscarProductoPorTexto() {
 
     // Si el campo está vacío, mostrar todos los productos
     if (texto === "") {
-        productosDef(); // función que ya tienes y muestra todos
+        productosDef();
         return;
     }
 
@@ -279,7 +279,7 @@ export async function buscarProductoPorTexto() {
             return;
         }
 
-        mostrarProductos(productos); // como ya haces normalmente
+        mostrarProductos(productos);
     } catch (e) {
         console.error(e);
         document.getElementById("productosContainer").innerHTML = `

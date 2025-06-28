@@ -61,17 +61,17 @@
                 </div>
             </div>
         </div>
-        <div id="divDetalle" class="min-h-screen py-10 px-4 bg-gradient-to-br from-gray-200 via-white to-purple-400 backdrop-blur-sm border-4 border-black">
-            <div class="max-w-4xl mx-auto bg-white/70 rounded-2xl shadow-2xl p-6 backdrop-blur-md">
-                <div class="flex flex-col md:flex-row gap-8">
+        <div id="divDetalle" class="min-h-screen py-10 px-4 bg-gradient-to-br from-gray-300 via-purple-100 to-cyan-100 backdrop-blur-sm border-[3px] border-black/80">
+            <div class="max-w-4xl mx-auto bg-white/80 rounded-3xl shadow-2xl p-8 backdrop-blur-md ring-1 ring-black/10">
+                <div class="flex flex-col md:flex-row gap-10">
 
                     <!-- Imagen del producto -->
-                    <div class="w-full md:w-1/2 p-5 rounded-xl shadow-inner flex flex-col items-center bg-white/80 backdrop-blur">
-                        <div class="w-full aspect-square rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden mb-4 bg-white">
-                            <img id="imgFoto" alt="Imagen del producto" class="max-h-full object-contain transition duration-200" />
+                    <div class="w-full md:w-1/2 p-5 rounded-xl shadow-inner flex flex-col items-center bg-white/90 backdrop-blur">
+                        <div class="w-full aspect-square rounded-xl border-2 border-dashed border-gray-400 flex items-center justify-center overflow-hidden mb-4 bg-white shadow-sm">
+                            <img id="imgFoto" alt="Imagen del producto" class="max-h-full object-contain transition duration-300" />
                         </div>
 
-                        <label for="inputFoto" class="cursor-pointer flex items-center gap-2 bg-purple-900 hover:bg-purple-950 text-white px-4 py-2 text-sm rounded-md shadow transition">
+                        <label for="inputFoto" class="cursor-pointer flex items-center gap-2 bg-purple-700 hover:bg-purple-900 text-white px-4 py-2 text-sm rounded-md shadow-md transition">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12v6m0 0l-3-3m3 3l3-3m6-9h-4l-2-2H10L8 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2z" />
@@ -83,73 +83,64 @@
                     </div>
 
                     <!-- Formulario -->
-                    <div class="w-full md:w-1/2 space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">ID:</label>
-                            <input id="txtIdProducto" type="text" readonly
-                                   class="w-full mt-1 px-3 py-2 border rounded-lg bg-gray-100 text-gray-800 shadow-sm ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300" />
+                    <div class="w-full md:w-1/2 space-y-5 text-gray-800">
+                        <div class="space-y-4">
+                            <label class="block text-sm font-semibold">ID:</label>
+                            <input id="txtIdProducto" type="text" readonly class="w-full px-4 py-2 border rounded-lg bg-gray-100 shadow-inner ring-1 ring-gray-300 focus:outline-none" />
 
-                            <label class="block mt-4 text-sm font-medium text-gray-700">Nombre:</label>
-                            <input id="txtNombreProducto" type="text"
-                                   class="w-full mt-1 px-3 py-2 border rounded-lg ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
+                            <label class="block text-sm font-semibold mt-3">Nombre:</label>
+                            <input id="txtNombreProducto" type="text" class="w-full px-4 py-2 border rounded-lg shadow ring-1 ring-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400" />
 
-                            <label class="block mt-4 text-sm font-medium text-gray-700">Categoría:</label>
-                            <select id="categoriaDetalle"
-                                    class="w-full mt-1 px-3 py-2 border rounded-lg bg-white text-gray-700 ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm">
-                                <!-- JS Opciones -->
+                            <label class="block text-sm font-semibold mt-3">Categoría:</label>
+                            <select id="categoriaDetalle" class="w-full px-4 py-2 border rounded-lg shadow ring-1 ring-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white">
+                                <!-- JS -->
                             </select>
 
-                            <label class="block mt-4 text-sm font-medium text-gray-700">Descripción:</label>
-                            <textarea id="txtDescripcion" rows="3"
-                                      class="w-full mt-1 px-3 py-2 border rounded-lg ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm resize-none"></textarea>
+                            <label class="block text-sm font-semibold mt-3">Descripción:</label>
+                            <textarea id="txtDescripcion" rows="3" class="w-full px-4 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none"></textarea>
                         </div>
 
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Precio:</label>
-                            <input id="txtPrecio" type="number" step="0.01"
-                                   class="w-full mt-1 px-3 py-2 border rounded-lg ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
+                        <!-- Detalles -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-semibold">Precio:</label>
+                            <input id="txtPrecio" type="number" step="0.01" class="w-full px-4 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300" />
 
-                            <label class="block mt-4 text-sm font-medium text-gray-700">Código Interno:</label>
-                            <input id="txtCodigoInterno" type="text"
-                                   class="w-full mt-1 px-3 py-2 border rounded-lg ring-1 ring-offset-2 ring-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 shadow-sm" />
+                            <label class="block text-sm font-semibold mt-3">Código Interno:</label>
+                            <input id="txtCodigoInterno" type="text" class="w-full px-4 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300" />
+
                             <hr class="my-6 border-t-2 border-purple-400">
 
-                            <h2 class="text-xl font-bold text-gray-800 mb-4">Detalles por talla y color</h2>
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                            <h2 class="text-lg font-bold text-gray-900 mb-4">Detalles por talla y color</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Talla:</label>
-                                    <select id="selectTalla" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300">
-                                        <!-- Opciones se llenan dinámicamente -->
-                                    </select>
+                                    <label class="block text-sm font-semibold">Talla:</label>
+                                    <select id="selectTalla" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300"></select>
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Color:</label>
-                                    <select id="selectColor" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300">
-                                        <!-- Opciones se llenan dinámicamente -->
-                                    </select>
+                                    <label class="block text-sm font-semibold">Color:</label>
+                                    <select id="selectColor" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300"></select>
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Stock:</label>
+                                    <label class="block text-sm font-semibold">Stock:</label>
                                     <input id="inputStockDetalle" type="number" min="0" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300" />
                                 </div>
-                                <!-- DIV PARA UNIDAD DE MEDIDA -->
+
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">Unidad:</label>
-                                    <select id="selectUnidad" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300">
-                                        <!-- Opciones se llenan dinámicamente -->
-                                    </select>
+                                    <label class="block text-sm font-semibold">Unidad:</label>
+                                    <select id="selectUnidad" class="w-full px-3 py-2 border rounded-lg shadow-sm ring-1 ring-gray-300"></select>
                                 </div>
+
                                 <div>
-                                    <button id="btnAgregarDetalle" type="button" class="bg-purple-700 hover:bg-purple-800 text-white w-full py-2 rounded-lg shadow transition">+</button>
+                                    <button id="btnAgregarDetalle" type="button" class="bg-purple-700 hover:bg-purple-900 text-white w-full py-2 rounded-lg shadow-md transition font-bold text-lg">+</button>
                                 </div>
                             </div>
 
-                            <!-- Tabla para mostrar los detalles -->
-                            <div class="mt-6">
-                                <table class="w-full table-auto bg-white border border-gray-300 rounded-lg shadow-sm text-sm text-left">
-                                    <thead class="bg-purple-100 text-purple-900">
+                            <!-- Tabla -->
+                            <div class="mt-6 overflow-x-auto">
+                                <table class="w-full bg-white border border-gray-300 rounded-xl overflow-hidden shadow-sm text-sm">
+                                    <thead class="bg-purple-200 text-purple-900 font-semibold">
                                         <tr>
                                             <th class="px-4 py-2 border">Talla</th>
                                             <th class="px-4 py-2 border">Color</th>
@@ -158,8 +149,8 @@
                                             <th class="px-4 py-2 border">Acciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tablaDetalles">
-                                        <!-- Aquí se mostrarán dinámicamente los registros del array -->
+                                    <tbody id="tablaDetalles" class="text-gray-800">
+                                        <!-- JS -->
                                     </tbody>
                                 </table>
                             </div>
@@ -168,15 +159,11 @@
                 </div>
 
                 <!-- Botones -->
-                <div class="flex flex-wrap justify-end gap-3 mt-8">
-                    <button id="btnSave"
-                            class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow transition font-semibold">Guardar</button>
-                    <button id="btnEliminar" onclick="eliminarProducto();"
-                            class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow transition font-semibold">Eliminar</button>
-                    <button id="btnRegresar"
-                            class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-lg shadow transition font-semibold">Regresar</button>
-                    <button id="btnLimpiar"
-                            class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-lg shadow transition font-semibold">Limpiar</button>
+                <div class="flex flex-wrap justify-end gap-4 mt-10">
+                    <button id="btnSave" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl shadow-md font-semibold transition">Guardar</button>
+                    <button id="btnEliminar" onclick="eliminarProducto();" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-xl shadow-md font-semibold transition">Eliminar</button>
+                    <button id="btnRegresar" class="bg-black hover:bg-gray-900 text-white px-5 py-2 rounded-xl shadow-md font-semibold transition">Regresar</button>
+                    <button id="btnLimpiar" class="bg-gray-600 hover:bg-gray-800 text-white px-5 py-2 rounded-xl shadow-md font-semibold transition">Limpiar</button>
                 </div>
             </div>
         </div>

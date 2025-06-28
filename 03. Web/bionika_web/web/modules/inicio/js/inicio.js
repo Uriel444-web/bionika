@@ -23,7 +23,7 @@ export async function inicializar() {
 
     const grupos = [
         ["prod-1", "prod-2", "prod-3"],
-        ["prod-4", "prod-5", "prod-6"] 
+        ["prod-4", "prod-5", "prod-6"]
     ];
     let animIndex = 0;
 
