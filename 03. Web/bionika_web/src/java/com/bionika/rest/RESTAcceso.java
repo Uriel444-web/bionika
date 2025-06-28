@@ -24,12 +24,12 @@ public class RESTAcceso {
         Usuario u = objGS.fromJson(usuario, Usuario.class);
         String out = "";
         CtrlLogin objAC = new CtrlLogin();
-
+        System.out.println("usuario: "+usuario);
         try {
 
             objAC.validarAcceso(u);
-
-            if (u.getId() > 0) {
+            System.out.println("resultado: "+u.getIdUsuario());
+            if (u.getIdUsuario()> 0) {
 
                 u.setToken();
                 objAC.almacenarToken(u);

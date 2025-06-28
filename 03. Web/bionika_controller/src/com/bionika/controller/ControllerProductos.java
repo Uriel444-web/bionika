@@ -113,6 +113,97 @@ public class ControllerProductos {
 
     }
 
+    public Producto getByClave(String clave) throws Exception {
+        Producto p = null;
+        String sql = "SELECT * FROM vista_producto_con_detalles WHERE codigoInterno = ?";
+
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, clave);
+        ResultSet rs = pstmt.executeQuery();
+
+        Gson gson = new Gson();
+        Type listType = new TypeToken<ArrayList<DetalleProducto>>() {
+        }.getType();
+
+        if (rs.next()) {
+            p = new Producto();
+            p.setIdProducto(rs.getInt("idProducto"));
+            p.setFoto(rs.getString("foto"));
+            p.setNombre(rs.getString("nombreProducto"));
+            p.setDescripcion(rs.getString("descripcion"));
+            p.setPrecio(rs.getDouble("precio"));
+            p.setCodigoInterno(rs.getString("codigoInterno"));
+
+            Categoria cat = new Categoria();
+            cat.setIdCategoria(rs.getInt("idCategoria"));
+            cat.setNombre(rs.getString("nombre"));
+            p.setCategoria(cat);
+
+            String jsonDetalles = rs.getString("detalles");
+            if (jsonDetalles != null) {
+                ArrayList<DetalleProducto> detalles = gson.fromJson(jsonDetalles, listType);
+                p.setDetalles(detalles);
+            }
+        }
+
+        rs.close();
+        pstmt.close();
+        connMySQL.close();
+
+        return p;
+    }
+
+    public ArrayList<Producto> buscarPorTexto(String texto) throws Exception {
+        ArrayList<Producto> lista = new ArrayList<>();
+        String sql = """
+        SELECT * FROM vista_producto_con_detalles 
+        WHERE codigoInterno LIKE ? OR nombreProducto LIKE ?
+    """;
+
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        String param = "%" + texto + "%";
+        pstmt.setString(1, param);
+        pstmt.setString(2, param);
+        ResultSet rs = pstmt.executeQuery();
+
+        Gson gson = new Gson();
+        Type listType = new TypeToken<ArrayList<DetalleProducto>>() {
+        }.getType();
+
+        while (rs.next()) {
+            Producto p = new Producto();
+            p.setIdProducto(rs.getInt("idProducto"));
+            p.setFoto(rs.getString("foto"));
+            p.setNombre(rs.getString("nombreProducto"));
+            p.setDescripcion(rs.getString("descripcion"));
+            p.setPrecio(rs.getDouble("precio"));
+            p.setCodigoInterno(rs.getString("codigoInterno"));
+
+            Categoria cat = new Categoria();
+            cat.setIdCategoria(rs.getInt("idCategoria"));
+            cat.setNombre(rs.getString("nombre"));
+            p.setCategoria(cat);
+
+            String jsonDetalles = rs.getString("detalles");
+            if (jsonDetalles != null) {
+                ArrayList<DetalleProducto> detalles = gson.fromJson(jsonDetalles, listType);
+                p.setDetalles(detalles);
+            }
+
+            lista.add(p);
+        }
+
+        rs.close();
+        pstmt.close();
+        connMySQL.close();
+
+        return lista;
+    }
+
     // NUEVO UPDATE
     public void update(Producto producto) {
         ConexionMySQL connMySQL = new ConexionMySQL();

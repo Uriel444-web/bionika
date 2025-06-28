@@ -6,51 +6,35 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 public class Usuario {
     
-    private int id;
+    private int idUsuario;
     private String usuario;
-    private String contrasenia;
+    private String contrasena;
     private String token;
-    private Rol rol;
-    private Empleado empleado;
     private int activo;
-
+    private Empleado empleado;
+    private Rol rol;
+    private Sucursal sucursal;
+    
     public Usuario() {
     }
 
-    public Usuario(int id, String usuario, String contrasenia, String token, Rol rol, Empleado empleado, int activo) {
-        this.id = id;
+    public Usuario(int idUsuario, String usuario, String contrasena, String token, int activo, Empleado empleado, Rol rol, Sucursal sucursal) {
+        this.idUsuario = idUsuario;
         this.usuario = usuario;
-        this.contrasenia = contrasenia;
+        this.contrasena = contrasena;
         this.token = token;
-        this.rol = rol;
-        this.empleado = empleado;
         this.activo = activo;
-    }
-
-    public Rol getRol() {
-        return rol;
-    }
-
-    public void setRol(Rol rol) {
-        this.rol = rol;
-    }
-
-    public Empleado getEmpleado() {
-        return empleado;
-    }
-
-    public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
+        this.rol = rol;
+        this.sucursal = sucursal;
     }
 
-
-    
-    public int getId() {
-        return id;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getUsuario() {
@@ -61,12 +45,12 @@ public class Usuario {
         this.usuario = usuario;
     }
 
-    public String getContrasenia() {
-        return contrasenia;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public String getToken() {
@@ -81,19 +65,30 @@ public class Usuario {
         this.activo = activo;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Bionika_model{");
-        sb.append("id=").append(id);
-        sb.append(", usuario=").append(usuario);
-        sb.append(", contrasenia=").append(contrasenia);
-        sb.append(", token=").append(token);
-        sb.append(", activo=").append(activo);
-        sb.append('}');
-        return sb.toString();
+    public Empleado getEmpleado() {
+        return empleado;
     }
 
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    public Sucursal getSucursal() {
+        return sucursal;
+    }
+
+    public void setSucursal(Sucursal sucursal) {
+        this.sucursal = sucursal;
+    }
+    
     public void setToken() {
 
         String p1 = this.usuario;
@@ -105,6 +100,9 @@ public class Usuario {
         this.token = t;
         
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "idUsuario=" + idUsuario + ", usuario=" + usuario + ", contrasena=" + contrasena + ", token=" + token + ", activo=" + activo + ", empleado=" + empleado.toString() + ", rol=" + rol.toString() + ", sucursal=" + sucursal.toString() + '}';
+    }
 }
-
-

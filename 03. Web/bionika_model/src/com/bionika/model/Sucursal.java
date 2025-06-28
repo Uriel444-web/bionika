@@ -3,7 +3,7 @@ package com.bionika.model;
 
 public class Sucursal {
    private int idSucursal;
-   private String nombre; 
+   private String nombreSuc; 
    private String colonia;
    private String calle;
    private String codPos;
@@ -12,14 +12,13 @@ public class Sucursal {
    private String numExt;
    private String telefono;
    private int activo;
-   private Usuario usuario;
 
     public Sucursal() {
     }
 
-    public Sucursal(int idSucursal, String nombre, String colonia, String calle, String codPos, String latitud, String longitud, String numExt, String telefono, int activo, Usuario usuario) {
+    public Sucursal(int idSucursal, String nombreSuc, String colonia, String calle, String codPos, String latitud, String longitud, String numExt, String telefono, int activo) {
         this.idSucursal = idSucursal;
-        this.nombre = nombre;
+        this.nombreSuc = nombreSuc;
         this.colonia = colonia;
         this.calle = calle;
         this.codPos = codPos;
@@ -28,7 +27,38 @@ public class Sucursal {
         this.numExt = numExt;
         this.telefono = telefono;
         this.activo = activo;
-        this.usuario = usuario;
+    }
+
+    public int getIdSucursal() {
+        return idSucursal;
+    }
+
+    public void setIdSucursal(int idSucursal) {
+        this.idSucursal = idSucursal;
+    }
+
+    public String getNombreSuc() {
+        return nombreSuc;
+    }
+
+    public void setNombreSuc(String nombreSuc) {
+        this.nombreSuc = nombreSuc;
+    }
+
+    public String getColonia() {
+        return colonia;
+    }
+
+    public void setColonia(String colonia) {
+        this.colonia = colonia;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
     }
 
     public String getCodPos() {
@@ -53,48 +83,6 @@ public class Sucursal {
 
     public void setLongitud(String longitud) {
         this.longitud = longitud;
-    }
-
- 
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public int getIdSucursal() {
-        return idSucursal;
-    }
-
-    public void setIdSucursal(int idSucursal) {
-        this.idSucursal = idSucursal;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getColonia() {
-        return colonia;
-    }
-
-    public void setColonia(String colonia) {
-        this.colonia = colonia;
-    }
-
-    public String getCalle() {
-        return calle;
-    }
-
-    public void setCalle(String calle) {
-        this.calle = calle;
     }
 
     public String getNumExt() {
@@ -123,24 +111,7 @@ public class Sucursal {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Sucursal{");
-        sb.append("idSucursal=").append(idSucursal);
-        sb.append(", nombre=").append(nombre);
-        sb.append(", colonia=").append(colonia);
-        sb.append(", calle=").append(calle);
-        sb.append(", codPos=").append(codPos);
-        sb.append(", latitud=").append(latitud);
-        sb.append(", longitud=").append(longitud);
-        sb.append(", numExt=").append(numExt);
-        sb.append(", telefono=").append(telefono);
-        sb.append(", activo=").append(activo);
-        sb.append(", usuario=").append(usuario);
-        sb.append('}');
-        return sb.toString();
+        return "Sucursal{" + "idSucursal=" + idSucursal + ", nombre=" + nombreSuc + ", colonia=" + colonia + ", calle=" + calle + ", codPos=" + codPos + ", latitud=" + latitud + ", longitud=" + longitud + ", numExt=" + numExt + ", telefono=" + telefono + ", activo=" + activo + '}';
     }
-
-    
-   
     
 }

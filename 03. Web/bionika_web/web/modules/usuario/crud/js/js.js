@@ -7,6 +7,7 @@
 
 let usu = [];
 let Roles = [];
+let Sucursales = [];
 
 export async function saludar() {
 
@@ -14,8 +15,8 @@ export async function saludar() {
 
 export async function saveUsuario() {
     let url = 'http://localhost:8080/bionika_web/api/usuario/save';
+    
     let usuario = {
-
         empleado: {
             idEmpleado: 0,
             nombre: document.getElementById("txtNombre").value,
@@ -25,30 +26,29 @@ export async function saveUsuario() {
             telefono: document.getElementById("txtTelefono").value
         },
         usuario: document.getElementById("txtUsuario").value,
-        contrasenia: document.getElementById("txtContrasena").value,
+        contrasena: document.getElementById("txtContrasena").value,
         rol: {
-
             idRol: parseInt(document.getElementById("cmbCategoria").value)
+        },
+        sucursal: {
+            idSucursal: parseInt(document.getElementById("cmbSucursal").value)
         },
         id: 0
     };
-    
-    
+
     let datos = null;
     let params = null;
     let opciones = null;
     let resp = null;
     let data = null;
 
-    if (document.getElementById("txtId").value.trim() != '')
-    {
+    if (document.getElementById("txtId").value.trim() != '') {
         usuario.id = parseInt(document.getElementById("txtId").value.trim());
-    
     }
 
     datos = {datosUsuario: JSON.stringify(usuario)};
     params = new URLSearchParams(datos);
-    
+
     opciones = {
         method: "POST",
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
@@ -58,15 +58,13 @@ export async function saveUsuario() {
     resp = await fetch(url, opciones);
     data = await resp.json();
 
-    if (!data.error)
-    {
+    if (!data.error) {
         Swal.fire({
             icon: 'success',
             title: 'Éxito',
             text: 'Usuario agregado/Actualizado con éxito'
         });
-    } else
-    {
+    } else {
         Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -74,6 +72,7 @@ export async function saveUsuario() {
         });
     }
 }
+
 
 export async function _delete()
 {
@@ -138,7 +137,7 @@ export async function recargarTablaUsuario()
         for (let i = 0; i < usu.length; i++)
         {
             contenido += '<tr class="cursor-pointer hover:bg-gray-100">' +
-                    '<td class="text-gray-900 font-semibold transition p-2 pl-4 h-8 border-b-2 border-stone-200">' + usu[i].id + '</td>' +
+                    '<td class="text-gray-900 font-semibold transition p-2 pl-4 h-8 border-b-2 border-stone-200">' + usu[i].idUsuario + '</td>' +
                     '<td class="text-gray-900 font-semibold transition p-2 pl-4 h-8 border-b-2 border-stone-200">' + usu[i].usuario + '</td>' +
                     '<td class="text-gray-900 font-semibold transition p-2 pl-4 h-8 border-b-2 border-stone-200">' + usu[i].empleado.nombre + '</td>' +
                     '<td class="text-gray-900 font-semibold transition p-2 pl-4 h-8 border-b-2 border-stone-200">' + usu[i].empleado.apellidoP + '</td>' +
@@ -178,6 +177,34 @@ export async function recargarComboBoxCategorias()
     }
 
     document.getElementById('cmbCategoria').innerHTML = contenido;
+    recargarComboBoxSucursales();
+}
+
+// funcion para cargar el combobox de sucursales
+export async function recargarComboBoxSucursales()
+{
+    let url = "http://localhost:8080/bionika_web/api/usuario/getAllSucursal";
+    let resp = await fetch(url);
+    let datos = await resp.json();
+
+    let contenido = '';
+
+    if (datos.error != null)
+    {
+        Swal.fire('Error al consultar sucursales.', datos.error, 'error');
+    } else
+    {
+        Sucursales = datos;
+
+        for (let i = 0; i < Sucursales.length; i++)
+        {
+            contenido += '<option value="' + Sucursales[i].idSucursal + '">' +
+                    Sucursales[i].nombreSuc +
+                    '</option>';
+        }
+    }
+
+    document.getElementById('cmbSucursal').innerHTML = contenido;
 }
 
 export async function agregarEventosFilas() {

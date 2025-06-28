@@ -31,7 +31,7 @@ public class RESTSucursal {
         CtrlSucursal su = new CtrlSucursal();
         Sucursal s = null;
         Gson gson = new Gson();
-        
+        System.out.println(datosSucursal);
             try{
         
             s = gson.fromJson(datosSucursal, Sucursal.class);

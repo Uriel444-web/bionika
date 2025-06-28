@@ -76,9 +76,6 @@ CREATE VIEW v_sucursal AS
         s.longitud,
         s.numExt,
         s.telefono,
-        s.activo,
-        u.idUsuario,
-        u.usuario
+        s.activo
     FROM
-        sucursal s
-	INNER JOIN usuario u ON s.idUsuario = u.idUsuario;
+        sucursal s;

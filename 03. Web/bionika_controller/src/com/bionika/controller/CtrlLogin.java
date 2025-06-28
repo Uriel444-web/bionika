@@ -1,6 +1,7 @@
 package com.bionika.controller;
 
 import com.bionika.db.ConexionMySQL;
+import com.bionika.model.Sucursal;
 import com.bionika.model.Usuario;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,7 +14,7 @@ public class CtrlLogin {
     public void validarAcceso(Usuario u) throws SQLException, Exception {
 
         String query = """
-                            SELECT idUsuario FROM usuario WHERE usuario= ? and contrasena= ?
+                            SELECT idUsuario, sucursal FROM usuario WHERE usuario= ? and contrasena= ?
                        """;
            
                 try {
@@ -23,14 +24,15 @@ public class CtrlLogin {
                 PreparedStatement stmt = objConn.prepareStatement(query);
                
                     stmt.setString(1, u.getUsuario());       // Primer parámetro (usuario)
-                    stmt.setString(2, u.getContrasenia());
+                    stmt.setString(2, u.getContrasena());
                     
                 ResultSet rs = stmt.executeQuery();
                                 
                 while (rs.next()) {
 
-                u.setId(rs.getInt("idUsuario"));
-                
+                u.setIdUsuario(rs.getInt("idUsuario"));
+                u.setSucursal(new Sucursal()); // Asegúrate de que Usuario tiene atributo Sucursal
+                u.getSucursal().setIdSucursal(rs.getInt("sucursal"));
                 rs.close();
                 objConn.close();
             }
@@ -48,7 +50,7 @@ public class CtrlLogin {
                         UPDATE usuario SET token='%s' WHERE idUsuario=%s;
                       """;
         
-                query = String.format(query, u.getToken(),u.getId());
+                query = String.format(query, u.getToken(),u.getIdUsuario());
                 
                     ConexionMySQL connMySQL = new ConexionMySQL();
                     Connection conn = connMySQL.open();

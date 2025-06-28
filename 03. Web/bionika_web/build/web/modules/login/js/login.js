@@ -8,7 +8,7 @@
     let u = document.getElementById("txtUsuario").value;
     let c = document.getElementById("txtPassword").value;
     
-    let usuario = {usuario: u, contrasenia: c};
+    let usuario = {usuario: u, contrasena: c};
     let parametros = {usuario: JSON.stringify(usuario)};
     let ruta = "http://localhost:8080/bionika_web/api/acceso/login";
     
@@ -20,11 +20,12 @@
             }
     ).then(response => response.json())
             .then(response => {
-                if (response.id != 0 && response.id != null)
+                if (response.idUsuario != 0 && response.idUsuario != null)
                 {
                     localStorage.setItem("token", response.token);
                     localStorage.setItem("usuario", response.usuario);
-                    localStorage.setItem("id", response.id);
+                    localStorage.setItem("id", response.idUsuario);
+                    localStorage.setItem("idSucursal", response.sucursal.idSucursal);
                     Swal.fire({
                         icon: "success",
                         title: "Bienvenido "+localStorage.getItem("usuario"),

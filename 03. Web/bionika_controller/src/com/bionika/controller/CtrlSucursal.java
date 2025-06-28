@@ -15,18 +15,16 @@ public class CtrlSucursal {
     
     public int insert(Sucursal su) throws Exception
     { 
-        String sql = "{CALL insertarSucursal( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+        String sql = "{CALL insertarSucursal( ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
     
         try{
             
         ConexionMySQL connMySQL = new ConexionMySQL();
-        System.out.println("conexion 1");
         Connection conn = connMySQL.open();
-        System.out.println("conexion 2");
         
         java.sql.CallableStatement cstmt = conn.prepareCall(sql);    
         
-        cstmt.setString(1, su.getNombre());
+        cstmt.setString(1, su.getNombreSuc());
         cstmt.setString(2, su.getColonia());
         cstmt.setString(3, su.getCalle());
         cstmt.setString(4, su.getCodPos());
@@ -34,13 +32,12 @@ public class CtrlSucursal {
         cstmt.setString(6, su.getLongitud());
         cstmt.setString(7, su.getNumExt());
         cstmt.setString(8, su.getTelefono());
-        cstmt.setInt(9, su.getUsuario().getId());
         
-        cstmt.registerOutParameter(10, java.sql.Types.INTEGER); 
+        cstmt.registerOutParameter(9, java.sql.Types.INTEGER); 
 
         cstmt.executeUpdate();
         
-        su.setIdSucursal(cstmt.getInt(10));
+        su.setIdSucursal(cstmt.getInt(9));
           
         cstmt.close();
         connMySQL.close();
@@ -49,7 +46,8 @@ public class CtrlSucursal {
         
         }catch(SQLException e){
             
-        e.printStackTrace(); }    
+        e.printStackTrace(); 
+        }    
          return 0;
     }
     
@@ -106,10 +104,10 @@ public class CtrlSucursal {
         Usuario u = new Usuario();
         Sucursal  s = new Sucursal();
         
-        s.setUsuario(u);
+//        s.setUsuario(u);
       
         s.setIdSucursal(rs.getInt("idSucursal"));
-        s.setNombre(rs.getString("nombreSuc"));
+        s.setNombreSuc(rs.getString("nombreSuc"));
         s.setColonia(rs.getString("colonia"));
         s.setCalle(rs.getString("calle"));
         s.setCodPos(rs.getString("codPos"));
@@ -118,9 +116,6 @@ public class CtrlSucursal {
         s.setNumExt(rs.getString("numExt"));
         s.setTelefono(rs.getString("telefono"));
         s.setActivo(rs.getInt("activo"));
-        
-        u.setId(rs.getInt("idUsuario"));
-        u.setUsuario(rs.getString("usuario"));
         
         return s;
     }
@@ -157,7 +152,7 @@ public class CtrlSucursal {
         Usuario u = new Usuario();       
             
         u.setUsuario(rs.getString("usuario"));
-        u.setId(rs.getInt("idUsuario"));
+//        u.setId(rs.getInt("idUsuario"));
         u.setActivo(rs.getInt("activo"));
   
         return u;

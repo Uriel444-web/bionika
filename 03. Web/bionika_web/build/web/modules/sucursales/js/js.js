@@ -33,7 +33,7 @@ export async function saveSucursal() {
     let url = 'http://localhost:8080/bionika_web/api/sucursal/save';
     let sucursal = {
         
-        nombre: document.getElementById("txtNombreSuc").value,
+        nombreSuc: document.getElementById("txtNombreSuc").value,
         colonia: document.getElementById("txtColonia").value,
         calle: document.getElementById("txtCalle").value,
         codPos: document.getElementById("txtCodPos").value,
@@ -41,9 +41,6 @@ export async function saveSucursal() {
         longitud: document.getElementById("txtLongitud").value,
         numExt: document.getElementById("txtNumExt").value,
         telefono: document.getElementById("txtTelefono").value,
-        usuario: {
-            id: parseInt(document.getElementById("cmbUsuario").value)
-        },
         idSucursal: 0
     };
 
@@ -155,10 +152,9 @@ export async function getAllSucursales()
             contenido +=
                     '<div class="grid grid-cols-6 grid-rows-5 gap-4 mx-8 pb-2 border-b-2 border-gray-100">' +
                     '<div class="col-span-4 row-span-5">' +
-                    '<p class="text-xl text-gray-900 font-semibold">' + suc[i].nombre + '</p>' +
+                    '<p class="text-xl text-gray-900 font-semibold">' + suc[i].nombreSuc + '</p>' +
                     '<h2 class="text-gray-800 font-semibold">' + "Direccion: " + suc[i].colonia + ", " + suc[i].calle + ", " + suc[i].numExt + '</h2>' +
-                    '<h2 class="text-gray-800 font-semibold">' + "Telefono: " + suc[i].telefono + '</h2>' +
-                    '<h2 class="text-gray-800 font-semibold">' + "Encargado: " + suc[i].usuario.usuario + '</h2>' +
+                    '<h2 class="text-gray-800 font-semibold">' + "Telefono: " + suc[i].telefono + '</h2>'+
                     '</div>' +
                     '<div class="col-span-2 row-span-5 col-start-5 py-8 flex">' +
                     

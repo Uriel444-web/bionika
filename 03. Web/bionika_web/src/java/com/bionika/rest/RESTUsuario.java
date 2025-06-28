@@ -3,6 +3,7 @@ package com.bionika.rest;
 
 import com.bionika.controller.CtrlUsuario;
 import com.bionika.model.Rol;
+import com.bionika.model.Sucursal;
 import com.bionika.model.Usuario;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
@@ -30,12 +31,13 @@ public class RESTUsuario {
         Usuario a = null;
         Gson gson = new Gson();
         
+        System.out.println(datosUsuario);
             try{
         
             a = gson.fromJson(datosUsuario, Usuario.class);
             
                 
-            if (a.getId()< 1)
+            if (a.getIdUsuario()< 1)
                 ca.insert(a);
             else
                 ca.update(a);
@@ -138,4 +140,30 @@ public class RESTUsuario {
                       
     }
     
+    @GET
+    @Path("getAllSucursal")
+    @Produces(MediaType.APPLICATION_JSON)   
+    public Response getAllSucursales()
+    {
+        String out = null;
+       
+        CtrlUsuario ca = new CtrlUsuario();
+      
+        List<Sucursal> sucursal = null;
+        
+             try
+        {
+            sucursal = ca.getAllSucursal();
+            out = new Gson().toJson(sucursal);
+        } 
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            out = """
+                  {"error" : "Error interno del Servidor, comunicate al area de Sistemas"}
+                  """;
+        }
+        return Response.ok(out).build();
+                      
+    }
 }

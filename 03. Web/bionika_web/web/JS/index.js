@@ -1,5 +1,7 @@
 
 let cm = null;
+let prod = [];
+let rolUsuario = 'usuario'; // Por defecto, usuario normal
 
 window.addEventListener('load', () => {
     setTimeout(() => {
@@ -139,11 +141,14 @@ async function validarRol(idUsuario) {
         let data = await resp.json();
         switch (data.idRol) {
             case 1:
+                
                 administrador();
                 break;
             case 2:
                 // aqui vamos a poner su html y el js cuando lo creemos xd
                 console.log("empleado");
+                await productosDef();
+                mostrarIconoVenta();
                 break;
             case 3:
                 productosDef();
@@ -158,6 +163,10 @@ async function validarRol(idUsuario) {
         Swal.fire('Error al validar rol.', error.message, 'error');
         return null;
     }
+}
+
+function mostrarIconoVenta() {
+    document.getElementById("iconoRegistrarVenta").classList.remove("hidden");
 }
 
 async function productosDef() {
@@ -192,7 +201,7 @@ async function usuarios() {
     cm.recargarComboBoxCategorias();
 
     document.getElementById("registrarU").addEventListener("click", (event) => {
-        console.log(cm);
+        //console.log(cm);
         cm.saveUsuario();
     });
 

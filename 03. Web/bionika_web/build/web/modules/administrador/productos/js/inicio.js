@@ -636,6 +636,38 @@ function generarReportePDF(lista) {
     doc.save("reporte_productos.pdf");
 }
 
+// funcion para buscar producto por nombre o clave
+export async function buscarProductoPorTexto() {
+    let texto = document.getElementById("txtBuscar").value.trim();
+
+    // Si el campo está vacío, mostrar todos los productos
+    if (texto === "") {
+        productosDef(); // función que ya tienes y muestra todos
+        return;
+    }
+
+    let url = `http://localhost:8080/bionika_web/api/producto/buscar/${encodeURIComponent(texto)}`;
+
+    try {
+        let resp = await fetch(url);
+        let productos = await resp.json();
+
+        if (!productos || productos.length === 0 || productos.error) {
+            document.getElementById("productosContainer").innerHTML = `
+                <div class="col-span-full text-center text-red-500 font-semibold">No se encontraron productos.</div>
+            `;
+            return;
+        }
+
+        mostrarProductos(productos); // como ya haces normalmente
+    } catch (e) {
+        console.error(e);
+        document.getElementById("productosContainer").innerHTML = `
+            <div class="col-span-full text-center text-red-500 font-semibold">Error al buscar productos.</div>
+        `;
+    }
+}
+
 window.verDetalle = verDetalle;
 window.detallesStock = [];
 window.filtrarPorCategoria = filtrarPorCategoria;
@@ -644,3 +676,4 @@ window.cargarFotografia = cargarFotografia;
 window.eliminarProducto = eliminarProducto;
 window.eliminarDetalleStock = eliminarDetalleStock;
 window.actualizarDetalleStock = actualizarDetalleStock;
+window.buscarProductoPorTexto = buscarProductoPorTexto;

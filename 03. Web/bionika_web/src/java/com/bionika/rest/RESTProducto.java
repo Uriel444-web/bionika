@@ -17,9 +17,11 @@ import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -160,11 +162,11 @@ public class RESTProducto {
         }
         return Response.ok(out).build();
     }
-    
+
     @GET
     @Path("getAllUnidades")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllUnidades(){
+    public Response getAllUnidades() {
         String out = "";
         ControllerProductos cp = new ControllerProductos();
         List<Unidad> unidades = null;
@@ -173,7 +175,34 @@ public class RESTProducto {
             out = new Gson().toJson(unidades);
         } catch (Exception e) {
         }
-        
+
         return Response.ok(out).build();
     }
+
+    @GET
+    @Path("buscar/{texto}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response buscarPorTexto(@PathParam("texto") String texto) {
+        String out = "";
+        Gson gson = new Gson();
+        ControllerProductos ctrl = new ControllerProductos();
+
+        try {
+            ArrayList<Producto> productos = ctrl.buscarPorTexto(texto);
+
+            if (productos != null && !productos.isEmpty()) {
+                out = gson.toJson(productos);
+            } else {
+                out = "[]";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            out = """
+              {"error":"Error interno al buscar productos."}
+              """;
+        }
+
+        return Response.ok(out).build();
+    }
+
 }

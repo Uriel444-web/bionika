@@ -31,3 +31,21 @@ SELECT * FROM vista_producto_con_detalles;
 SELECT * FROM detalle_producto;
 SELECT * FROM talla WHERE idTalla IN (2, 4);
 SELECT * FROM unidad;
+
+-- Pruebas para insertar sucursal
+INSERT INTO sucursal (
+    nombreSuc, colonia, calle, codPos, latitud, longitud, numExt, telefono
+)
+VALUES (
+    'No pertenece',
+    'Colonia Juárez',
+    'Calle Hidalgo',
+    '44700',
+    '20.659699',
+    '-103.349609',
+    '123',
+    '3312345678'
+);
+SELECT * FROM detalle_venta;
+SELECT idUsuario, sucursal FROM usuario WHERE usuario= "UrielEmpleado" and contrasena="1234";
+SELECT * FROM vista_producto_con_detalles WHERE codigoInterno = "MH-203";

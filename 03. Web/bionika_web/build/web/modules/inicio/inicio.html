@@ -8,103 +8,298 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            @keyframes bounce-sutil {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-5%);
+                }
+            }
+
+            @keyframes glow {
+                0%, 100% {
+                    box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+                }
+                50% {
+                    box-shadow: 0 0 15px rgba(139, 92, 246, 0.8);
+                }
+            }
+
+            .btn-animado {
+                animation: bounce-sutil 2s ease-in-out infinite, glow 3s ease-in-out infinite;
+            }
+            .card-metal {
+                background: linear-gradient(145deg, #f0f0f0, #d4d4d4); /* tono metálico sutil */
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* sombra más fuerte */
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .card-metal:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+            }
+
+            .icon-glow {
+                filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.4));
+                animation: glow-icon 3s ease-in-out infinite;
+            }
+
+            @keyframes glow-icon {
+                0%, 100% {
+                    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.4));
+                }
+                50% {
+                    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.7));
+                }
+            }
+            @keyframes tituloPulse {
+                0%, 100% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.02);
+                }
+            }
+            .animate-titulo {
+                animation: tituloPulse 5s ease-in-out infinite;
+            }
+            @keyframes typing {
+                from {
+                    width: 0;
+                }
+                to {
+                    width: 100%;
+                }
+            }
+
+            @keyframes blink {
+                0%, 100% {
+                    border-color: transparent;
+                }
+                50% {
+                    border-color: white;
+                }
+            }
+
+            .typing-animation {
+                animation: typing 4s steps(40, end) 1, blink 0.7s step-end infinite;
+            }
+        </style>
     </head>
     <body class="dark:bg-zinc-800">
 
         <div class="pb-8 rounded-b-lg bg-white shadow-md dark:bg-zinc-900">
-            <!-- Hero Section -->
-            <section class="relative h-[550px] flex items-center justify-center text-center text-white">
-                <!-- Fondo imagen -->
+            <!-- Hero Section con video de fondo -->
+            <section class="relative h-[550px] flex items-center justify-center text-center text-white overflow-hidden">
+
+                <!-- Fondo VIDEO -->
+                <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+                    <source src="resources/videoFondo.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5.
+                </video>
+
+                <!-- Filtro morado -->
+                <div class="absolute inset-0 bg-purple-900 bg-opacity-30"></div>
+
+                <!-- Contenido -->
+                <div class="z-10 max-w-3xl px-6">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-[2px_3px_4px_rgba(0,0,0,0.7)] mb-4 typing-animation overflow-hidden whitespace-nowrap border-r-4 border-white w-fit mx-auto">
+                        Bienvenido a Bionika
+                    </h1>
+                    <p class="text-lg md:text-2xl font-medium text-purple-200 drop-shadow-[1px_2px_3px_rgba(0,0,0,0.6)] mb-6">
+                        Especialistas en productos ortopédicos de alta calidad
+                    </p>
+                </div>
+
+                <!-- si no te convence aqui esta el diseno anterior lol -->
+                <!-- 
                 <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('resources/portada.jpg');"></div>
-                <!-- Capa morada con opacidad -->
                 <div class="absolute inset-0 bg-purple-800 bg-opacity-10"></div>
-
-                <!-- <div class="z-10 max-w-3xl px-6">
-                     <h1 class="text-4xl md:text-5xl font-bold mb-4">Bienvenido a Bionika</h1>
-                     <p class="text-lg md:text-2xl mb-6">Especialistas en productos ortopédicos de alta calidad</p>
-                     <a href="#productos" class="bg-white text-purple-700 font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-gray-100 transition">Ver Productos</a>
-                 </div>-->
+                -->
             </section>
-
         </div>
-        <!-- Sección mejorada de Productos Destacados -->
-        <section id="productos" class="max-w-6xl mx-auto px-4 py-16 dark:bg-zinc-800">
-            <!-- AQUI VA EL TEXTO ANIMADO COMO MAQUINA DE ESCRIBIR -->
-            <h2 id="maquina" class="text-4xl font-bold text-center text-black-700 mb-16 dark:text-white"></h2>
+        <section id="productos" class="max-w-6xl mx-auto px-4 py-20 dark:bg-zinc-800">
+            <!-- Encabezado -->
+            <div class="text-center mb-20">
+                <h2 class="text-3xl sm:text-4xl font-extrabold font-serif mb-6 text-zinc-800 dark:text-purple-400 drop-shadow-lg overline decoration-purple-500 decoration-2 animate-titulo"
+                    data-aos="fade-up">
+                    Productos Destacados
+                </h2>
+                <p class="text-gray-700 dark:text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed font-serif">
+                    Descubre nuestra selección de productos ortopédicos más solicitados, cuidadosamente diseñados para tu bienestar.
+                </p>
+            </div>
+            <!-- Contenedor principal con grupos -->
+            <div class="relative min-h-[400px]">
+                <!-- Grupo 1 visible por defecto -->
+                <div id="grupo1" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-10 p-4 transition-opacity duration-700">
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 p-6 relative z-10">
-
-                <div class="group relative flex flex-col items-center transition-transform duration-500" id="prod-1">
-                    <h3 class="text-3xl font-bold text-purple-800 mb-4 drop-shadow-[2px_2px_4px_rgba(128,0,128,0.4)] font-mono tracking-wide">
-                        Collarines
-                    </h3>
-                    <div class="w-60 h-60 rounded-full overflow-hidden border-2 border-purple-600 shadow-2xl transition-all duration-500 group-hover:scale-110">
-                        <img src="resources/collarines.jpg" alt="Collarines" class="w-full h-full object-cover">
+                    <div id="prod-1" class="group relative flex flex-col items-center transition-transform duration-500 hover:scale-105">
+                        <h3 class="text-2xl font-bold text-purple-900 mb-4 dark:text-purple-300 drop-shadow-lg tracking-wide">
+                            Collarines
+                        </h3>
+                        <div
+                            class="w-60 h-60 rounded-full overflow-hidden border-2 border-purple-700 shadow-2xl backdrop-blur-md bg-white/40 dark:bg-zinc-900/40 transition-all duration-500 group-hover:rotate-1 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(168,85,247,0.9)]">
+                            <img
+                                src="resources/collarines.jpg"
+                                alt="Collarines"
+                                class="w-full h-full object-cover shadow-lg"/>
+                        </div>
+                    </div>
+                    <div id="prod-2" class="group relative flex flex-col items-center transition-transform duration-500 hover:scale-105">
+                        <h3 class="text-2xl font-bold text-purple-900 mb-4 dark:text-purple-300 drop-shadow-lg tracking-wide">
+                            Cabestrillos
+                        </h3>
+                        <div class="w-60 h-60 rounded-full overflow-hidden border-2 border-purple-700 shadow-2xl backdrop-blur-md bg-white/40 dark:bg-zinc-900/40 transition-all duration-500 group-hover:rotate-1 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(168,85,247,0.9)]">
+                            <img
+                                src="resources/cabestrillos.jpg"
+                                alt="Cabestrillos"
+                                class="w-full h-full object-cover shadow-lg"
+                                />
+                        </div>
+                    </div>
+                    <div id="prod-3" class="group relative flex flex-col items-center transition-transform duration-500 hover:scale-105">
+                        <h3 class="text-2xl font-bold text-purple-900 mb-4 dark:text-purple-300 drop-shadow-lg tracking-wide">
+                            Muñequeras
+                        </h3>
+                        <div class="w-60 h-60 rounded-full overflow-hidden border-2 border-purple-700 shadow-2xl backdrop-blur-md bg-white/40 dark:bg-zinc-900/40 transition-all duration-500 group-hover:rotate-1 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(168,85,247,0.9)]">
+                            <img
+                                src="resources/munequeras.jpg"
+                                alt="Muñequeras"
+                                class="w-full h-full object-cover shadow-lg"/>
+                        </div>
                     </div>
                 </div>
-                <div class="group relative flex flex-col items-center transition-transform duration-500" id="prod-2">
-                    <h3 class="text-3xl font-bold text-purple-800 mb-4 drop-shadow-[2px_2px_4px_rgba(128,0,128,0.4)] font-mono tracking-wide">
-                        Cabestrillos
-                    </h3>
-                    <div class="w-60 h-60 rounded-full overflow-hidden border-2 border-purple-600 shadow-2xl transition-all duration-500 group-hover:scale-110">
-                        <img src="resources/cabestrillos.jpg" alt="Cabestrillos" class="w-full h-full object-cover">
+
+                <div id="grupo2" class="absolute inset-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-10 p-4 opacity-0 pointer-events-none transition-opacity duration-700">
+                    <div id="prod-4" class="group relative flex flex-col items-center transition-transform duration-500 hover:scale-105">
+                        <h3 class="text-2xl font-bold text-purple-900 mb-4 dark:text-purple-300 drop-shadow-lg tracking-wide">
+                            Colchones
+                        </h3>
+                        <div class="w-60 h-60 rounded-full overflow-hidden border-2 border-purple-700 shadow-2xl backdrop-blur-md bg-white/40 dark:bg-zinc-900/40 transition-all duration-500 group-hover:rotate-1 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(168,85,247,0.9)]">
+                            <img src="resources/colchonesYCamas.jpg"
+                                 alt="Colchones"
+                                 class="w-full h-full object-cover shadow-lg"/>
+                        </div>
                     </div>
-                </div>
-                <div class="group relative flex flex-col items-center transition-transform duration-500" id="prod-3">
-                    <h3 class="text-3xl font-bold text-purple-800 mb-4 drop-shadow-[2px_2px_4px_rgba(128,0,128,0.4)] font-mono tracking-wide">
-                        Muñequeras
-                    </h3>
-                    <div class="w-60 h-60 rounded-full overflow-hidden border-2 border-purple-600 shadow-2xl transition-all duration-500 group-hover:scale-110">
-                        <img src="resources/munequeras.jpg" alt="Muñequeras" class="w-full h-full object-cover">
+                    <div id="prod-5" class="group relative flex flex-col items-center transition-transform duration-500 hover:scale-105">
+                        <h3 class="text-2xl font-bold text-purple-900 mb-4 dark:text-purple-300 drop-shadow-lg tracking-wide">
+                            Fajas
+                        </h3>
+                        <div class="w-60 h-60 rounded-full overflow-hidden border-2 border-purple-700 shadow-2xl backdrop-blur-md bg-white/40 dark:bg-zinc-900/40 transition-all duration-500 group-hover:rotate-1 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(168,85,247,0.9)]">
+                            <img src="resources/fajas.jpg"
+                                 alt="Fajas"
+                                 class="w-full h-full object-cover shadow-lg"/>
+                        </div>
+                    </div>
+                    <div id="prod-6" class="group relative flex flex-col items-center transition-transform duration-500 hover:scale-105">
+                        <h3 class="text-2xl font-bold text-purple-900 mb-4 dark:text-purple-300 drop-shadow-lg tracking-wide">
+                            Rodilleras
+                        </h3>
+                        <div class="w-60 h-60 rounded-full overflow-hidden border-2 border-purple-700 shadow-2xl backdrop-blur-md bg-white/40 dark:bg-zinc-900/40 transition-all duration-500 group-hover:rotate-1 group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(168,85,247,0.9)]">
+                            <img src="resources/rodilleras.jpg" alt="Rodilleras" class="w-full h-full object-cover shadow-lg"/>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="flex justify-center mt-16">
-                <a id="btnMas" href="#" class="w-14 h-14 flex items-center justify-center bg-purple-700 rounded-full shadow-lg hover:bg-purple-800 transition duration-300">
-                    <svg class="w-6 h-6 text-white transform transition-transform duration-300 hover:scale-110" fill="none" stroke="currentColor" stroke-width="2"
-                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                    </svg>
-                </a>
+    <!-- Sección Sobre Bionika -->
+    <section class="bg-gradient-to-br from-purple-50 via-white to-purple-100 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 py-16 px-4 dark:text-white shadow-inner ring-1 ring-purple-100 dark:ring-zinc-700 rounded-xl">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+            <!-- Imagen con animación -->
+            <div class="relative w-full hidden md:block" data-aos="fade-right">
+                <img src="resources/triangulo2.jpg" alt="Sobre Bionika" class="rounded-xl w-full h-auto object-cover shadow-2xl">
+                <div class="absolute -top-4 -left-4 w-12 h-12 bg-purple-200 rounded-full opacity-50 hidden lg:block animate-pulse"></div>
             </div>
 
+            <!-- Texto con animación -->
+            <div class="w-full m-5 dark:text-white" data-aos="fade-left">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-black-700 mb-4 leading-tight m-5 dark:text-white font-serif">Construimos confianza, inspiramos movimiento</h2>
 
-        </section>
-        <!-- Sección optimizada: Sobre Bionika -->
-        <section class="bg-white py-16 px-4 dark:text-white dark:bg-zinc-900">
-            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <p class="text-gray-700 text-justify text-lg leading-relaxed mb-4 m-5 dark:text-gray-400 font-serif">
+                    Desde <span class="font-bold text-purple-600">1997</span>, en <span class="font-semibold">Bionika</span> impulsamos tu bienestar con la gama más completa de productos ortopédicos y de rehabilitación para ortopedias, farmacias, clínicas y hospitales.
+                </p>
 
-                <!-- Imagen -->
-                <div class="relative w-full hidden md:block">
-                    <img src="resources/triangulo2.jpg" alt="Sobre Bionika" class="rounded-xl w-full h-auto object-cover">
-                    <div class="absolute -top-4 -left-4 w-12 h-12 bg-purple-200 rounded-full opacity-50 hidden lg:block"></div>
-                </div>
+                <p class="text-gray-700 text-justify text-lg leading-relaxed mb-6 m-5 dark:text-gray-400 font-serif">
+                    Calidad garantizada, materiales de clase mundial y la pasión de un equipo comprometido a brindarte lo mejor: eso es <span class="text-purple-600 font-bold">Bionika</span>.
+                </p>
 
-                <!-- Texto -->
-                <div class="w-full m-5 dark:text-white">
-                    <h2 class="text-3xl sm:text-4xl font-extrabold text-black-700 mb-4 leading-tight m-5 dark:text-white">Construimos confianza, inspiramos movimiento</h2>
+                <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 m-5 dark:text-white font-serif">Innovación que transforma vidas</h3>
+                <h4 class="text-xl sm:text-2xl font-semibold text-purple-700 mb-4 m-5font-serif ml-5">¿Por qué somos líderes?</h4>
 
-                    <p class="text-gray-700 text-justify text-lg leading-relaxed mb-4 m-5 dark:text-gray-400">
-                        Desde <span class="font-bold text-purple-600">1997</span>, en <span class="font-semibold">Bionika</span> impulsamos tu bienestar con la gama más completa de productos ortopédicos y de rehabilitación para ortopedias, farmacias, clínicas y hospitales.
-                    </p>
+                <p class="text-gray-700 text-justify text-lg leading-relaxed mb-4 m-5 dark:text-gray-400 font-serif">
+                    Nuestra mano de obra 100% mexicana combina tradición, experiencia y un riguroso control de calidad, posicionándonos como referentes en el mercado.
+                </p>
 
-                    <p class="text-gray-700 text-justify text-lg leading-relaxed mb-6 m-5 dark:text-gray-400">
-                        Calidad garantizada, materiales de clase mundial y la pasión de un equipo comprometido a brindarte lo mejor: eso es <span class="text-purple-600 font-bold">Bionika</span>.
-                    </p>
-
-                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 m-5 dark:text-white">Innovación que transforma vidas</h3>
-                    <h4 class="text-xl sm:text-2xl font-semibold text-purple-700 mb-4 m-5">¿Por qué somos líderes?</h4>
-
-                    <p class="text-gray-700 text-justify text-lg leading-relaxed mb-4 m-5 dark:text-gray-400">
-                        Nuestra mano de obra 100% mexicana combina tradición, experiencia y un riguroso control de calidad, posicionándonos como referentes en el mercado.
-                    </p>
-
-                    <p class="text-gray-700 text-justify text-lg leading-relaxed m-5 dark:text-gray-400">
-                        Con cada producto reafirmamos nuestro compromiso: entregarte soluciones de excelencia con la calidez humana que mereces.
-                    </p>
-                </div>
+                <p class="text-gray-700 text-justify text-lg leading-relaxed m-5 dark:text-gray-400 font-serif">
+                    Con cada producto reafirmamos nuestro compromiso: entregarte soluciones de excelencia con la calidez humana que mereces.
+                </p>
             </div>
-        </section>
-    </body>
+        </div>
+    </section>
+    <!-- Sección de Valores -->
+    <section class="py-16 px-4 text-center bg-white dark:bg-zinc-900"
+             style="background-image:
+             linear-gradient(145deg, #f8f9fc, #e6e6eb),
+             repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 2px, transparent 2px, transparent 4px);
+             background-size: cover;">
+        <h2 class="text-3xl sm:text-4xl font-extrabold font-serif mb-12 text-zinc-800 dark:text-purple-400 drop-shadow-md overline decoration-purple-500 decoration-2 animate-titulo" data-aos="fade-up">
+            Nuestros Valores
+        </h2>
+        <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mt-5">
+            <div class="bg-white dark:bg-zinc-800 rounded-2xl border border-purple-200 dark:border-purple-400/30 shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col items-center text-center group" data-aos="zoom-in">
+                <div class="bg-purple-100 dark:bg-purple-500/10 p-4 rounded-full mb-4 group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                    <img src="resources/award-solid.svg" alt="Calidad" class="w-10 h-10 text-purple-600 dark:text-purple-400 icon-glow" />
+                </div>
+                <h3 class="text-lg font-semibold text-purple-800 dark:text-purple-300 mb-2">Calidad</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Productos con altos estándares médicos y materiales de excelente calidad.
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-zinc-800 rounded-2xl border border-purple-200 dark:border-purple-400/30 shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col items-center text-center group" data-aos="zoom-in">
+                <div class="bg-purple-100 dark:bg-purple-500/10 p-4 rounded-full mb-4 group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                    <img src="resources/heart-pulse-solid.svg" alt="Calidad" class="w-10 h-10 text-purple-600 dark:text-purple-400 icon-glow" />
+                </div>
+                <h3 class="text-lg font-semibold text-purple-800 dark:text-purple-300 mb-2">Empatia</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Nos preocupamos por tu bienestar y calidad de vida.
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-zinc-800 rounded-2xl border border-purple-200 dark:border-purple-400/30 shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col items-center text-center group" data-aos="zoom-in">
+                <div class="bg-purple-100 dark:bg-purple-500/10 p-4 rounded-full mb-4 group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                    <img src="resources/lightbulb-solid.svg" alt="Innovacion" class="w-10 h-10 text-purple-600 dark:text-purple-400 icon-glow" />
+                </div>
+                <h3 class="text-lg font-semibold text-purple-800 dark:text-purple-300 mb-2">Innovación</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Siempre buscamos mejorar nuestros procesos y productos.
+                </p>
+            </div>
+
+            <div class="bg-white dark:bg-zinc-800 rounded-2xl border border-purple-200 dark:border-purple-400/30 shadow-md hover:shadow-lg transition-all duration-300 p-6 flex flex-col items-center text-center group" data-aos="zoom-in">
+                <div class="bg-purple-100 dark:bg-purple-500/10 p-4 rounded-full mb-4 group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                    <img src="resources/shield-halved-solid.svg" alt="Innovacion" class="w-10 h-10 text-purple-600 dark:text-purple-400 icon-glow" />
+                </div>
+                <h3 class="text-lg font-semibold text-purple-800 dark:text-purple-300 mb-2">Confianza</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Más de 25 años brindando seguridad a miles de clientes.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <a href="https://wa.me/524776971513" target="_blank"
+       class="fixed bottom-4 right-4 bg-green-500 p-3 rounded-full shadow-xl hover:bg-green-600 transition z-50 animate-bounce">
+        <img src="resources/whatsAppIcon.png" class="w-10 h-10" alt="WhatsApp">
+    </a>
+    <script>
+
+    </script>
+</body>
 </html>

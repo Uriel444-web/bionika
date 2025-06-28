@@ -51,24 +51,6 @@ CREATE TABLE IF NOT EXISTS empleado
 
 select * from empleado;
 
--- TABLA DE USUARIOS -------------------------------------------------
--- CADA USUARIO TENDRA UN ROL ASIGNADO. DE CADA USUARIO SE REGISTRARA SUS NOMBRES, APELLIDO P, APELLIDO M, CORREO, TELEFONO PERSONAL,
--- NOMBRE DE USUARIO Y PASSWORD Y A SU VEZ TENDRA UN ROL ASIGNADO QUE POR DEFECTO SERA TIPO USUARIO
-
-CREATE TABLE IF NOT EXISTS usuario
-(
-	idUsuario   INT NOT NULL AUTO_INCREMENT,
-    usuario		VARCHAR(100) NOT NULL,
-    contrasena	VARCHAR(20) NOT NULL,
-    token       lONGTEXT,
-    activo      INT NOT NULL DEFAULT 1,
-    idEmpleado INT NOT NULL UNIQUE,
-    rol         INT NOT NULL DEFAULT 2,
-    CONSTRAINT pk_usuario PRIMARY KEY (idUsuario),
-	CONSTRAINT fk_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado),
-	CONSTRAINT fk_empleado_rol FOREIGN KEY (rol) REFERENCES rol(idRol)
-);
-
 -- TABLA DE PRODUCTO --------------------------------------------------
 -- DE CADA PRODUCTO SE GUARDARA EL NOMBRE, DESCRIPCION, PRECIO, STOCK, CODIGO INTERNO Y A SU VEZ 
 -- EL PRODUCTO PERTENECE A UNA CATEGORIA
@@ -133,7 +115,57 @@ longitud VARCHAR(15) NOT NULL,
 numExt VARCHAR(9) NOT NULL,
 telefono VARCHAR(20) NOT NULL,
 activo  INT NOT NULL DEFAULT 1,
-idUsuario INT NOT NULL,
-CONSTRAINT PK_idSucursal PRIMARY KEY (idSucursal),
-CONSTRAINT FK_idUsuario FOREIGN KEY (idUsuario) REFERENCES usuario (idUsuario)
+CONSTRAINT PK_idSucursal PRIMARY KEY (idSucursal)
+);
+
+-- TABLA DE USUARIOS -------------------------------------------------
+-- CADA USUARIO TENDRA UN ROL ASIGNADO. DE CADA USUARIO SE REGISTRARA SUS NOMBRES, APELLIDO P, APELLIDO M, CORREO, TELEFONO PERSONAL,
+-- NOMBRE DE USUARIO Y PASSWORD Y A SU VEZ TENDRA UN ROL ASIGNADO QUE POR DEFECTO SERA TIPO USUARIO
+
+CREATE TABLE IF NOT EXISTS usuario
+(
+	idUsuario   INT NOT NULL AUTO_INCREMENT,
+    usuario		VARCHAR(100) NOT NULL,
+    contrasena	VARCHAR(20) NOT NULL,
+    token       lONGTEXT,
+    activo      INT NOT NULL DEFAULT 1,
+    idEmpleado INT NOT NULL UNIQUE,
+    rol         INT NOT NULL DEFAULT 2,
+    sucursal	INT NOT NULL DEFAULT 1,
+    CONSTRAINT pk_usuario PRIMARY KEY (idUsuario),
+	CONSTRAINT fk_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado),
+	CONSTRAINT fk_empleado_rol FOREIGN KEY (rol) REFERENCES rol(idRol),
+    CONSTRAINT fk_usuario_sucursal FOREIGN KEY (sucursal) REFERENCES sucursal (idSucursal)
+);
+
+-- TABLA PARA VENTAS DONDE SE GUARDARA EL ID DE VENTA, LA FECHA EN QUE SE REALIZO LA VENTA, NOMBRE DEL CLIENTE ID DEL EMPLEADO QUE REALIZO LA VENTA
+-- ID DE LA SUCURSAL A LA QUE PERTENECE EL EMPLEADO Y EL TOTAL DE VENTA.
+CREATE TABLE IF NOT EXISTS venta (
+    idVenta INT NOT NULL AUTO_INCREMENT,
+    fecha DATETIME NOT NULL DEFAULT NOW(),
+    cliente VARCHAR(100) NOT NULL,
+    total DECIMAL(10,2) NOT NULL,
+    idUsuario INT NOT NULL,
+    idSucursal INT NOT NULL,
+    CONSTRAINT pk_venta PRIMARY KEY (idVenta),
+    CONSTRAINT fk_venta_usuario FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
+    CONSTRAINT fk_venta_sucursal FOREIGN KEY (idSucursal) REFERENCES sucursal(idSucursal)
+);
+
+-- TABLA DE DETALLE DE VENTA QUE GUARDARA LOS DETALLES DE UNA VENTA, TENDRA ID DETALLE, EL ID DE LA VENTA, ID DEL PRODUCTO VENDIDO, 
+-- CANTIDAD DE PRODUCTO, PRECIO UNITARIO, EL ID DE LA TALLA  Y EL ID UNIDAD.
+CREATE TABLE detalle_venta (
+    idDetalleVenta INT NOT NULL AUTO_INCREMENT,
+    idVenta INT NOT NULL,
+    idProducto INT NOT NULL,
+    idTalla INT NOT NULL,
+    idUnidad INT NOT NULL,
+    cantidad INT NOT NULL,
+    precioUnitario DECIMAL(10, 2) NOT NULL,
+    total DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (idDetalleVenta),
+    CONSTRAINT fk_detalleventa_venta FOREIGN KEY (idVenta) REFERENCES venta(idVenta),
+	CONSTRAINT fk_detalleventa_producto FOREIGN KEY (idProducto) REFERENCES producto(idProducto),
+    CONSTRAINT fk_detalleventa_talla FOREIGN KEY (idTalla) REFERENCES talla(idTalla),
+    CONSTRAINT fk_detalleventa_unidad FOREIGN KEY (idUnidad) REFERENCES unidad(idUnidad)
 );
