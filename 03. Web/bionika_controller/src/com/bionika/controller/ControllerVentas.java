@@ -6,6 +6,8 @@ package com.bionika.controller;
 
 import com.bionika.db.ConexionMySQL;
 import com.bionika.model.DetalleVenta;
+import com.bionika.model.Sucursal;
+import com.bionika.model.Usuario;
 import com.bionika.model.Venta;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -15,6 +17,9 @@ import java.sql.SQLException;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.Gson;
+import java.util.ArrayList;
+import java.lang.reflect.Type;
+import com.google.gson.reflect.TypeToken;
 /**
  *
  * @author casa
@@ -37,6 +42,7 @@ public class ControllerVentas {
             detalle.addProperty("idUnidad", d.getIdUnidad());
             detalle.addProperty("precioUnitario", d.getPrecioUnitario());
             detalle.addProperty("total", d.getTotal());
+            detalle.addProperty("descuento", d.getDescuento());
             detallesArray.add(detalle);
         }
 
@@ -66,4 +72,59 @@ public class ControllerVentas {
 
         return idVentaGenerada;
     }
-}
+
+
+        public ArrayList<Venta> getVentasPorSucursalYFechas(int idSucursal, String fechaInicio, String fechaFin) throws Exception {
+            ArrayList<Venta> ventas = new ArrayList<>();
+            String query = """
+            SELECT * FROM vista_venta_con_detalles
+            WHERE idSucursal = ? AND DATE(fecha) BETWEEN ? AND ?
+            ORDER BY fecha DESC
+        """;
+
+            ConexionMySQL connMySQL = new ConexionMySQL();
+            Connection conn = connMySQL.open();
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, idSucursal);
+            pstmt.setString(2, fechaInicio);
+            pstmt.setString(3, fechaFin);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            Gson gson = new Gson();
+            Type listType = new TypeToken<ArrayList<DetalleVenta>>() {
+            }.getType();
+
+            while (rs.next()) {
+                Venta v = new Venta();
+                v.setIdVenta(rs.getInt("idVenta"));
+                v.setFecha(rs.getTimestamp("fecha"));
+                v.setCliente(rs.getString("cliente"));
+                v.setTotal(rs.getDouble("totalVenta"));
+
+                Usuario u = new Usuario();
+                u.setIdUsuario(rs.getInt("idUsuario"));
+                u.setUsuario(rs.getString("nombreEmpleado"));
+                v.setUsuario(u);
+
+                Sucursal s = new Sucursal();
+                s.setIdSucursal(rs.getInt("idSucursal"));
+                s.setNombreSuc(rs.getString("nombreSucursal"));
+                v.setSucursal(s);
+
+                String jsonDetalles = rs.getString("detalles");
+                if (jsonDetalles != null) {
+                    ArrayList<DetalleVenta> detalles = gson.fromJson(jsonDetalles, listType);
+                    v.setDetalles(detalles);
+                }
+
+                ventas.add(v);
+            }
+
+            rs.close();
+            pstmt.close();
+            connMySQL.close();
+
+            return ventas;
+        }
+    }

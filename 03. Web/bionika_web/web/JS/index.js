@@ -39,10 +39,28 @@ menuBtn.addEventListener('click', () => {
     menu.classList.toggle('hidden');
 });
 
+async function inicio() {
+    console.log("cargando inicio");
+    let url = "http://localhost:8080/bionika_web/modules/inicio/inicio.html";
+    let resp = await fetch(url);
+    let contenido = await resp.text();
+    document.getElementById('content').innerHTML = contenido;
+    cm = await import("http://localhost:8080/bionika_web/modules/inicio/js/inicio.js");
+    cm.inicializar();
+    cm = null;
+
+    //hace visible el footer
+    const footer = document.getElementById('foter');
+    if (footer)
+        footer.style.display = 'block';
+}
+
 document.getElementById("btnLogin").addEventListener('click', (event) => {
     event.preventDefault();
     login();
 });
+
+document.getElementById("btnCerrarSesion").addEventListener('click', logOut);
 
 document.getElementById("btnLoginMovil").addEventListener('click', (event) => {
     event.preventDefault();
@@ -69,21 +87,6 @@ document.getElementById("btnSucursal").addEventListener('click', (event) => {
     sucursales();
 });
 
-async function inicio() {
-    console.log("cargando inicio");
-    let url = "http://localhost:8080/bionika_web/modules/inicio/inicio.html";
-    let resp = await fetch(url);
-    let contenido = await resp.text();
-    document.getElementById('content').innerHTML = contenido;
-    cm = await import("http://localhost:8080/bionika_web/modules/inicio/js/inicio.js");
-    cm.inicializar();
-    cm = null;
-
-    //hace visible el footer
-    const footer = document.getElementById('foter');
-    if (footer)
-        footer.style.display = 'block';
-}
 
 async function login() {
     console.log("Cargando Login...");
@@ -189,26 +192,13 @@ async function usuarios() {
     console.log("cargando usuarios...");
 
     let url = "http://localhost:8080/bionika_web/modules/usuario/crud/registro.html";
-    // let url = "http://localhost:8080/bionika_web/modules/administrador/productos/inicio.html";
     let resp = await fetch(url);
     let contenido = await resp.text();
 
     document.getElementById('content').innerHTML = contenido;
-
-
-    //cm = await import("http://localhost:8080/bionika_web/modules/administrador/productos/js/inicio.js");
+    
     cm = await import("http://localhost:8080/bionika_web/modules/usuario/crud/js/js.js");
-    cm.recargarComboBoxCategorias();
-
-    document.getElementById("registrarU").addEventListener("click", (event) => {
-        //console.log(cm);
-        cm.saveUsuario();
-    });
-
-    document.getElementById("mostrarU").addEventListener("click", (event) => {
-        event.preventDefault();
-        mostrarU();
-    });
+    cm.inicializar();
 
     //hace visible el footer
     const footer = document.getElementById('foter');
@@ -272,9 +262,60 @@ async function administrador() {
 }
 
 async function sucursales() {
-    
+    let id = localStorage.getItem("id");
+    if (id === null) {
+        sucursalesDef();
+        return;
+    }
+    // Llamar a la función para validar rol
+    await validarRolSucursal(id);
+    // let url = "http://localhost:8080/bionika_web/modules/administrador/productos/inicio.html";
+    //cm = await import("http://localhost:8080/bionika_web/modules/administrador/productos/js/inicio.js");
+    //hace visible el footer
+    const footer = document.getElementById('foter');
+    if (footer)
+        footer.style.display = 'block';
+}
+
+async function validarRolSucursal(idUsuario) {
+    let url = 'http://localhost:8080/bionika_web/api/acceso/validarRol';
+    let datos = new URLSearchParams({idUsuario});
+    try {
+        let resp = await fetch(url, {
+            method: "POST",
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+            body: datos
+        });
+
+        if (!resp.ok)
+            throw new Error(`HTTP error! status: ${resp.status}`);
+
+        let data = await resp.json();
+        switch (data.idRol) {
+            case 1:
+                await sucursalesDef();
+                mostrarSeccion();
+                break;
+            case 2:
+                sucursalesDef();
+                break;
+            case 3:
+                sucursalesDef();
+                break;
+            default:
+
+                throw new Error("Rol no reconocido.");
+        }
+
+    } catch (error) {
+        console.error("Error en validarRol:", error);
+        Swal.fire('Error al validar rol.', error.message, 'error');
+        return null;
+    }
+}
+
+async function sucursalesDef(){
     cm = null;
-    console.log("cargando sucursales...");
     
     let url = "http://localhost:8080/bionika_web/modules/sucursales/sucursales.html";
     let resp = await fetch(url);
@@ -283,30 +324,67 @@ async function sucursales() {
     document.getElementById('content').innerHTML = contenido;
 
     cm = await import("http://localhost:8080/bionika_web/modules/sucursales/js/js.js");
-    cm.cargarMapa();
-    cm.getAllSucursales();
-    
-    document.getElementById("registrarS").addEventListener("click", (event) => {
-    sucursalesRegistro();
-    });
+    cm.inicializar();
 }
 
-async function sucursalesRegistro() {
-    
-    cm = null;
-    console.log("cargando Registro de sucursales...");
-    
-    let url = "http://localhost:8080/bionika_web/modules/sucursales/registro.html";
-    let resp = await fetch(url);
-    let contenido = await resp.text();
+async function mostrarSeccion(){
+    const seccion = document.getElementById("seccionSucursales");
+    if (seccion.classList.contains("hidden")) {
+        seccion.classList.remove("hidden");
+    }
 
-    document.getElementById('content').innerHTML = contenido;
-
-    cm = await import("http://localhost:8080/bionika_web/modules/sucursales/js/js.js");
-    cm.recargarComboBoxUsuarios();
-    
-    document.getElementById("registrarSucursal").addEventListener("click", (event) => {
-    cm.saveSucursal();
-    });
-    
 }
+
+async function logOut()
+{
+    let parametros = {t: localStorage.getItem("token")};
+    let ruta = "http://localhost:8080/bionika_web/api/acceso/logout";
+    
+    fetch(ruta, {
+        method: "POST",
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+        body: new URLSearchParams(parametros)
+    }
+    ).then(response => response.json())
+            .then(response => {
+                if (response.result)
+                {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("usuario");
+                    localStorage.removeItem("id");
+                    localStorage.removeItem("idSucursal");
+                    inicio();
+                    textoLogin();
+                } else if (response.error)
+                {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: response.error
+                    });
+                }
+            });
+}
+
+async function textoLogin(){
+    document.getElementById("btnLogin").innerHTML = "Iniciar Sesion";
+    ocultarBotonUsuarios();
+    ocultarCerrarSesion();
+}
+
+function ocultarBotonUsuarios() {
+    const btnUsuarios = document.getElementById("btnUsuario");
+    btnUsuarios.classList.add("hidden");
+}
+
+function ocultarCerrarSesion() {
+    const cerrarSesionEscritorio = document.getElementById("btnCerrarSesion");
+    const cerrarSesionMovil = document.getElementById("btnCerrarSesionMovil");
+
+    cerrarSesionEscritorio.classList.add("hidden");
+    cerrarSesionMovil.classList.add("hidden");
+
+}
+document.addEventListener("DOMContentLoaded", function () {
+    inicio(); // Llamada segura, después del DOM cargado
+});

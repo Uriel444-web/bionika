@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS producto
     precio 			DOUBLE NOT NULL,
     codigoInterno 	VARCHAR(100) UNIQUE,
     categoria 		INT NOT NULL,
+    activo			INT NOT NULL DEFAULT 1,
     CONSTRAINT fk_producto_categoria FOREIGN KEY(categoria) REFERENCES categoria(idCategoria)
 );
 
@@ -88,22 +89,6 @@ CREATE TABLE IF NOT EXISTS unidad
     unidad 		VARCHAR(50) NOT NULL
 );
 
--- TABLA DE DETALLE PRODUCTO, AQUI IRAN LAS TALLAS, EL COLOR, Y EL STOCK DISPONIBLE
-CREATE TABLE IF NOT EXISTS detalle_producto
-(
-	idDetalle		INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    producto		INT,
-    talla			INT,
-    color			INT,
-    unidad 			INT,
-    stock			INT NOT NULL,
-    CONSTRAINT FK_DETALLE_PRODUCTO_PRODUCTO FOREIGN KEY (producto) REFERENCES producto (idProducto),
-    CONSTRAINT FK_DETALLE_PRODUCTO_TALLA FOREIGN KEY (talla) REFERENCES talla (idTalla),
-    CONSTRAINT FK_DETALLE_PRODUCTO_COLOR FOREIGN KEY (color) REFERENCES color (idColor),
-    CONSTRAINT FK_DETALLE_PRODUCTO_UNIDAD FOREIGN KEY (unidad) REFERENCES unidad (idUnidad)
-
-);
-
 CREATE TABLE sucursal(
 idSucursal INT NOT NULL AUTO_INCREMENT,
 nombreSuc VARCHAR(80) NOT NULL,
@@ -118,6 +103,24 @@ activo  INT NOT NULL DEFAULT 1,
 CONSTRAINT PK_idSucursal PRIMARY KEY (idSucursal)
 );
 
+-- TABLA DE DETALLE PRODUCTO, AQUI IRAN LAS TALLAS, EL COLOR, Y EL STOCK DISPONIBLE
+CREATE TABLE IF NOT EXISTS detalle_producto
+(
+	idDetalle		INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    producto		INT,
+    talla			INT,
+    color			INT,
+    unidad 			INT,
+    stock			INT NOT NULL,
+	idSucursal 		INT NOT NULL,
+	CONSTRAINT fk_detalle_producto_sucursal FOREIGN KEY (idSucursal) REFERENCES sucursal(idSucursal),
+    CONSTRAINT FK_DETALLE_PRODUCTO_PRODUCTO FOREIGN KEY (producto) REFERENCES producto (idProducto),
+    CONSTRAINT FK_DETALLE_PRODUCTO_TALLA FOREIGN KEY (talla) REFERENCES talla (idTalla),
+    CONSTRAINT FK_DETALLE_PRODUCTO_COLOR FOREIGN KEY (color) REFERENCES color (idColor),
+    CONSTRAINT FK_DETALLE_PRODUCTO_UNIDAD FOREIGN KEY (unidad) REFERENCES unidad (idUnidad)
+
+);
+
 -- TABLA DE USUARIOS -------------------------------------------------
 -- CADA USUARIO TENDRA UN ROL ASIGNADO. DE CADA USUARIO SE REGISTRARA SUS NOMBRES, APELLIDO P, APELLIDO M, CORREO, TELEFONO PERSONAL,
 -- NOMBRE DE USUARIO Y PASSWORD Y A SU VEZ TENDRA UN ROL ASIGNADO QUE POR DEFECTO SERA TIPO USUARIO
@@ -129,9 +132,9 @@ CREATE TABLE IF NOT EXISTS usuario
     contrasena	VARCHAR(20) NOT NULL,
     token       lONGTEXT,
     activo      INT NOT NULL DEFAULT 1,
-    idEmpleado INT NOT NULL UNIQUE,
+    idEmpleado 	INT NOT NULL UNIQUE,
     rol         INT NOT NULL DEFAULT 2,
-    sucursal	INT NOT NULL DEFAULT 1,
+    sucursal	INT NULL,
     CONSTRAINT pk_usuario PRIMARY KEY (idUsuario),
 	CONSTRAINT fk_empleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado),
 	CONSTRAINT fk_empleado_rol FOREIGN KEY (rol) REFERENCES rol(idRol),
@@ -163,9 +166,10 @@ CREATE TABLE detalle_venta (
     cantidad INT NOT NULL,
     precioUnitario DECIMAL(10, 2) NOT NULL,
     total DECIMAL(10, 2) NOT NULL,
+    descuento INT NULL,
     PRIMARY KEY (idDetalleVenta),
     CONSTRAINT fk_detalleventa_venta FOREIGN KEY (idVenta) REFERENCES venta(idVenta),
-	CONSTRAINT fk_detalleventa_producto FOREIGN KEY (idProducto) REFERENCES producto(idProducto),
+    CONSTRAINT fk_detalleventa_producto FOREIGN KEY (idProducto) REFERENCES producto(idProducto),
     CONSTRAINT fk_detalleventa_talla FOREIGN KEY (idTalla) REFERENCES talla(idTalla),
     CONSTRAINT fk_detalleventa_unidad FOREIGN KEY (idUnidad) REFERENCES unidad(idUnidad)
 );

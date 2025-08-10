@@ -35,7 +35,8 @@ public class CtrlUsuario {
             cstmt.setString(6, us.getUsuario());
             cstmt.setString(7, us.getContrasena());
             cstmt.setInt(8, us.getRol().getIdRol());
-            cstmt.setInt(9, us.getSucursal().getIdSucursal()); // NUEVO: sucursal
+            int idSucursal = (us.getSucursal() != null) ? us.getSucursal().getIdSucursal() : 0;
+            cstmt.setInt(9, idSucursal);
 
             // Salidas
             cstmt.registerOutParameter(10, java.sql.Types.INTEGER); // idEmpleado
@@ -62,26 +63,70 @@ public class CtrlUsuario {
         String sql = "{CALL actualizarUsuario(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 
         ConexionMySQL connMySQL = new ConexionMySQL();
-        Connection conn = connMySQL.open();
+        Connection conn = null;
+        CallableStatement cstmt = null;
 
-        java.sql.CallableStatement cstmt = conn.prepareCall(sql);
+        try {
+            conn = connMySQL.open();
+            conn.setAutoCommit(false); // O true, según tu configuración
 
-        cstmt.setString(1, us.getEmpleado().getNombre());
-        cstmt.setString(2, us.getEmpleado().getApellidoP());
-        cstmt.setString(3, us.getEmpleado().getApellidoM());
-        cstmt.setString(4, us.getEmpleado().getCorreo());
-        cstmt.setString(5, us.getEmpleado().getTelefono());
-        cstmt.setString(6, us.getUsuario());
-        cstmt.setString(7, us.getContrasena());
-        cstmt.setInt(8, us.getRol().getIdRol());
-        cstmt.setInt(9, us.getSucursal().getIdSucursal());
-        cstmt.setInt(10, us.getEmpleado().getIdEmpleado());
-        cstmt.setInt(11, us.getIdUsuario());
+            cstmt = conn.prepareCall(sql);
 
-        cstmt.executeUpdate();
+            System.out.println("Datos a actualizar:");
+            System.out.println("Nombre: " + us.getEmpleado().getNombre());
+            System.out.println("ApellidoP: " + us.getEmpleado().getApellidoP());
+            System.out.println("ApellidoM: " + us.getEmpleado().getApellidoM());
+            System.out.println("Correo: " + us.getEmpleado().getCorreo());
+            System.out.println("Teléfono: " + us.getEmpleado().getTelefono());
+            System.out.println("Usuario: " + us.getUsuario());
+            System.out.println("Contraseña: " + us.getContrasena());
+            System.out.println("Rol: " + us.getRol().getIdRol());
+            System.out.println("Sucursal: " + (us.getSucursal() != null ? us.getSucursal().getIdSucursal() : "null"));
+            System.out.println("IdUsuario: " + us.getIdUsuario());
+            System.out.println("IdEmpleado: " + us.getEmpleado().getIdEmpleado());
 
-        cstmt.close();
-        connMySQL.close();
+            cstmt.setString(1, us.getEmpleado().getNombre());
+            cstmt.setString(2, us.getEmpleado().getApellidoP());
+            cstmt.setString(3, us.getEmpleado().getApellidoM());
+            cstmt.setString(4, us.getEmpleado().getCorreo());
+            cstmt.setString(5, us.getEmpleado().getTelefono());
+
+            cstmt.setString(6, us.getUsuario());
+            cstmt.setString(7, us.getContrasena());
+            cstmt.setInt(8, us.getRol().getIdRol());
+
+            if (us.getSucursal() != null && us.getSucursal().getIdSucursal() > 0) {
+                cstmt.setInt(9, us.getSucursal().getIdSucursal());
+            } else {
+                cstmt.setNull(9, java.sql.Types.INTEGER);
+            }
+
+            cstmt.setInt(10, us.getIdUsuario());
+            cstmt.setInt(11, us.getEmpleado().getIdEmpleado());
+
+            int filas = cstmt.executeUpdate();
+            System.out.println("Filas afectadas: " + filas);
+
+            conn.commit();
+
+        } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+            throw new Exception("Error al actualizar el usuario.");
+        } finally {
+            if (cstmt != null) {
+                cstmt.close();
+            }
+            if (conn != null) {
+                connMySQL.close();
+            }
+        }
     }
 
     public void delete(int id) throws Exception {
@@ -130,13 +175,41 @@ public class CtrlUsuario {
         return us;
     }
 
+    public ArrayList<Usuario> buscarPorTexto(String texto) throws Exception {
+        ArrayList<Usuario> lista = new ArrayList<>();
+        String sql = """
+        SELECT * FROM v_usuario
+        WHERE nombre LIKE ?
+    """;
+
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        String param = "%" + texto + "%";
+        pstmt.setString(1, param);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Usuario u = fill(rs);
+            lista.add(u);
+        }
+
+        rs.close();
+        pstmt.close();
+        conn.close();
+
+        return lista;
+    }
+
     private Usuario fill(ResultSet rs) throws Exception {
         Rol r = new Rol();
         Usuario u = new Usuario();
         Empleado e = new Empleado();
+        Sucursal s = new Sucursal();
 
         u.setEmpleado(e);
         u.setRol(r);
+        u.setSucursal(s);
 
         u.setIdUsuario(rs.getInt("idUsuario"));
         u.setUsuario(rs.getString("usuario"));
@@ -144,6 +217,7 @@ public class CtrlUsuario {
         u.setActivo(rs.getInt("activo"));
 
         e.setIdEmpleado(rs.getInt("idEmpleado"));
+        s.setIdSucursal(rs.getInt("idSucursal"));
         e.setNombre(rs.getString("nombre"));
         e.setApellidoP(rs.getString("ApellidoP"));
         e.setApellidoM(rs.getString("ApellidoM"));
@@ -192,7 +266,7 @@ public class CtrlUsuario {
 
         return r;
     }
-    
+
     public List<Sucursal> getAllSucursal() throws Exception {
         List<Sucursal> suc = new ArrayList<>();
         // Se define la consulta SQL:
@@ -218,7 +292,7 @@ public class CtrlUsuario {
 
         return suc;
     }
-    
+
     private Sucursal fillSucursal(ResultSet rs) throws Exception {
         Sucursal s = new Sucursal();
         s.setIdSucursal(rs.getInt("idSucursal"));
@@ -231,7 +305,7 @@ public class CtrlUsuario {
         s.setNumExt(rs.getString("numExt"));
         s.setTelefono(rs.getString("telefono"));
         s.setActivo(rs.getInt("activo"));
-        
+
         return s;
     }
 }

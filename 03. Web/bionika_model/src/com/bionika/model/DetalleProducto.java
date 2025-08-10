@@ -9,11 +9,12 @@ public class DetalleProducto {
     private int idUnidad;
     private String nombreUnidad;
     private int stock;
+    private int idSucursal;
 
     public DetalleProducto() {
     }
 
-    public DetalleProducto(int idDetalle, int idTalla, String nombreTalla, int idColor, String nombreColor, int idUnidad, String nombreUnidad, int stock) {
+    public DetalleProducto(int idDetalle, int idTalla, String nombreTalla, int idColor, String nombreColor, int idUnidad, String nombreUnidad, int stock, int idSucursal) {
         this.idDetalle = idDetalle;
         this.idTalla = idTalla;
         this.nombreTalla = nombreTalla;
@@ -22,6 +23,7 @@ public class DetalleProducto {
         this.idUnidad = idUnidad;
         this.nombreUnidad = nombreUnidad;
         this.stock = stock;
+        this.idSucursal = idSucursal;
     }
 
     public int getIdDetalle() {
@@ -88,8 +90,18 @@ public class DetalleProducto {
         this.stock = stock;
     }
 
+    public int getIdSucursal() {
+        return idSucursal;
+    }
+
+    public void setIdSucursal(int idSucursal) {
+        this.idSucursal = idSucursal;
+    }
+
     @Override
     public String toString() {
-        return "DetalleProducto{" + "idDetalle=" + idDetalle + ", idTalla=" + idTalla + ", nombreTalla=" + nombreTalla + ", idColor=" + idColor + ", nombreColor=" + nombreColor + ", idUnidad=" + idUnidad + ", nombreUnidad=" + nombreUnidad + ", stock=" + stock + '}';
+        return "DetalleProducto{" + "idDetalle=" + idDetalle + ", idTalla=" + idTalla + ", nombreTalla=" + nombreTalla + ", idColor=" + idColor + ", nombreColor=" + nombreColor + ", idUnidad=" + idUnidad + ", nombreUnidad=" + nombreUnidad + ", stock=" + stock + ", idSucursal=" + idSucursal + '}';
     }
+    
+    
 }

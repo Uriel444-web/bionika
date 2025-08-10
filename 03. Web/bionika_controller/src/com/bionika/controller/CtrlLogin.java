@@ -14,7 +14,7 @@ public class CtrlLogin {
     public void validarAcceso(Usuario u) throws SQLException, Exception {
 
         String query = """
-                            SELECT idUsuario, sucursal FROM usuario WHERE usuario= ? and contrasena= ?
+                            SELECT idUsuario, sucursal FROM usuario WHERE usuario = ? AND contrasena = ?  AND activo = 1;
                        """;
            
                 try {
@@ -23,7 +23,7 @@ public class CtrlLogin {
                 
                 PreparedStatement stmt = objConn.prepareStatement(query);
                
-                    stmt.setString(1, u.getUsuario());       // Primer parámetro (usuario)
+                    stmt.setString(1, u.getUsuario());       
                     stmt.setString(2, u.getContrasena());
                     
                 ResultSet rs = stmt.executeQuery();
@@ -31,7 +31,7 @@ public class CtrlLogin {
                 while (rs.next()) {
 
                 u.setIdUsuario(rs.getInt("idUsuario"));
-                u.setSucursal(new Sucursal()); // Asegúrate de que Usuario tiene atributo Sucursal
+                u.setSucursal(new Sucursal());
                 u.getSucursal().setIdSucursal(rs.getInt("sucursal"));
                 rs.close();
                 objConn.close();

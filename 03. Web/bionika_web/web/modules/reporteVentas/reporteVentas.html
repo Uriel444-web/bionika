@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Reporte - Ventas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <!-- VISTA ADMINISTRADOR: Reporte de ventas por sucursal -->
+        <!-- Reporte de Ventas -->
+        <section id="reporte-ventas" class="py-12 px-4 bg-gradient-to-br from-white via-purple-50 to-purple-100 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 min-h-screen">
+            <div class="max-w-7xl mx-auto space-y-12">
+                <!-- Título -->
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl font-semibold text-gray-900 dark:text-white">Reporte de Ventas por Sucursal</h2>
+                    <div class="mx-auto mt-2 w-24 h-1 bg-purple-600 rounded-full"></div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="grid md:grid-cols-4 gap-6 bg-white dark:bg-zinc-800 p-6 rounded-2xl shadow-xl">
+                    <!-- Sucursal -->
+                    <div class="flex flex-col col-span-1">
+                        <label for="selectSucursal" class="text-sm font-medium text-zinc-700 dark:text-white mb-1">Sucursal</label>
+                        <select id="selectSucursal" class="px-4 py-2 rounded-xl border border-purple-400 dark:bg-zinc-900 dark:text-white">
+                            <option value="">Seleccione una sucursal</option>
+                        </select>
+                    </div>
+
+                    <!-- Fechas -->
+                    <div class="flex flex-col">
+                        <label for="fechaInicio" class="text-sm font-medium text-zinc-700 dark:text-white mb-1">Desde</label>
+                        <input type="date" id="fechaInicio" class="px-4 py-2 rounded-xl border border-purple-400 dark:bg-zinc-900 dark:text-white">
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="fechaFin" class="text-sm font-medium text-zinc-700 dark:text-white mb-1">Hasta</label>
+                        <input type="date" id="fechaFin" class="px-4 py-2 rounded-xl border border-purple-400 dark:bg-zinc-900 dark:text-white">
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="flex flex-col gap-2 justify-end">
+                        <button id="btnBuscarVentas" class="w-full bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-400 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md flex items-center justify-center gap-2 transition-all duration-200">
+                            Buscar
+                        </button>
+                        <button id="btnGenerarPDF" class="w-full bg-gradient-to-r from-green-500 to-green-700 hover:from-green-400 hover:to-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md flex items-center justify-center gap-2 transition-all duration-200">
+                            Generar PDF
+                        </button>
+                        <button id="btnVentasHoy" class="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-400 hover:to-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md flex items-center justify-center gap-2 transition-all duration-200">
+                            Hoy
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabla de Ventas -->
+                <div class="overflow-x-auto bg-white dark:bg-zinc-800 rounded-2xl shadow-xl">
+                    <table class="min-w-full table-auto border-collapse text-sm">
+                        <thead class="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-white">
+                            <tr>
+                                <th class="px-6 py-4 font-semibold"># Nota</th>
+                                <th class="px-6 py-4 font-semibold">Fecha</th>
+                                <th class="px-6 py-4 font-semibold">Cliente</th>
+                                <th class="px-6 py-4 font-semibold">Empleado</th>
+                                <th class="px-6 py-4 font-semibold">Total</th>
+                                <th class="px-6 py-4 font-semibold">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaVentas" class="text-zinc-800 dark:text-white">
+                            <!-- Filas dinámicas -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detalle de Venta -->
+        <section id="verDetalle" class="hidden py-12 px-4 bg-gradient-to-br from-white via-purple-50 to-purple-100 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 min-h-screen">
+            <div class="max-w-6xl mx-auto space-y-12">
+                <!-- Encabezado -->
+                <div class="flex items-center justify-between">
+                    <div class="text-center w-full">
+                        <h2 class="text-3xl font-semibold text-gray-900 dark:text-white">Detalle de Venta</h2>
+                        <div class="mx-auto mt-2 w-24 h-1 bg-purple-600 rounded-full"></div>
+                    </div>
+                    <button id="btnRegresarReporte" class="ml-auto bg-gradient-to-r from-red-400 to-red-500 hover:from-red-400 hover:to-red-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md flex items-center justify-center gap-2 transition-all duration-200">
+                        Regresar
+                    </button>
+                </div>
+
+                <!-- Información General con borde morado sutil e iconos -->
+                <div class="border border-purple-300 bg-white dark:bg-zinc-800 p-6 rounded-2xl shadow-xl grid md:grid-cols-2 gap-4 text-zinc-700 dark:text-white">
+
+                    <p class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m2 6H7a2 2 0 01-2-2V8a2 2 0 012-2h2l2-2h2l2 2h2a2 2 0 012 2v8a2 2 0 01-2 2z"/>
+                        </svg>
+                        <span class="font-semibold">Folio:</span> <span id="detalleFolio"></span>
+                    </p>
+
+                    <p class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <span class="font-semibold">Fecha:</span> <span id="detalleFecha"></span>
+                    </p>
+
+                    <p class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M5.121 17.804A4 4 0 0112 14a4 4 0 016.879 3.804M12 14V9m0 0a4 4 0 100-8 4 4 0 000 8z"/>
+                        </svg>
+                        <span class="font-semibold">Cliente:</span> <span id="detalleCliente"></span>
+                    </p>
+
+                    <p class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M16 7a4 4 0 01-8 0m8 0a4 4 0 10-8 0m8 0v1a3 3 0 01-6 0V7m0 0V6a4 4 0 118 0v1m-8 0v8m0 0a4 4 0 008 0v-8"/>
+                        </svg>
+                        <span class="font-semibold">Atendió:</span> <span id="detalleEmpleado"></span>
+                    </p>
+
+                    <p class="flex items-center gap-2 md:col-span-2">
+                        <svg class="w-5 h-5 text-purple-700" fill="none" stroke="currentColor" stroke-width="2"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M3 10l1.553-4.659A1 1 0 015.487 5h13.026a1 1 0 01.934.659L21 10M4 10v10a1 1 0 001 1h3m10-11v10a1 1 0 01-1 1h-3m-4 0a1 1 0 001-1V10"/>
+                        </svg>
+                        <span class="font-semibold">Sucursal:</span> <span id="detalleSucursal"></span>
+                    </p>
+
+                </div>
+
+                <!-- Cards de Productos -->
+                <div id="contenedorCardsDetalle" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                    <!-- Cards dinámicas aquí -->
+                </div>
+
+                <!-- Total -->
+                <div class="text-right text-2xl font-bold text-zinc-800 dark:text-purple-200">
+                    Total: $<span id="detalleTotal">0.00</span>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

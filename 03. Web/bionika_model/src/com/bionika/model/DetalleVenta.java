@@ -9,26 +9,41 @@ package com.bionika.model;
  * @author casa
  */
 public class DetalleVenta {
-
-   private int idDetalleVenta;
-    private int idProducto;       // En lugar de tener Producto completo, solo el ID
-    private int idTalla;          // En lugar de tener Talla objeto, solo el ID
-    private int idUnidad;         // Igual para Unidad
+    
+    private int idDetalleVenta;
+    private int idProducto;
+    private String nombreProducto;
+    private String fotoProducto;
+    private String codigoInterno;
+    
+    private int idTalla;
+    private String nombreTalla;
+    
+    private int idUnidad;
+    private String nombreUnidad;
+    
     private int cantidad;
     private double precioUnitario;
     private double total;
+    private int descuento;
 
     public DetalleVenta() {
     }
 
-    public DetalleVenta(int idDetalleVenta, int idProducto, int idTalla, int idUnidad, int cantidad, double precioUnitario, double total) {
+    public DetalleVenta(int idDetalleVenta, int idProducto, String nombreProducto, String fotoProducto, String codigoInterno, int idTalla, String nombreTalla, int idUnidad, String nombreUnidad, int cantidad, double precioUnitario, double total, int descuento) {
         this.idDetalleVenta = idDetalleVenta;
         this.idProducto = idProducto;
+        this.nombreProducto = nombreProducto;
+        this.fotoProducto = fotoProducto;
+        this.codigoInterno = codigoInterno;
         this.idTalla = idTalla;
+        this.nombreTalla = nombreTalla;
         this.idUnidad = idUnidad;
+        this.nombreUnidad = nombreUnidad;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
         this.total = total;
+        this.descuento = descuento;
     }
 
     public int getIdDetalleVenta() {
@@ -47,6 +62,30 @@ public class DetalleVenta {
         this.idProducto = idProducto;
     }
 
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+
+    public String getFotoProducto() {
+        return fotoProducto;
+    }
+
+    public void setFotoProducto(String fotoProducto) {
+        this.fotoProducto = fotoProducto;
+    }
+
+    public String getCodigoInterno() {
+        return codigoInterno;
+    }
+
+    public void setCodigoInterno(String codigoInterno) {
+        this.codigoInterno = codigoInterno;
+    }
+
     public int getIdTalla() {
         return idTalla;
     }
@@ -55,12 +94,28 @@ public class DetalleVenta {
         this.idTalla = idTalla;
     }
 
+    public String getNombreTalla() {
+        return nombreTalla;
+    }
+
+    public void setNombreTalla(String nombreTalla) {
+        this.nombreTalla = nombreTalla;
+    }
+
     public int getIdUnidad() {
         return idUnidad;
     }
 
     public void setIdUnidad(int idUnidad) {
         this.idUnidad = idUnidad;
+    }
+
+    public String getNombreUnidad() {
+        return nombreUnidad;
+    }
+
+    public void setNombreUnidad(String nombreUnidad) {
+        this.nombreUnidad = nombreUnidad;
     }
 
     public int getCantidad() {
@@ -87,8 +142,18 @@ public class DetalleVenta {
         this.total = total;
     }
 
+    public int getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(int descuento) {
+        this.descuento = descuento;
+    }
+
     @Override
     public String toString() {
-        return "DetalleVenta{" + "idDetalleVenta=" + idDetalleVenta + ", idProducto=" + idProducto + ", idTalla=" + idTalla + ", idUnidad=" + idUnidad + ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + ", total=" + total + '}';
+        return "DetalleVenta{" + "idDetalleVenta=" + idDetalleVenta + ", idProducto=" + idProducto + ", nombreProducto=" + nombreProducto + ", fotoProducto=" + fotoProducto + ", codigoInterno=" + codigoInterno + ", idTalla=" + idTalla + ", nombreTalla=" + nombreTalla + ", idUnidad=" + idUnidad + ", nombreUnidad=" + nombreUnidad + ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + ", total=" + total + ", descuento=" + descuento + '}';
     }
+    
+    
 }

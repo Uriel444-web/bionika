@@ -18,6 +18,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.ArrayList;
 
 /**
  *
@@ -33,7 +34,7 @@ public class RESTVenta {
         String out;
         Gson gson = new Gson();
         Venta v = null;
-        System.out.println("datos venta: "+datosVenta);
+        System.out.println("datos venta: " + datosVenta);
         try {
             v = gson.fromJson(datosVenta, Venta.class);
             ControllerVentas cv = new ControllerVentas();
@@ -51,15 +52,18 @@ public class RESTVenta {
     }
 
     @GET
-    @Path("getByClave/{codigoInterno}")
+    @Path("getByClave/{codigoInterno}/{idSucursal}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response buscarPorClave(@PathParam("codigoInterno") String clave) {
-        String out = "";
+    public Response buscarPorClave(
+            @PathParam("codigoInterno") String clave,
+            @PathParam("idSucursal") int idSucursal
+    ) {
+        String out;
         Gson gson = new Gson();
         ControllerProductos ctrl = new ControllerProductos();
 
         try {
-            Producto p = ctrl.getByClave(clave);
+            Producto p = ctrl.getByClave(clave, idSucursal);
 
             if (p != null) {
                 out = gson.toJson(p);
@@ -69,11 +73,56 @@ public class RESTVenta {
         } catch (Exception e) {
             e.printStackTrace();
             out = """
-              {"error":"Error interno al buscar producto."}
-              """;
+          {"error":"Error interno al buscar producto."}
+          """;
         }
 
         return Response.ok(out).build();
+    }
+
+    @GET
+    @Path("porSucursal/{idSucursal}/{fechaInicio}/{fechaFin}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getVentasPorSucursal(
+            @PathParam("idSucursal") int idSucursal,
+            @PathParam("fechaInicio") String fechaInicio,
+            @PathParam("fechaFin") String fechaFin
+    ) {
+        String out = "";
+        Gson gson = new Gson();
+        ControllerVentas ctrl = new ControllerVentas();
+
+        try {
+            ArrayList<Venta> ventas = ctrl.getVentasPorSucursalYFechas(idSucursal, fechaInicio, fechaFin);
+            out = gson.toJson(ventas);
+        } catch (Exception e) {
+            e.printStackTrace();
+            out = "{\"error\":\"Error al consultar ventas.\"}";
+        }
+
+        return Response.ok(out).build();
+    }
+    
+    
+    @GET
+    @Path("{id}/imagen")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response obtenerImagenBase64(@PathParam("id") int id) {
+        String base64 = "";
+        try {
+            ControllerProductos ctrl = new ControllerProductos();
+            base64 = ctrl.obtenerImagenBase64PorId(id);
+
+            if (base64 == null || base64.isEmpty()) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+
+            return Response.ok(base64).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error al obtener la imagen en base64").build();
+        }
     }
 
 }

@@ -36,11 +36,11 @@ public class RESTSucursal {
         
             s = gson.fromJson(datosSucursal, Sucursal.class);
                     
-            if (s.getIdSucursal()< 1)
+            if (s.getIdSucursal()< 1){
                 su.insert(s);
-            else
-                //ca.update(a);
-            
+            }else{
+                su.update(s);
+            }
             out = gson.toJson(s);
             }
         catch (Exception e)
@@ -137,4 +137,5 @@ public class RESTSucursal {
         return Response.ok(out).build();
                       
     }
+    
 }

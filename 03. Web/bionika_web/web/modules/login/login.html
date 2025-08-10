@@ -42,44 +42,53 @@
 
                 <!-- Columna derecha -->
                 <div class="p-4 bg-white shadow-lg rounded-r-lg lg:col-span-5">
-                    <h2 class="text-3xl font-semibold text-black-700 text-shadow-md mb-6 text-center">
+                    <h2 class="text-3xl font-extrabold text-gray-900 mb-8 text-center select-none tracking-wide">
                         Iniciar Sesión
                     </h2>
+
                     <form>
-                        <div class="mb-4">
-                            <label class="block text-black-600 font-semibold mb-2" for="usuario">Usuario</label>
+                        <div class="mb-6">
+                            <label for="txtUsuario" class="block text-gray-800 font-semibold mb-2 select-none">
+                                Usuario
+                            </label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <!-- Icono de usuario -->
-                                    <svg class="h-5 w-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M5.121 17.804A8.966 8.966 0 0112 15c2.347 0 4.478.904 6.121 2.381M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <!-- Icono usuario -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" stroke="currentColor"
+                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <path d="M5.121 17.804A8.966 8.966 0 0112 15c2.347 0 4.478.904 6.121 2.381M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
                                 </span>
-                                <input id="txtUsuario" type="text" placeholder="Ingresa tu usuario"
-                                       class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+                                <input id="txtUsuario" type="text" placeholder="Ingresa tu usuario" required
+                                       class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 placeholder-gray-400
+                                       focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" />
                             </div>
                         </div>
 
-                        <div class="mb-6">
-                            <label class="block text-black-600 font-semibold mb-2" for="password">Contraseña</label>
+                        <div class="mb-8">
+                            <label for="txtPassword" class="block text-gray-800 font-semibold mb-2 select-none">
+                                Contraseña
+                            </label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <!-- Icono de candado -->
-                                    <svg class="h-5 w-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M12 11c1.656 0 3 1.344 3 3v1a3 3 0 01-6 0v-1c0-1.656 1.344-3 3-3zM17 11V9a5 5 0 00-10 0v2m10 0H7" />
+                                    <!-- Icono candado -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" stroke="currentColor"
+                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 11c1.656 0 3 1.344 3 3v1a3 3 0 01-6 0v-1c0-1.656 1.344-3 3-3zM17 11V9a5 5 0 00-10 0v2m10 0H7" />
                                     </svg>
                                 </span>
-                                <input id="txtPassword" type="password" placeholder="Ingresa tu contraseña"
-                                       class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+                                <input id="txtPassword" type="password" placeholder="Ingresa tu contraseña" required
+                                       class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm text-gray-900 placeholder-gray-400
+                                       focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" />
                             </div>
                         </div>
+
                         <div class="flex justify-center">
                             <button id="btn-log" type="submit"
-                                    class="bg-gradient-to-r w-40 from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white font-bold py-3 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-200 ease-in-out">
+                                    class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800
+                                    text-white font-semibold px-12 py-3 rounded-lg shadow-md hover:shadow-lg transition duration-200
+                                    focus:outline-none focus:ring-2 focus:ring-purple-500 select-none">
                                 Ingresar
                             </button>
                         </div>

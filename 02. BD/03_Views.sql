@@ -14,6 +14,7 @@ u.usuario,
 u.contrasena,
 u.activo,
 e.idEmpleado,
+IFNULL(s.idSucursal, 0) AS idSucursal,
 e.nombre,
 e.apellidoP,
 e.apellidoM,
@@ -24,8 +25,9 @@ r.tipoRol
 FROM
 usuario u
 INNER JOIN empleado e ON u.idEmpleado = e.idEmpleado
-INNER JOIN rol r ON u.rol = r.idRol;
-
+INNER JOIN rol r ON u.rol = r.idRol
+LEFT JOIN sucursal s ON u.sucursal = s.idSucursal;
+select * from v_usuario;
 -- --------------------------------------------------------------------------------------------
 
 DROP VIEW IF EXISTS vista_producto_con_detalles;
@@ -79,3 +81,40 @@ CREATE VIEW v_sucursal AS
         s.activo
     FROM
         sucursal s;
+-- -----------------------------------------------------------------------------------------
+DROP VIEW IF EXISTS vista_venta_con_detalles;
+CREATE VIEW vista_venta_con_detalles AS
+SELECT
+    v.idVenta,
+    v.fecha,
+    v.cliente,
+    v.total AS totalVenta,
+    v.idSucursal,
+    s.nombreSuc AS nombreSucursal,
+    u.idUsuario,
+    u.usuario AS nombreEmpleado,
+
+    IFNULL((
+        SELECT JSON_ARRAYAGG(
+            JSON_OBJECT(
+                'idDetalleVenta', dv.idDetalleVenta,
+                'idProducto', p.idProducto,
+                'nombreProducto', p.nombre,
+                'codigoInterno', p.codigoInterno,
+                'cantidad', dv.cantidad,
+                'precioUnitario', dv.precioUnitario,
+                'totalDetalle', dv.total,
+                'nombreTalla', t.nombre,
+                'nombreUnidad', un.unidad
+            )
+        )
+        FROM detalle_venta dv
+        JOIN producto p ON dv.idProducto = p.idProducto
+        JOIN talla t ON dv.idTalla = t.idTalla
+        JOIN unidad un ON dv.idUnidad = un.idUnidad
+        WHERE dv.idVenta = v.idVenta
+    ), JSON_ARRAY()) AS detalles
+
+FROM venta v
+JOIN usuario u ON v.idUsuario = u.idUsuario
+JOIN sucursal s ON v.idSucursal = s.idSucursal;

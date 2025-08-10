@@ -35,7 +35,7 @@ document.getElementById("btnReporte").addEventListener('click', enviar);
 
 // funcion para guardar y a la vez actualizar.
 export async function save() {
-    // definimos la ruta que se ejecutara.
+    // definimos la ruta
     const url = "http://localhost:8080/bionika_web/api/producto/save";
 
     // Obtenemos los datos del formulario
@@ -56,13 +56,17 @@ export async function save() {
         alert("Completa todos los campos obligatorios y agrega al menos un detalle de stock.");
         return;
     }
-
+    
+    // Obtenemos el idSucursal desde localStorage
+    const idSucursal = parseInt(localStorage.getItem("idSucursal")) || 0;
+    
    // Transformamos la variable detalles a JSON antes de enviarlos a la api, ya que eso es lo que espera.
     const detallesTransformados = detalles.map(d => ({
     idTalla : d.idTalla,
     idColor : d.idColor,
     idUnidad  : d.idUnidad,
-    stock   : d.stock
+    stock   : d.stock,
+    idSucursal: idSucursal
     }));
     console.log('detalles transformados');
     console.log(detallesTransformados);
@@ -129,7 +133,8 @@ export async function save() {
 
 // FUNCION PARA CARGAR LOS CARD DE PRODUCTO
 export async function cargarProductos() {
-    let url = "http://localhost:8080/bionika_web/api/producto/getAll";
+    const idSucursal = parseInt(localStorage.getItem("idSucursal")) || 0;
+    let url = `http://localhost:8080/bionika_web/api/producto/getAll?idSucursal=${idSucursal}`;
     let resp = await fetch(url);
     let data = await resp.json();
 
@@ -270,31 +275,6 @@ export function filtrarPorCategoria() {
 export function enviar(){
     generarReportePDF(productosFiltrados);
 }
-
-//export function mostrarProductos(lista) {
- // let contenido = '';
- // for (let i = 0; i < lista.length; i++) {
-   // contenido += `
-     // <div class="bg-gray-100 rounded-l-xl shadow-md overflow-hidden border border-gray-200 ring-1 ring-offset-2 ring-gray-400">
-       // <img src="data:image/jpeg;base64,${lista[i].foto}" alt="Producto" class="w-full h-48 object-cover">
-        //<div class="p-4">
-          //<h2 class="text-xl font-semibold text-black-700">${lista[i].nombre}</h2>
-          //<p class="text-gray-600 mt-2">${lista[i].descripcion}</p>
-          //<p class="text-purple-800 font-bold mt-2">$${lista[i].precio}</p>
-          //<p class="text-sm text-gray-500">Stock: ${lista[i].stock}</p>
-          //<p class="text-sm text-gray-500">Categoría: ${lista[i].categoria.nombre}</p>
-          //<div class="flex gap-2 mt-4">
-            //<button onclick="verDetalle(${lista[i].idProducto})"
-              //      class="flex-1 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">
-              //Ver Detalles
-            //</button>
-          //</div>
-        //</div>
-      //</div>
-    //`;
-  //}
-  //document.getElementById('productosContainer').innerHTML = contenido;
-//}
 
 // NUEVO MOSTRARPRODUCTO
 export function mostrarProductos(lista) {

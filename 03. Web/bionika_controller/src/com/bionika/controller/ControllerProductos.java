@@ -36,14 +36,14 @@ public class ControllerProductos {
             String query = "{CALL insertar_producto_con_detalles(?, ?, ?, ?, ?, ?, ?, ?)}";
             cstmt = conn.prepareCall(query);
 
-            // Convertir detalles a JSON (ahora incluyendo 'unidad')
             JsonArray jsonArray = new JsonArray();
             for (DetalleProducto detalle : producto.getDetalles()) {
                 JsonObject obj = new JsonObject();
                 obj.addProperty("idTalla", detalle.getIdTalla());
                 obj.addProperty("idColor", detalle.getIdColor());
-                obj.addProperty("idUnidad", detalle.getIdUnidad()); // NUEVO
+                obj.addProperty("idUnidad", detalle.getIdUnidad());
                 obj.addProperty("stock", detalle.getStock());
+                obj.addProperty("idSucursal", detalle.getIdSucursal()); // ← Nuevo campo
                 jsonArray.add(obj);
             }
 
@@ -57,7 +57,7 @@ public class ControllerProductos {
             cstmt.setDouble(4, producto.getPrecio());
             cstmt.setString(5, producto.getCodigoInterno());
             cstmt.setInt(6, producto.getCategoria().getIdCategoria());
-            cstmt.setString(7, jsonDetalles); // JSON con unidad incluida
+            cstmt.setString(7, jsonDetalles);
             cstmt.executeUpdate();
             producto.setIdProducto(cstmt.getInt(8));
         } catch (Exception ex) {
@@ -74,83 +74,147 @@ public class ControllerProductos {
         return producto.getIdProducto();
     }
 
-    public ArrayList<Producto> getAll() throws Exception {
+    public ArrayList<Producto> getAll(int idSucursal) throws Exception {
         ArrayList<Producto> lista = new ArrayList<>();
-        String sql = "SELECT * FROM vista_producto_con_detalles";
-        ConexionMySQL connMySQL = new ConexionMySQL();
-        // Abrimos la conexion con la BD:
-        Connection conn = connMySQL.open();
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        ResultSet rs = pstmt.executeQuery();
 
-        Gson gson = new Gson();
-        Type listType = new TypeToken<ArrayList<DetalleProducto>>() {
-        }.getType();
+        String sql = """
+        SELECT
+            p.idProducto,
+            p.foto,
+            p.nombre AS nombreProducto,
+            p.descripcion,
+            p.precio,
+            p.codigoInterno,
+            c.idCategoria,
+            c.nombre,
+            (
+                SELECT JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                        'idDetalle', d.idDetalle,
+                        'idTalla', t.idTalla,
+                        'nombreTalla', t.nombre,
+                        'idColor', co.idColor,
+                        'nombreColor', co.nombre,
+                        'idUnidad', u.idUnidad,
+                        'nombreUnidad', u.unidad,
+                        'stock', d.stock
+                    )
+                )
+                FROM detalle_producto d
+                JOIN talla t ON d.talla = t.idTalla
+                JOIN color co ON d.color = co.idColor
+                JOIN unidad u ON d.unidad = u.idUnidad
+                WHERE d.producto = p.idProducto
+                  AND d.idSucursal = ?
+            ) AS detalles
+        FROM producto p
+        INNER JOIN categoria c ON p.categoria = c.idCategoria
+    """;
 
-        while (rs.next()) {
-            Producto p = new Producto();
-            p.setIdProducto(rs.getInt("idProducto"));
-            p.setFoto(rs.getString("foto"));
-            p.setNombre(rs.getString("nombreProducto"));
-            p.setDescripcion(rs.getString("descripcion"));
-            p.setPrecio(rs.getDouble("precio"));
-            p.setCodigoInterno(rs.getString("codigoInterno"));
+        try (Connection conn = new ConexionMySQL().open(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            Categoria cat = new Categoria();
-            cat.setIdCategoria(rs.getInt("idCategoria"));
-            cat.setNombre(rs.getString("nombre"));
-            p.setCategoria(cat);
+            pstmt.setInt(1, idSucursal);
+            ResultSet rs = pstmt.executeQuery();
 
-            String jsonDetalles = rs.getString("detalles");
-            if (jsonDetalles != null) {
-                ArrayList<DetalleProducto> detalles = gson.fromJson(jsonDetalles, listType);
-                p.setDetalles(detalles);
+            Gson gson = new Gson();
+            Type listType = new TypeToken<ArrayList<DetalleProducto>>() {
+            }.getType();
+
+            while (rs.next()) {
+                Producto p = new Producto();
+                p.setIdProducto(rs.getInt("idProducto"));
+                p.setFoto(rs.getString("foto"));
+                p.setNombre(rs.getString("nombreProducto"));
+                p.setDescripcion(rs.getString("descripcion"));
+                p.setPrecio(rs.getDouble("precio"));
+                p.setCodigoInterno(rs.getString("codigoInterno"));
+
+                Categoria cat = new Categoria();
+                cat.setIdCategoria(rs.getInt("idCategoria"));
+                cat.setNombre(rs.getString("nombre"));
+                p.setCategoria(cat);
+
+                String jsonDetalles = rs.getString("detalles");
+                if (jsonDetalles != null) {
+                    ArrayList<DetalleProducto> detalles = gson.fromJson(jsonDetalles, listType);
+                    p.setDetalles(detalles);
+                }
+                lista.add(p);
             }
-
-            lista.add(p);
         }
-        return lista;
 
+        return lista;
     }
 
-    public Producto getByClave(String clave) throws Exception {
+    public Producto getByClave(String clave, int idSucursal) throws Exception {
         Producto p = null;
-        String sql = "SELECT * FROM vista_producto_con_detalles WHERE codigoInterno = ?";
 
-        ConexionMySQL connMySQL = new ConexionMySQL();
-        Connection conn = connMySQL.open();
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setString(1, clave);
-        ResultSet rs = pstmt.executeQuery();
+        String sql = """
+        SELECT
+            p.idProducto,
+            p.foto,
+            p.nombre AS nombreProducto,
+            p.descripcion,
+            p.precio,
+            p.codigoInterno,
+            c.idCategoria,
+            c.nombre,
+            (
+                SELECT JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                        'idDetalle', d.idDetalle,
+                        'idTalla', t.idTalla,
+                        'nombreTalla', t.nombre,
+                        'idColor', co.idColor,
+                        'nombreColor', co.nombre,
+                        'idUnidad', u.idUnidad,
+                        'nombreUnidad', u.unidad,
+                        'stock', d.stock
+                    )
+                )
+                FROM detalle_producto d
+                JOIN talla t ON d.talla = t.idTalla
+                JOIN color co ON d.color = co.idColor
+                JOIN unidad u ON d.unidad = u.idUnidad
+                WHERE d.producto = p.idProducto
+                  AND d.idSucursal = ?
+            ) AS detalles
+        FROM producto p
+        INNER JOIN categoria c ON p.categoria = c.idCategoria
+        WHERE p.codigoInterno = ?
+    """;
 
-        Gson gson = new Gson();
-        Type listType = new TypeToken<ArrayList<DetalleProducto>>() {
-        }.getType();
+        try (Connection conn = new ConexionMySQL().open(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-        if (rs.next()) {
-            p = new Producto();
-            p.setIdProducto(rs.getInt("idProducto"));
-            p.setFoto(rs.getString("foto"));
-            p.setNombre(rs.getString("nombreProducto"));
-            p.setDescripcion(rs.getString("descripcion"));
-            p.setPrecio(rs.getDouble("precio"));
-            p.setCodigoInterno(rs.getString("codigoInterno"));
+            pstmt.setInt(1, idSucursal);
+            pstmt.setString(2, clave);
+            ResultSet rs = pstmt.executeQuery();
 
-            Categoria cat = new Categoria();
-            cat.setIdCategoria(rs.getInt("idCategoria"));
-            cat.setNombre(rs.getString("nombre"));
-            p.setCategoria(cat);
+            Gson gson = new Gson();
+            Type listType = new TypeToken<ArrayList<DetalleProducto>>() {
+            }.getType();
 
-            String jsonDetalles = rs.getString("detalles");
-            if (jsonDetalles != null) {
-                ArrayList<DetalleProducto> detalles = gson.fromJson(jsonDetalles, listType);
-                p.setDetalles(detalles);
+            if (rs.next()) {
+                p = new Producto();
+                p.setIdProducto(rs.getInt("idProducto"));
+                p.setFoto(rs.getString("foto"));
+                p.setNombre(rs.getString("nombreProducto"));
+                p.setDescripcion(rs.getString("descripcion"));
+                p.setPrecio(rs.getDouble("precio"));
+                p.setCodigoInterno(rs.getString("codigoInterno"));
+
+                Categoria cat = new Categoria();
+                cat.setIdCategoria(rs.getInt("idCategoria"));
+                cat.setNombre(rs.getString("nombre"));
+                p.setCategoria(cat);
+
+                String jsonDetalles = rs.getString("detalles");
+                if (jsonDetalles != null) {
+                    ArrayList<DetalleProducto> detalles = gson.fromJson(jsonDetalles, listType);
+                    p.setDetalles(detalles);
+                }
             }
         }
-
-        rs.close();
-        pstmt.close();
-        connMySQL.close();
 
         return p;
     }
@@ -223,11 +287,13 @@ public class ControllerProductos {
                 obj.addProperty("idColor", detalle.getIdColor());
                 obj.addProperty("idUnidad", detalle.getIdUnidad());
                 obj.addProperty("stock", detalle.getStock());
+                obj.addProperty("idSucursal", detalle.getIdSucursal());
                 jsonArray.add(obj);
             }
+
             Gson gson = new Gson();
             String jsonDetalles = gson.toJson(jsonArray);
-            System.out.println(jsonArray);
+
             // Asignar parámetros
             cstmt.setInt(1, producto.getIdProducto());
             cstmt.setString(2, producto.getFoto());
@@ -418,4 +484,28 @@ public class ControllerProductos {
 
         return c;
     }
+
+    public String obtenerImagenBase64PorId(int idProducto) throws Exception {
+        String base64 = null;
+
+        String sql = "SELECT foto FROM producto WHERE idProducto = ?";
+
+        ConexionMySQL connMySQL = new ConexionMySQL();
+        Connection conn = connMySQL.open();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, idProducto);
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            base64 = rs.getString("foto");
+        }
+
+        // Cierre de recursos
+        rs.close();
+        pstmt.close();
+        conn.close();
+
+        return base64;
+    }
+
 }

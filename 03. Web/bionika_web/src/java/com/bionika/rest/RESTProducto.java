@@ -19,6 +19,7 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -67,10 +68,10 @@ public class RESTProducto {
     @GET
     @Path("getAll")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAll() {
+    public String getAll(@QueryParam("idSucursal") int idSucursal) {
         HashMap<String, Object> respuesta = new HashMap<>();
         try {
-            List<Producto> productos = new ControllerProductos().getAll();
+            List<Producto> productos = new ControllerProductos().getAll(idSucursal);
             respuesta.put("productos", productos);
         } catch (Exception e) {
             e.printStackTrace();

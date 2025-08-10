@@ -7,170 +7,190 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
+    <body class="bg-gray-100 dark:bg-zinc-800 transition-colors duration-300">
+        <div id="form" class="hidden">
+            <!-- Contenedor principal -->
+            <div class="max-w-6xl mx-auto px-6 py-8">
 
-        <div class=" pb-8 pt-6 px-8 rounded-lg bg-white shadow-md shadow-violet-500/50 h-auto mx-56 mt-6 dark:bg-zinc-900">
+                <!-- Sección: Datos personales -->
+                <section class="bg-white dark:bg-zinc-900 shadow-lg shadow-violet-500/30 rounded-2xl p-8 mb-8">
+                    <div class="text-center mb-6">
+                        <h2 class="text-4xl font-bold text-gray-900 dark:text-white">Registro de Nuevo Usuario</h2>
+                        <div class="mx-auto mt-2 w-24 h-1 bg-purple-600 rounded-full"></div>
+                    </div>
 
-            <div class=" mx-auto mb-3 shadow-md border-2 border-violet-300 rounded-full w-2/3">
-                <h2 class="text-4xl mt-3 font-semibold text-center text-gray-900 mb-3 dark:text-white">Registro de Nuevo Usuario </h2>
+                    <h3 class="text-xl font-semibold text-purple-700 dark:text-purple-300 mb-4">Datos personales</h3>
+
+                    <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- ID USUARIO -->
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 mb-1">ID</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3.5">
+                                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 20h14M12 4a4 4 0 110 8 4 4 0 010-8zm0 8c-4 0-8 2-8 4v2h16v-2c0-2-4-4-8-4z"/>
+                                    </svg>
+                                </span>
+                                <input id="txtId" type="text" readonly placeholder="0000" class="pl-10 pr-4 py-3 w-full bg-gray-100 dark:bg-zinc-700 text-gray-800 dark:text-gray-100 rounded-xl border border-gray-300 dark:border-zinc-600 focus:ring-2 focus:ring-purple-500"/>
+                            </div>
+                        </div>
+                        <!-- ID EMPLEADO-->
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 mb-1">ID PERSONA</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-3.5">
+                                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 20h14M12 4a4 4 0 110 8 4 4 0 010-8zm0 8c-4 0-8 2-8 4v2h16v-2c0-2-4-4-8-4z"/>
+                                    </svg>
+                                </span>
+                                <input id="txtIdEmpleado" type="text" readonly placeholder="0000" class="pl-10 pr-4 py-3 w-full bg-gray-100 dark:bg-zinc-700 text-gray-800 dark:text-gray-100 rounded-xl border border-gray-300 dark:border-zinc-600 focus:ring-2 focus:ring-purple-500"/>
+                            </div>
+                        </div>
+                        <!-- Nombre -->
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 mb-1">Nombre</label>
+                            <input id="txtNombre" type="text" placeholder="Ej. Juan Pedro" class="pl-10 pr-4 py-3 w-full rounded-xl border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-purple-500" required/>
+                        </div>
+
+                        <!-- Apellido Paterno -->
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 mb-1">Apellido Paterno</label>
+                            <input id="txtApellidoP" type="text" placeholder="Ej. Hernandez" class="pl-4 pr-4 py-3 w-full rounded-xl border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-purple-500" required/>
+                        </div>
+
+                        <!-- Apellido Materno -->
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 mb-1">Apellido Materno</label>
+                            <input id="txtApellidoM" type="text" placeholder="Ej. Camacho" class="pl-4 pr-4 py-3 w-full rounded-xl border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-purple-500" required/>
+                        </div>
+
+                        <!-- Correo -->
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico</label>
+                            <input id="txtCorreo" type="email" placeholder="Ej. ejemplo123@gmail.com" class="pl-4 pr-4 py-3 w-full rounded-xl border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-purple-500" required/>
+                        </div>
+
+                        <!-- Teléfono -->
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 mb-1">Teléfono</label>
+                            <input id="txtTelefono" type="tel" placeholder="111-111-1111" class="pl-4 pr-4 py-3 w-full rounded-xl border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-purple-500" required/>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Sección: Datos de usuario -->
+                <section class="bg-white dark:bg-zinc-900 shadow-lg shadow-violet-500/30 rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold text-purple-700 dark:text-purple-300 mb-4">Datos de Usuario</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Usuario -->
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 mb-1">Nombre de Usuario</label>
+                            <input id="txtUsuario" type="text" placeholder="Ej. Empleado_1" class="pl-4 pr-4 py-3 w-full rounded-xl border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-purple-500" required/>
+                        </div>
+
+                        <!-- Categoría -->
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 mb-1">Categoría</label>
+                            <select id="cmbCategoria" class="pl-4 pr-4 py-2 w-full rounded-full border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-purple-500">
+                            </select>
+                        </div>
+
+                        <!-- Sucursal -->
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 mb-1">Sucursal</label>
+                            <select id="cmbSucursal" class="pl-4 pr-4 py-2 w-full rounded-full border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-purple-500">
+                                <option value="">-- Sin sucursal --</option> <!-- <--- AQUÍ -->
+                            </select>
+                        </div>
+
+                        <!-- Contraseña -->
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 mb-1">Contraseña</label>
+                            <input id="txtContrasena" type="password" placeholder="Contraseña..." class="pl-4 pr-4 py-3 w-full rounded-xl border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-purple-500" required/>
+                        </div>
+
+                        <!-- Repetir Contraseña -->
+                        <div>
+                            <label class="block text-gray-700 dark:text-gray-300 mb-1">Repetir Contraseña</label>
+                            <input id="txtRola" type="password" placeholder="Contraseña..." class="pl-4 pr-4 py-3 w-full rounded-xl border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-800 dark:text-white focus:ring-2 focus:ring-purple-500" required/>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="mt-8 flex flex-col md:flex-row justify-center items-center gap-4">
+                        <button id="btnRegistrarU"
+                                class="w-full md:w-1/3 bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-500 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md flex items-center justify-center gap-2 transition-all duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 4v16m8-8H4" />
+                            </svg>
+                            Registrar
+                        </button>
+                        <button id="btnMostrarU"
+                                class="w-full md:w-1/3 bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-400 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md flex items-center justify-center gap-2 transition-all duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M15 17h5l-1.405-1.405M19 13V7a2 2 0 00-2-2H7a2 2 0 00-2 2v6m0 4h.01" />
+                            </svg>
+                            Mostrar Usuarios
+                        </button>
+                    </div>
+                </section>
             </div>
-            <form>   
-
-                <h2 class="text-gray-700 text-xl text-center leading-relaxed dark:text-gray-400">Datos personales</h2>
-
-                <div class="grid grid-cols-2 border-t-2 border-violet-300 py-4">
-                    
-                     <div class="px-4 ">
-                        <label class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">ID: </label> 
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 pb-4 flex items-center pointer-events-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 20h14M12 4a4 4 0 110 8 4 4 0 010-8zm0 8c-4 0-8 2-8 4v2h16v-2c0-2-4-4-8-4z" />
-                                </svg>
-                            </span>
-                            <input id="txtId" type="text" placeholder="0000"
-                                   class=" bg-gray-100 cursor-not-allowed mb-4 w-1/2 pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required readonly="true">
-                        </div>
-                     </div>
-                    <div class="px-4 ">
-
-                        <label class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Nombre: </label> 
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 pb-4 flex items-center pointer-events-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 20h14M12 4a4 4 0 110 8 4 4 0 010-8zm0 8c-4 0-8 2-8 4v2h16v-2c0-2-4-4-8-4z" />
-                                </svg>
-                            </span>
-                            <input id="txtNombre" type="text" placeholder="Ej. Karla Lizbeth"
-                                   class="  mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
-                        </div>
-                    </div>
-
-                    <div class="px-4">
-                        <label class="text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Apellido paterno: </label> 
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 pb-4 flex items-center pointer-events-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2a5 5 0 00-5 5v2a5 5 0 0010 0V7a5 5 0 00-5-5zm-4 9a4 4 0 118 0 4 4 0 01-8 0zm-2 7a4 4 0 014-4h4a4 4 0 014 4v3H6v-3z"/>
-                                </svg>
-                            </span>
-                            <input id="txtApellidoP" type="text" placeholder="Ej. Martinez"
-                                   class="mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
-                        </div>
-                    </div>
-                    
-                    <div class="px-4">
-                        <label class="text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Apellido Materno: </label>     
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 pb-4 flex items-center pointer-events-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2a5 5 0 100 10 5 5 0 000-10zm1 11.93a7 7 0 00-2 0V17H8v2h3v3h2v-3h3v-2h-3v-3.07z"/>
-                                </svg>
-                            </span>
-                            <input id="txtApellidoM" type="text" placeholder="Ej. Lopez"
-                                   class="mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
-
-                        </div>
-                    </div>
-                    <div class="px-4">
-                        <label class="text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Correo: </label> 
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 pb-4 flex items-center pointer-events-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 11-4-4m0 0a4 4 0 014 4v1a1 1 0 001 1h1a8 8 0 10-2.93 6.07" />
-                                </svg>
-                            </span>
-                            <input id="txtCorreo" type="text" placeholder="Ej. ejemplo123@gmail.com"
-                                   class="mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
-                        </div>
-                    </div>
-                    <div class="px-4">
-                        <label class="text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Telefono: </label> 
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 pl-3 pb-4 flex items-center pointer-events-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h2a2 2 0 012 2v2a1 1 0 01-.293.707l-1 1a16.016 16.016 0 006.586 6.586l1-1A1 1 0 0115 14h2a2 2 0 012 2v2a2 2 0 01-2 2A17 17 0 013 5z" />
-                                </svg>
-                            </span>
-                            <input id="txtTelefono" type="text" placeholder="111-111-1111"
-                                   class="mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
-                        </div>
-                    </div>
-                </div>
-            </form>
-
         </div>
+        <div id="cardsSeccion">
+            <div class="flex flex-col lg:flex-row min-h-screen p-4 gap-4">
+                <!-- Sección Cards Usuarios -->
+                <div class="flex-1 bg-white rounded-lg shadow-md border border-gray-200 p-6 overflow-y-auto">
+                    <!-- Título centrado con línea decorativa -->
+                    <div class="text-center mb-6">
+                        <h2 class="text-3xl font-semibold text-gray-900">Usuarios Registrados</h2>
+                        <div class="mx-auto mt-2 w-24 h-1 bg-purple-600 rounded-full"></div>
+                    </div>
 
-        <div class="pb-8 pt-6 px-8 rounded-lg bg-white shadow-md shadow-violet-500/50 h-auto mx-56 mt-2 mb-6 dark:bg-zinc-900">
+                    <div class="bg-purple-50 p-4 rounded-xl shadow-inner">
+                        <!-- Fila: buscador izquierda / botón derecha -->
+                        <div class="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                            <!-- Buscador -->
+                            <div class="relative w-full sm:w-64">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="w-5 h-5 text-purple-800" fill="none" stroke="currentColor" stroke-width="2"
+                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z"/>
+                                    </svg>
+                                </div>
+                                <input
+                                    type="text"
+                                    id="busquedaUsuario"
+                                    placeholder="Buscar usuario..."
+                                    oninput="buscarUsuarioPorTexto()"
+                                    class="w-full pl-10 pr-4 py-2 border border-purple-800 bg-purple-50 text-gray-800 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                    />
+                            </div>
 
-            <h2 class="text-gray-700 text-xl text-center leading-relaxed dark:text-gray-400">Datos de Usuario</h2>
+                            <!-- Botón Agregar -->
+                            <button
+                                id="btnAgregar"
+                                class="inline-flex items-center px-4 py-2 bg-purple-800 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-purple-900 transition focus:outline-none"
+                                >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 4v16m8-8H4" />
+                                </svg>
+                                Agregar
+                            </button>
+                        </div>
 
-            <div class="grid grid-cols-2 border-t-2 border-violet-300 py-4">
-
-                <div class="px-4">
-                    <label class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Nombre de Usuario: </label> 
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 pb-4 flex items-center pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 20h14M12 4a4 4 0 110 8 4 4 0 010-8zm0 8c-4 0-8 2-8 4v2h16v-2c0-2-4-4-8-4z" />
-                            </svg>
-                        </span>
-                        <input id="txtUsuario" type="text" placeholder="Ej. Empleado_1"
-                               class=" mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
+                        <!-- Contenedor de cards -->
+                        <div id="contenedorUsuarios" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                     </div>
                 </div>
-
-                <div class="pt-4">
-                    <a class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Categoria:</a>
-                    <form class="px-8 ">
-
-                        <select id="cmbCategoria" class="bg-white w-full my-auto h-8 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 pl-8">
-
-                        </select>
-                    </form>
-                </div>
-                <--<!-- le voy agregar lo de que seleccione a que sucursal va a pertenecer -->
-                <div class="pt-4">
-                    <a class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Sucursal a la que pertenece:</a>
-                    <form class="px-8 ">
-
-                        <select id="cmbSucursal" class="bg-white w-full my-auto h-8 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 pl-8">
-
-                        </select>
-                    </form>
-                </div>
-                <div class="px-4">
-                    <label class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Contraseña: </label> 
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 pb-4 flex items-center pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3 1.343 3 3v3H9v-3c0-1.657 1.343-3 3-3z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8V7a5 5 0 00-10 0v1" />
-                            <rect width="14" height="10" x="5" y="11" rx="2" ry="2" stroke-width="2" stroke="currentColor" fill="none" />
-                            </svg>
-                        </span>
-                        <input id="txtContrasena" type="password" placeholder="contraseña..."
-                               class=" mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
-                    </div>
-                </div>
-                <div>
-                    <label class="mt-4 text-gray-700 text-lg leading-relaxed m-5 dark:text-gray-400">Repetir contraseña: </label> 
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 pb-4 flex items-center pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c1.657 0 3 1.343 3 3v3H9v-3c0-1.657 1.343-3 3-3z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8V7a5 5 0 00-10 0v1" />
-                            <rect width="14" height="10" x="5" y="11" rx="2" ry="2" stroke-width="2" stroke="currentColor" fill="none" />
-                            </svg>
-                        </span>
-                        <input id="txtRola" type="password" placeholder="contraseña..."
-                               class=" mb-4 w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200" required>
-                    </div>
-                </div>
-
-                <button id="registrarU" class="mx-auto bg-gradient-to-r w-1/2 from-purple-600 via-purple-700 to-purple-800 hover:from-purple-700 hover:via-purple-800 hover:to-purple-900 text-white font-bold py-3 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-200 ease-in-out mt-6">Registrar</button>
-                <button id="mostrarU" class="mx-auto bg-gradient-to-r w-1/2 from-yellow-600 via-yellow-700 to-yellow-800 hover:from-yellow-700 hover:via-yellow-800 hover:to-yellow-900 text-white font-bold py-3 px-6 rounded-full shadow-md hover:shadow-lg transition-all duration-200 ease-in-out mt-6">Mostrar Usuarios</button>
-            </div> 
+            </div>
         </div>
     </body>
 </html>

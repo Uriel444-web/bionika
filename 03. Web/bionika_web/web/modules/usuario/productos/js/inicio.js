@@ -29,7 +29,8 @@ export async function venta() {
 
 // CARGAR PRODUCTOS PARA VISTA DE USUARIO
 export async function cargarProductos() {
-    let url = "http://localhost:8080/bionika_web/api/producto/getAll";
+    const idSucursal = parseInt(localStorage.getItem("idSucursal")) || 1;
+    let url = `http://localhost:8080/bionika_web/api/producto/getAll?idSucursal=${idSucursal}`;
     let resp = await fetch(url);
     let data = await resp.json();
 
@@ -43,17 +44,22 @@ export async function cargarProductos() {
 
     productos.forEach(p => {
         contenido += `
-  <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200 ring-1 ring-purple-100 transition-transform hover:scale-[1.02] duration-300">
+  <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transform hover:scale-[1.02] transition duration-300 p-4 flex flex-col items-center space-y-3">
     <img src="data:image/jpeg;base64,${p.foto}" alt="Producto"
-         class="w-full h-40 object-cover transition-opacity hover:opacity-90" />
-    <div class="p-4 text-center">
-      <h2 class="text-base font-semibold text-gray-800 tracking-wide">${p.nombre}</h2>
-      <p class="text-sm text-purple-700 font-medium mt-1">$${p.precio}</p>
-      <button onclick="verDetalle(${p.idProducto})"
-              class="mt-3 bg-purple-600 hover:bg-purple-700 text-white px-4 py-1.5 text-sm rounded-md shadow transition">
-        Ver Detalles
-      </button>
+         class="w-full h-56 object-cover rounded-md" />
+    <div class="w-full text-left">
+      <h2 class="text-sm font-bold text-gray-900">${p.nombre}</h2>
+      <p class="text-xs text-gray-500">${p.descripcion}</p>
+      <p class="text-base font-bold text-gray-800 mt-1">$${p.precio}</p>
     </div>
+    <button onclick="verDetalle(${p.idProducto})"
+            class="self-end text-black hover:text-purple-600 transition" title="Ver más">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15 12H9m6 0l-3-3m3 3l-3 3" />
+      </svg>
+    </button>
   </div>
 `;
     });
@@ -69,22 +75,34 @@ function verDetalle(idProducto) {
         return;
     }
 
+    const coloresMap = {
+        "ROJO": "#dc2626",
+        "AZUL": "#3b82f6",
+        "VERDE": "#16a34a",
+        "NEGRO": "#000000",
+        "BLANCO": "#ffffff",
+        "GRIS": "#6b7280",
+        "AMARILLO": "#facc15",
+        "MORADO": "#8b5cf6",
+        "NARANJA": "#f97316",
+        "BEIGE": "#d1bc8a"
+    };
+
     let detallesHTML = "";
     if (producto.detalles && producto.detalles.length > 0) {
-        detallesHTML += `
-            <ul class="mt-2 space-y-2 text-left text-sm text-gray-700">`;
+        detallesHTML += `<ul class="mt-3 space-y-2 text-left text-sm text-gray-700 max-h-56 overflow-y-auto pr-2">`;
         producto.detalles.forEach(d => {
+            const hayStock = d.stock > 0;
+            const colorHex = coloresMap[d.nombreColor?.toUpperCase()] || "#d1d5db";
             detallesHTML += `
-                <li class="flex items-start gap-2">
-                    <svg class="h-4 w-4 text-purple-500 mt-1" fill="none" stroke="currentColor" stroke-width="2"
-                         viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M5 13l4 4L19 7"/>
-                    </svg>
-                    <span>
+                <li class="flex items-center gap-3">
+                    <div class="w-4 h-4 rounded-full border border-gray-300 shadow-sm" style="background-color:${colorHex};"></div>
+                    <span class="text-sm">
                         <strong>Talla:</strong> ${d.nombreTalla}, 
-                        <strong>Color:</strong> ${d.nombreColor}, 
-                        <strong>Disponibilidad:</strong> ${d.stock}
+                        <strong>Stock:</strong> 
+                        <span class="text-purple-800 font-semibold">
+                            ${hayStock ? 'Disponible' : 'No disponible'}
+                        </span>
                     </span>
                 </li>`;
         });
@@ -94,12 +112,12 @@ function verDetalle(idProducto) {
     }
 
     Swal.fire({
-        title: `<span class="text-purple-700 font-bold text-xl">${producto.nombre}</span>`,
+        title: `<span class="text-black font-bold text-xl">${producto.nombre}</span>`,
         html: `
             <div class="text-center">
                 <img src="data:image/jpeg;base64,${producto.foto}" 
                      alt="Imagen" 
-                     class="mx-auto w-full h-52 object-cover rounded-lg shadow-lg transform hover:scale-105 transition duration-300 mb-4">
+                     class="mx-auto w-full h-52 object-cover rounded-lg shadow-md transform hover:scale-105 transition duration-300 mb-4">
                 <p class="inline-block bg-gradient-to-r from-purple-200 to-purple-300 text-purple-900 font-semibold px-4 py-1 rounded-full shadow text-sm mb-2">
                     $${producto.precio}
                 </p>
@@ -112,7 +130,7 @@ function verDetalle(idProducto) {
                     <span><strong>Descripción:</strong> ${producto.descripcion}</span>
                 </div>
                 <div class="text-left">
-                    <h3 class="text-md font-semibold text-purple-800">Disponibilidad por combinación:</h3>
+                    <h3 class="text-md font-semibold text-purple-800 mb-2">Disponibilidad por combinación:</h3>
                     ${detallesHTML}
                 </div>
             </div>
@@ -120,14 +138,13 @@ function verDetalle(idProducto) {
         width: 620,
         showCloseButton: true,
         showConfirmButton: false,
-        background: '#ffffff',
+        background: 'linear-gradient(to bottom, #fdfcfe, #f4f0fa)',
         customClass: {
             popup: 'rounded-xl shadow-lg',
             title: 'mb-2'
         }
     });
 }
-
 
 async function cargarCategorias() {
     let url = "http://localhost:8080/bionika_web/api/producto/getAllCategorias";
@@ -158,19 +175,24 @@ export function mostrarProductos(lista) {
     let contenido = '';
     for (let i = 0; i < lista.length; i++) {
         contenido += `
-            <div class="bg-gray-100 rounded-xl shadow-md overflow-hidden border border-gray-200 ring-1 ring-offset-2 ring-gray-400">
-                <img src="data:image/jpeg;base64,${lista[i].foto}" alt="Producto" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h2 class="text-xl font-semibold text-black-700">${lista[i].nombre}</h2>
-                    <p class="text-purple-800 font-bold mt-2">$${lista[i].precio}</p>
-                    <div class="flex gap-2 mt-4">
-                        <button onclick="verDetalle(${lista[i].idProducto})"
-                                class="flex-1 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">
-                            Ver Detalles
-                        </button>
-                    </div>
-                </div>
-            </div>`;
+  <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transform hover:scale-[1.02] transition duration-300 p-4 flex flex-col items-center space-y-3 ring-1 ring-offset-2 ring-gray-300">
+    <img src="data:image/jpeg;base64,${lista[i].foto}" alt="Producto"
+         class="w-full h-56 object-cover rounded-md" />
+    <div class="w-full text-left">
+      <h2 class="text-sm font-bold text-gray-900">${lista[i].nombre}</h2>
+      <p class="text-xs text-gray-500">${lista[i].descripcion ?? ''}</p>
+      <p class="text-base font-bold text-gray-800 mt-1">$${lista[i].precio}</p>
+    </div>
+    <button onclick="verDetalle(${lista[i].idProducto})"
+            class="self-end text-black hover:text-purple-600 transition" title="Ver más">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15 12H9m6 0l-3-3m3 3l-3 3" />
+      </svg>
+    </button>
+  </div>
+`;
     }
     document.getElementById('productosContainer').innerHTML = contenido;
 }

@@ -37,15 +37,46 @@ INSERT INTO sucursal (
     nombreSuc, colonia, calle, codPos, latitud, longitud, numExt, telefono
 )
 VALUES (
-    'No pertenece',
-    'Colonia Juárez',
+    'Suc - Hidalgo',
+    'Col. Obregon',
     'Calle Hidalgo',
-    '44700',
-    '20.659699',
-    '-103.349609',
-    '123',
-    '3312345678'
+    '37320',
+    '21.126128327785',
+    '-101.6812957050',
+    '320',
+    '477-713-3433'
 );
 SELECT * FROM detalle_venta;
-SELECT idUsuario, sucursal FROM usuario WHERE usuario= "UrielEmpleado" and contrasena="1234";
-SELECT * FROM vista_producto_con_detalles WHERE codigoInterno = "MH-203";
+SELECT * FROM vista_producto_con_detalles;
+SELECT * FROM vista_venta_con_detalles;
+select * from venta;
+delete from venta where idVenta = 4;
+select * from sucursal;
+select * from usuario;
+-- Declaramos las variables de salida
+SET @id_empleado := 0;
+SET @id_usuario := 0;
+
+-- Llamamos al procedimiento con datos de prueba
+CALL insertarUsuario(
+    'Carolina',             -- e_nombre
+    'Hernandez',            -- e_apellidoP
+    'Mercado',            -- e_apellidoM
+    'contactobionika@gmail.com', -- e_correo
+    '477-130-4929',       -- e_telefono
+    'carolina',          -- u_nombre (usuario)
+    'bionika',             -- u_contrasena
+    1,                  -- u_idRol (ej. 2 = empleado)
+    1,                  -- u_idSucursal (1 si existe esa sucursal)
+    @id_empleado,
+    @id_usuario
+);
+
+SELECT @id_empleado AS 'ID Empleado Insertado', @id_usuario AS 'ID Usuario Insertado';
+
+-- Verificamos si se insertaron correctamente
+SELECT * FROM empleado WHERE idEmpleado = @id_empleado;
+SELECT * FROM usuario WHERE idUsuario = @id_usuario;
+select * from vista_producto_con_detalles;
+select * from detalle_producto;
+select * from v_usuario;
